@@ -29,7 +29,14 @@ jobs:
           paths:
             - /tmp/japi
           key: japi-2.4
-      - run: mvn -B verify
+      - run:
+          name: Build and deploy (for master)
+          command: |
+            if [ "$CIRCLE_BRANCH" = "master" ]; then
+              mvn -B -s .circleci/maven.settings.xml deploy
+            else
+              mvn -B verify
+            fi
       - run:
           name: SonarCloud
           command: |
