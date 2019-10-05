@@ -59,3 +59,9 @@ jobs:
       - store_artifacts:
           path: ~/repo/compat_reports
           destination: compat_reports
+      - store_artifacts:
+          path: ~/repo/target/apidocs
+          destination: apidocs
+      - store_artifacts:
+          path: ~/repo/target/site/jacoco
+          destination: coverage
