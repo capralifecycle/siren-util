@@ -58,3 +58,4 @@ jobs:
             }
       - store_artifacts:
           path: ~/repo/compat_reports
+          destination: compat_reports
