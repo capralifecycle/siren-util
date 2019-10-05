@@ -6,6 +6,8 @@ package no.capraconsulting.siren;
  * @see <a href="https://github.com/kevinswiber/siren#entities">Siren specification</a>
  */
 public final class Siren {
+    private Siren() {}
+
     public static final String ACTIONS = "actions";
     public static final String APPLICATION_SIREN_JSON = "application/vnd.siren+json";
     public static final String CLASS = "class";

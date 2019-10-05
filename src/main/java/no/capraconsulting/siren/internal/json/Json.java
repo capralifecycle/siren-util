@@ -16,6 +16,8 @@ import java.util.Map;
 public final class Json {
     private static final Gson GSON;
 
+    private Json() {}
+
     static {
         GsonBuilder builder = new GsonBuilder();
 
