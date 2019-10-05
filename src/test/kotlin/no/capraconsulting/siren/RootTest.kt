@@ -2,8 +2,8 @@ package no.capraconsulting.siren
 
 import no.capraconsulting.siren.internal.getResource
 import no.capraconsulting.siren.internal.parseAndVerifyRootStrict
-import no.capraconsulting.siren.internal.util.GenericsUtil.objectAsList
-import no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap
+import no.capraconsulting.siren.internal.util.objectAsList
+import no.capraconsulting.siren.internal.util.objectAsMap
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -204,7 +204,7 @@ class RootTest {
         val entities = objectAsList(raw.getValue(Siren.ENTITIES))
         assertEquals(1, entities.size.toLong())
 
-        val firstEntity = objectAsMap(entities[0])
+        val firstEntity = objectAsMap(entities[0]!!)
         assertEquals(2, firstEntity.size.toLong())
         assertTrue(firstEntity.containsKey(Siren.PROPERTIES))
     }
