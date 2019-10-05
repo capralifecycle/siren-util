@@ -1,16 +1,14 @@
-package no.capraconsulting.siren;
+package no.capraconsulting.siren
 
-import org.junit.Test;
+import no.capraconsulting.siren.internal.verifyRoot
+import org.junit.Test
+import java.net.URI
 
-import java.net.URI;
-
-import static no.capraconsulting.siren.internal.TestUtil.verifyRoot;
-
-public class ActionTest {
+class ActionTest {
 
     @Test
-    public void testAction() {
-        Root root = Root
+    fun testAction() {
+        val root = Root
             .newBuilder()
             .clazz("type")
             .actions(
@@ -26,8 +24,8 @@ public class ActionTest {
                     )
                     .build()
             )
-            .build();
+            .build()
 
-        verifyRoot("ActionTest1.siren.json", root);
+        verifyRoot("ActionTest1.siren.json", root)
     }
 }
