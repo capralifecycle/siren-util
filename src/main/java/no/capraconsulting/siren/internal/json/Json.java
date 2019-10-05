@@ -2,9 +2,7 @@ package no.capraconsulting.siren.internal.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,7 +38,7 @@ public final class Json {
         GSON = builder.create();
     }
 
-    public static Map<String, Object> fromJsonToMap(final String value) throws JsonParseException {
+    public static Map<String, Object> fromJsonToMap(final String value) {
         return GSON.fromJson(value, new TypeToken<Map<String, CustomObject>>() {}.getType());
     }
 
