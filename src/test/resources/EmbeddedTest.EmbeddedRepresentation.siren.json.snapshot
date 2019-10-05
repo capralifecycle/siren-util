@@ -1,0 +1,1 @@
+{"entities":[{"class":["location"],"rel":["hasA"],"properties":{"locationId":"location4","geo":{"latitude":54.801913,"longitude":12.317822}},"links":[{"rel":["self"],"href":"https://example.com/entity/entity1/location/location4"}]}]}

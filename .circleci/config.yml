@@ -1,0 +1,45 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-dependencies-
+      - restore_cache:
+          keys:
+            - japi-2.4
+      - run:
+          name: Install japi-compliance-checked
+          command: |
+            if ! [ -d /tmp/japi ]; then
+              mkdir /tmp/japi
+              cd /tmp/japi
+              wget -O /tmp/japi.tgz https://github.com/lvc/japi-compliance-checker/archive/2.4.tar.gz
+              tar -zxf /tmp/japi.tgz --strip-components 1
+            fi
+            cd /tmp/japi
+            sudo make install
+      - save_cache:
+          paths:
+            - /tmp/japi
+          key: japi-2.4
+      - run: mvn -B verify
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v2-dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Generate binary comparison
+          command: |
+            jarfile=$(ls -1 target/*jar | LANG=C sort -d | head -1)
+            japi-compliance-checker .circleci/siren-util-2.0.0-SNAPSHOT-ea83f9f.jar $jarfile || {
+              echo 'Not fully compliant - ignoring for now'
+            }
+      - store_artifacts:
+          path: ~/repo/compat_reports

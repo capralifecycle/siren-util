@@ -1,0 +1,36 @@
+{
+  "class": [
+    "city"
+  ],
+  "entities": [],
+  "links": [
+    {
+      "class": [
+        "city"
+      ],
+      "rel": [
+        "self"
+      ],
+      "href": "http://localhost:8080/organization/a49d7f4f-6bd9-4eb0-bb30-fed4aff21b67/source/wikipedia/type/city/identifier/6ceffb8d-72af-4a74-b4e0-33aad7d80b17/"
+    }
+  ],
+  "properties": {
+    "contributor": "a5c4bdc7-409f-4333-92a2-79358ed9fbdb",
+    "type": "city",
+    "identifier": "6ceffb8d-72af-4a74-b4e0-33aad7d80b17",
+    "modified": "2017-10-17T12:57:59.387Z",
+    "provenance": "WRITE",
+    "source": "wikipedia",
+    "hasVersion": "4c159097-ec0a-4ad2-94b4-36f36046ac1c",
+    "elevation": 628,
+    "organization": "a49d7f4f-6bd9-4eb0-bb30-fed4aff21b67",
+    "title": "Røros",
+    "alternative": "røros",
+    "creator": "a5c4bdc7-409f-4333-92a2-79358ed9fbdb",
+    "created": "2017-10-17T12:57:59.387Z",
+    "geo": {
+      "latitude": 62.57,
+      "longitude": 11.38
+    }
+  }
+}

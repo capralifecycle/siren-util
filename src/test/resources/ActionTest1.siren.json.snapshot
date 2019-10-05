@@ -1,0 +1,1 @@
+{"class":["type"],"actions":[{"name":"action-name","method":"POST","href":"http://example.com:8080/","fields":[{"name":"date","type":"datetime"},{"name":"url","type":"url"}]}]}
