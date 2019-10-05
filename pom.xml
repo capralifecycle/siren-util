@@ -60,7 +60,7 @@
 
   <scm>
     <connection>scm:git:git://github.com/capraconsulting/siren-util.git</connection>
-    <developerConnection>scm:git:ssh://github.com:capraconsulting/siren-util.git</developerConnection>
+    <developerConnection>scm:git:ssh://github.com/capraconsulting/siren-util.git</developerConnection>
     <url>https://github.com/capraconsulting/siren-util/tree/master</url>
   </scm>
 
