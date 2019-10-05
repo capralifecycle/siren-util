@@ -1,4 +1,3 @@
-@file:JvmName("Json")
 package no.capraconsulting.siren.internal.json
 
 import com.google.gson.Gson
