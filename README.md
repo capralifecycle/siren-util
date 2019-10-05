@@ -11,7 +11,7 @@ compliant JSON representations of entities.
 ## Example
 
 ```java
-Map<Object, Object> properties = new LinkedHashMap<>();
+Map<String, Object> properties = new LinkedHashMap<>();
 properties.put("orderNumber", 42);
 properties.put("itemCount", 3);
 properties.put("status", "pending");
