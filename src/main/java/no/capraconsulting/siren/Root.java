@@ -1,21 +1,19 @@
 package no.capraconsulting.siren;
 
+import no.capraconsulting.siren.internal.json.Json;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import no.capraconsulting.siren.internal.json.Json;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
-import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsList;
-import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap;
-import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsStringList;
+import static no.capraconsulting.siren.internal.util.GenericsUtil.*;
 import static no.capraconsulting.siren.internal.util.ListUtil.map;
 import static no.capraconsulting.siren.internal.util.MapUtil.notNull;
 import static no.capraconsulting.siren.internal.util.MapUtil.skipNulls;
@@ -236,7 +234,7 @@ public final class Root implements Serializable {
      */
     @NotNull
     public static Root fromJson(@NotNull final String json) {
-        return fromRaw(objectAsMap(Json.fromJsonToMap(json)));
+        return fromRaw(objectAsMap(Json.parseJsonToMap(json)));
     }
 
     /**

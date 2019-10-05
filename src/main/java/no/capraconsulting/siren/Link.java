@@ -1,14 +1,14 @@
 package no.capraconsulting.siren;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
