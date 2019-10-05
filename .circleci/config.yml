@@ -15,7 +15,7 @@ jobs:
           keys:
             - japi-2.4
       - run:
-          name: Install japi-compliance-checked
+          name: Install japi-compliance-checker
           command: |
             if ! [ -d /tmp/japi ]; then
               mkdir /tmp/japi
