@@ -1,125 +1,123 @@
-package no.capraconsulting.siren.vocabulary;
+package no.capraconsulting.siren.vocabulary
 
 /**
  * Class provides constants related to the Dublin Core Schema.
  *
- * @see <a href="https://en.wikipedia.org/wiki/Dublin_Core">Dublin Core</a>
+ * @see [Dublin Core](https://en.wikipedia.org/wiki/Dublin_Core)
  */
-public final class DublinCore {
-    private DublinCore() {
-    }
+object DublinCore {
 
     /**
      * Lowercase version of "title" for string search simplicity
      */
-    public static final String ALTERNATIVE = "alternative";
+    const val ALTERNATIVE = "alternative"
 
     /**
      * Denotes first available datetime observation found in the corresponding data set of a part
      */
-    public static final String AVAILABLE = "available";
+    const val AVAILABLE = "available"
 
     /**
      * Identifies the user who last modified an entity
      */
-    public static final String CONTRIBUTOR = "contributor";
+    const val CONTRIBUTOR = "contributor"
 
     /**
      * Denotes when an entity was created
      */
-    public static final String CREATED = "created";
+    const val CREATED = "created"
 
     /**
      * Identifies the user who created an entity
      */
-    public static final String CREATOR = "creator";
+    const val CREATOR = "creator"
 
     /**
      * Description of an entity
      */
-    public static final String DESCRIPTION = "description";
+    const val DESCRIPTION = "description"
 
-    public static final String EXTENT = "extent";
+    const val EXTENT = "extent"
 
     /**
      * Denotes the current version of an entity or part
      */
-    public static final String HAS_VERSION = "hasVersion";
+    const val HAS_VERSION = "hasVersion"
 
     /**
      * Unique identifier of an entity, part or version. Required when updating an entity
      */
-    public static final String IDENTIFIER = "identifier";
+    const val IDENTIFIER = "identifier"
 
     /**
      * Denotes the parent entity of a part
      */
-    public static final String IS_PART_OF = "isPartOf";
+    const val IS_PART_OF = "isPartOf"
 
-    public static final String IS_REFERENCED_BY = "isReferencedBy";
+    const val IS_REFERENCED_BY = "isReferencedBy"
 
     /**
      * Denotes the parent entity or part of a version
      */
-    public static final String IS_VERSION_OF = "isVersionOf";
+    const val IS_VERSION_OF = "isVersionOf"
 
     /**
      * Denotes when an entity was issued (locked)
      */
-    public static final String ISSUED = "issued";
+    const val ISSUED = "issued"
 
-    public static final String MEDIATOR = "mediator";
+    const val MEDIATOR = "mediator"
 
     /**
      * Denotes when an entity was last modified
      */
-    public static final String MODIFIED = "modified";
+    const val MODIFIED = "modified"
 
     /**
      * Identifies the change request command applied to an entity, part and/or version
      */
-    public static final String PROVENANCE = "provenance";
+    const val PROVENANCE = "provenance"
 
     /**
      * Identifies the user who issued (locked) an entity
      */
-    public static final String PUBLISHER = "publisher";
+    const val PUBLISHER = "publisher"
 
     /**
      * Uniquely identifies an entity or version by external relation (third party identifier). Can not be changed on an existing entity
      */
-    public static final String REFERENCES = "references";
+    const val REFERENCES = "references"
 
-    public static final String RELATION = "relation";
+    const val RELATION = "relation"
 
     /**
      * Identifies the previous version of a version
      */
-    public static final String REPLACES = "replaces";
+    const val REPLACES = "replaces"
 
     /**
      * Identifies the source (namespace) of an entity
      */
-    public static final String SOURCE = "source";
+    const val SOURCE = "source"
 
     /**
      * Unique identifier (name) of the attribute of an entity. Optional subject of an entity
      */
-    public static final String SUBJECT = "subject";
+    const val SUBJECT = "subject"
 
     /**
      * Identifies the searchable name of an entity. Required when creating an entity
      */
-    public static final String TITLE = "title";
+    const val TITLE = "title"
 
     /**
      * Identifies the type of an entity
      */
-    public static final String TYPE = "type";
+    const val TYPE = "type"
 
     /**
      * Denotes when an entity was no longer valid (deleted).
      * Also denotes the last available datetime observation found in the corresponding data set of a part
      */
-    public static final String VALID = "valid";
+    const val VALID = "valid"
 }
