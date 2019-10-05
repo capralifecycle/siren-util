@@ -1,15 +1,17 @@
 package no.capraconsulting.siren;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static no.capraconsulting.siren.internal.util.ListUtil.map;
 import static no.capraconsulting.siren.internal.util.MapUtil.skipNulls;
@@ -56,12 +58,12 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
     /**
      * Entities which are embedded links.
      *
-     * @return list
+     * @return list of embedded links
      * @see #getEntities()
      */
-    @Nullable
+    @NotNull
     public List<EmbeddedLink> getEmbeddedLinks() {
-        return entities == null ? null : entities.stream()
+        return entities == null ? emptyList() : entities.stream()
             .filter(EmbeddedLink.class::isInstance)
             .map(item -> (EmbeddedLink) item)
             .collect(Collectors.toList());
@@ -70,12 +72,12 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
     /**
      * Entities which are embedded representations.
      *
-     * @return list
+     * @return list of embedded representations
      * @see #getEntities()
      */
-    @Nullable
+    @NotNull
     public List<EmbeddedRepresentation> getEmbeddedRepresentations() {
-        return entities == null ? null : entities.stream()
+        return entities == null ? emptyList() : entities.stream()
             .filter(EmbeddedRepresentation.class::isInstance)
             .map(item -> (EmbeddedRepresentation) item)
             .collect(Collectors.toList());
@@ -94,11 +96,11 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
     /**
      * A collection of related sub-entities.
      *
-     * @return the value of entities attribute
+     * @return the value of entities attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<Embedded> getEntities() {
-        return entities;
+        return entities == null ? emptyList() : entities;
     }
 
     /**
@@ -106,31 +108,31 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      * Link items should contain a `rel` attribute to describe the relationship and an `href` attribute
      * to point to the target URI. Entities should include a link `rel` to `self`.
      *
-     * @return the value of links attribute
+     * @return the value of links attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<Link> getLinks() {
-        return links;
+        return links == null ? emptyList() : links;
     }
 
     /**
      * A set of key-value pairs that describe the state of an entity.
      *
-     * @return the value of properties attribute
+     * @return the value of properties attribute or an empty map if it is missing
      */
-    @Nullable
+    @NotNull
     public Map<String, Object> getProperties() {
-        return properties;
+        return properties == null ? emptyMap() : properties;
     }
 
     /**
      * A collection of actions; actions show available behaviors an entity exposes.
      *
-     * @return the value of actions attribute
+     * @return the value of actions attribute or an empty list if it is missing
      */
     @Nullable
     public List<Action> getActions() {
-        return actions;
+        return actions == null ? emptyList() : actions;
     }
 
     @Override

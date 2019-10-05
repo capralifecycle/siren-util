@@ -1,19 +1,20 @@
 package no.capraconsulting.siren;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import static no.capraconsulting.siren.internal.util.ListUtil.map;
-import static no.capraconsulting.siren.internal.util.MapUtil.notNull;
+
+import static java.util.Collections.emptyList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsStringList;
+import static no.capraconsulting.siren.internal.util.ListUtil.map;
+import static no.capraconsulting.siren.internal.util.MapUtil.notNull;
 
 /**
  * Represents a sub-entity in the Siren specification. Sub-entities can be expressed as either an
@@ -85,11 +86,11 @@ public abstract class Embedded implements Serializable {
      * Describes the nature of an entity's content based on the current representation. Possible values
      * are implementation-dependent and should be documented.
      *
-     * @return the value of class attribute
+     * @return the value of class attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<String> getClazz() {
-        return clazz;
+        return clazz == null ? emptyList() : clazz;
     }
 
     abstract Map<String, Object> toRaw();

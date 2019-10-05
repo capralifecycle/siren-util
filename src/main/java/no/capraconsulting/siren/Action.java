@@ -1,16 +1,17 @@
 package no.capraconsulting.siren;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsStringList;
@@ -84,16 +85,16 @@ public final class Action implements Serializable {
      * Describes the nature of an action based on the current representation. Possible values are
      * implementation-dependent and should be documented.
      *
-     * @return the value of class attribute
+     * @return the value of class attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<String> getClazz() {
-        return clazz;
+        return clazz == null ? emptyList() : clazz;
     }
 
     /**
      * An enumerated attribute mapping to a protocol method. For HTTP, these values may be GET, PUT, POST,
-     * DELETE, or PATCH. As new methods are introduced, this list can be extended If this attribute is
+     * DELETE, or PATCH. As new methods are introduced, this list can be extended. If this attribute is
      * omitted, GET should be assumed.
      *
      * @return the value of method attribute
@@ -137,11 +138,11 @@ public final class Action implements Serializable {
     /**
      * A collection of fields.
      *
-     * @return the value of fields attribute
+     * @return the value of fields attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<Field> getFields() {
-        return fields;
+        return fields == null ? emptyList() : fields;
     }
 
     @NotNull

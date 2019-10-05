@@ -1,18 +1,19 @@
 package no.capraconsulting.siren;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 
 import static java.util.Arrays.asList;
-import static no.capraconsulting.siren.internal.util.MapUtil.notNull;
-import static no.capraconsulting.siren.internal.util.MapUtil.skipNulls;
+import static java.util.Collections.emptyList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsStringList;
+import static no.capraconsulting.siren.internal.util.MapUtil.notNull;
+import static no.capraconsulting.siren.internal.util.MapUtil.skipNulls;
 
 /**
  * Fields represent controls inside of {@link Action actions}.
@@ -73,11 +74,11 @@ public final class Field implements Serializable {
      * Describes aspects of the field based on the current representation. Possible values are
      * implementation-dependent and should be documented.
      *
-     * @return the value of class attribute
+     * @return the value of class attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<String> getClazz() {
-        return clazz;
+        return clazz == null ? emptyList() : clazz;
     }
 
     /**

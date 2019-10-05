@@ -27,7 +27,7 @@ public class LinkTest {
     @Test
     public void testLinkWithoutType() {
         Link link = Link.newBuilder("containsChild", URI.create("http://localhost:8080")).build();
-        assertNull(link.getClazz());
+        assertTrue(link.getClazz().isEmpty());
         assertNull(link.getFirstClass());
         assertFalse(link.toRaw().containsKey("class"));
     }

@@ -39,8 +39,8 @@ public class RootTest {
 
         Root rootEntity = Root.fromRaw(rootMap);
 
-        assertNull(rootEntity.getLinks());
-        assertNull(rootEntity.getEntities());
+        assertTrue(rootEntity.getLinks().isEmpty());
+        assertTrue(rootEntity.getEntities().isEmpty());
         assertEquals(1, rootEntity.getClazz().size());
         assertEquals("val1", rootEntity.getProperties().get("prop1"));
         assertEquals("val2", rootEntity.getProperties().get("prop2"));
@@ -58,8 +58,8 @@ public class RootTest {
 
         Root root = Root.fromRaw(rootMap);
 
-        assertNull(root.getLinks());
-        assertNull(root.getEntities());
+        assertTrue(root.getLinks().isEmpty());
+        assertTrue(root.getEntities().isEmpty());
 
         assertNotNull(root.getClazz());
         assertEquals(1, root.getClazz().size());
@@ -94,29 +94,29 @@ public class RootTest {
     }
 
     @Test
-    public void testShouldReturnNullWhereNoData() {
+    public void testShouldReturnEmptyListsAndMapsWhereNoData() {
         Root root = Root
             .newBuilder()
             .build();
 
         // Fields.
-        assertNull(root.getLinks());
-        assertNull(root.getProperties());
-        assertNull(root.getClazz());
-        assertNull(root.getEntities());
-        assertNull(root.getActions());
-        assertNull(root.getTitle());
+        assertTrue(root.getLinks().isEmpty());
+        assertTrue(root.getProperties().isEmpty());
+        assertTrue(root.getClazz().isEmpty());
+        assertTrue(root.getEntities().isEmpty());
+        assertTrue(root.getActions().isEmpty());
+        assertNull(root.getTitle()); // not a list/map
 
         // Other getters.
         assertNull(root.getFirstClass());
 
         // Expect for the special getters.
-        assertNotNull(root.getEmbeddedRepresentations());
-        assertNotNull(root.getEmbeddedLinks());
+        assertTrue(root.getEmbeddedRepresentations().isEmpty());
+        assertTrue(root.getEmbeddedLinks().isEmpty());
     }
 
     @Test
-    public void testMightReturnEmptyListWhenBuiltWithIt() {
+    public void testReturnEmptyListWhenBuiltWithIt() {
         // As far as I can see an empty list is still valid in the Siren specification,
         // except where explicitly noted a list must contain items.
 

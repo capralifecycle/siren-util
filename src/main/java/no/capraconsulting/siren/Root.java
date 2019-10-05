@@ -1,17 +1,18 @@
 package no.capraconsulting.siren;
 
-import no.capraconsulting.siren.internal.json.Json;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import no.capraconsulting.siren.internal.json.Json;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsStringList;
@@ -106,11 +107,11 @@ public final class Root implements Serializable {
     /**
      * A collection of related sub-entities.
      *
-     * @return the value of entities attribute
+     * @return the value of entities attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<Embedded> getEntities() {
-        return entities;
+        return entities == null ? emptyList() : entities;
     }
 
     /**
@@ -118,32 +119,32 @@ public final class Root implements Serializable {
      * Link items should contain a `rel` attribute to describe the relationship and an `href` attribute
      * to point to the target URI. Entities should include a link `rel` to `self`.
      *
-     * @return the value of links attribute
+     * @return the value of links attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<Link> getLinks() {
-        return links;
+        return links == null ? emptyList() : links;
     }
 
     /**
      * A set of key-value pairs that describe the state of an entity.
      *
-     * @return the value of properties attribute
+     * @return the value of properties attribute or an empty map if it is missing
      */
-    @Nullable
+    @NotNull
     public Map<String, Object> getProperties() {
-        return properties;
+        return properties == null ? emptyMap() : properties;
     }
 
     /**
      * Describes the nature of an entity's content based on the current representation.
      * Possible values are implementation-dependent and should be documented.
      *
-     * @return the value of class attribute
+     * @return the value of class attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<String> getClazz() {
-        return clazz;
+        return clazz == null ? emptyList() : clazz;
     }
 
     /**
@@ -159,11 +160,11 @@ public final class Root implements Serializable {
     /**
      * A collection of actions; actions show available behaviors an entity exposes.
      *
-     * @return the value of actions attribute
+     * @return the value of actions attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<Action> getActions() {
-        return actions;
+        return actions == null ? emptyList() : actions;
     }
 
     /**
