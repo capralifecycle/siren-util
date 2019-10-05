@@ -44,21 +44,4 @@ public class GenericsUtil {
         //noinspection unchecked
         return (Map<String, Object>) value;
     }
-
-    @NotNull
-    public static Map<String, Object> objectAsStringKeyedMap(@NotNull final Object value) {
-        if (!(value instanceof Map)) {
-            throw new IllegalArgumentException("Casting to Map failed. Found type " + value.getClass());
-        }
-
-        //noinspection unchecked
-        ((Map<Object, Object>) value).keySet().forEach(key -> {
-            if (!(key instanceof String)) {
-                throw new IllegalArgumentException("Casting to Map with Strings as keys failed. Found " + key.getClass());
-            }
-        });
-
-        //noinspection unchecked
-        return (Map<String, Object>) value;
-    }
 }
