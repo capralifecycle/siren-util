@@ -1,6 +1,9 @@
 # siren-util
 
 [![CircleCI](https://circleci.com/gh/capraconsulting/siren-util.svg?style=svg)](https://circleci.com/gh/capraconsulting/siren-util)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=alert_status)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=coverage)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=sqale_index)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
 
 Build and parse [Siren hypermedia](https://github.com/kevinswiber/siren)
 compliant JSON representations of entities.

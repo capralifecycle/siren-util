@@ -30,6 +30,14 @@ jobs:
             - /tmp/japi
           key: japi-2.4
       - run: mvn -B verify
+      - run:
+          name: SonarCloud
+          command: |
+            if [ -n "$SONARCLOUD_TOKEN" ]; then
+              mvn -B sonar:sonar -Dsonar.login="$SONARCLOUD_TOKEN" -Dsonar.branch.name="$CIRCLE_BRANCH"
+            else
+              echo "Token for SonarCloud not available - skipping"
+            fi
       - save_cache:
           paths:
             - ~/.m2
