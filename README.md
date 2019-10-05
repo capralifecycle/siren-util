@@ -1,6 +1,6 @@
-# siren-util-internal
+# siren-util
 
-[![CircleCI](https://circleci.com/gh/capraconsulting/siren-util-internal.svg?style=svg&circle-token=b3a05ec51ec2d53208a202f77edad5048d47bc67)](https://circleci.com/gh/capraconsulting/siren-util-internal)
+[![CircleCI](https://circleci.com/gh/capraconsulting/siren-util.svg?style=svg&circle-token=b3a05ec51ec2d53208a202f77edad5048d47bc67)](https://circleci.com/gh/capraconsulting/siren-util)
 
 Build and parse [Siren hypermedia](https://github.com/kevinswiber/siren)
 compliant JSON representations of entities.
