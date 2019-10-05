@@ -1,4 +1,3 @@
-@file:JvmName("GenericsUtil")
 package no.capraconsulting.siren.internal.util
 
 internal fun Any.asList(): List<Any?> {
