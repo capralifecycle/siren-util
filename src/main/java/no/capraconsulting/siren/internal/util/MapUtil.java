@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class MapUtil {
+    private MapUtil() {}
 
     public static <K, V> Map<K, V> skipNulls(Map<K, V> map) {
         Map<K, V> result = new LinkedHashMap<>();

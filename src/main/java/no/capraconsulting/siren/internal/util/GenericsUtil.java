@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GenericsUtil {
+    private GenericsUtil() {}
 
     @NotNull
     public static List<Object> objectAsList(@NotNull final Object value) {

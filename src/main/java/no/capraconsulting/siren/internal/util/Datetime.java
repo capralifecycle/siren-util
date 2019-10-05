@@ -9,6 +9,8 @@ import java.time.format.DateTimeFormatter;
  * Utility class for working with dates.
  */
 public final class Datetime {
+    private Datetime() {}
+
     public static ZonedDateTime from(final Instant timestamp) {
         return ZonedDateTime.ofInstant(timestamp, ZoneOffset.UTC);
     }
