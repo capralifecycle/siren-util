@@ -1,29 +1,27 @@
-package no.capraconsulting.siren;
+package no.capraconsulting.siren
 
-import org.junit.jupiter.api.Test;
+import no.capraconsulting.siren.internal.verifyRoot
+import org.junit.jupiter.api.Test
+import java.net.URI
 
-import java.net.URI;
-
-import static no.capraconsulting.siren.internal.TestUtil.entry;
-import static no.capraconsulting.siren.internal.TestUtil.mapOf;
-import static no.capraconsulting.siren.internal.TestUtil.verifyRoot;
-
-public class ExampleTest {
+class ExampleTest {
 
     /**
      * Creates the Siren example structure and tests it against the provided JSON.
      *
-     * @see <a href="https://github.com/kevinswiber/siren#example">Siren example</a>
+     * @see [Siren example](https://github.com/kevinswiber/siren.example)
      */
     @Test
-    public void testSirenOfficialExample() {
-        Root rootEntity = Root.newBuilder()
+    fun testSirenOfficialExample() {
+        val rootEntity = Root.newBuilder()
             .clazz("order")
-            .properties(mapOf(
-                entry("orderNumber", 42),
-                entry("itemCount", 3),
-                entry("status", "pending")
-            ))
+            .properties(
+                mapOf(
+                    "orderNumber" to 42,
+                    "itemCount" to 3,
+                    "status" to "pending"
+                )
+            )
             .entities(
                 EmbeddedLink
                     .newBuilder(
@@ -35,10 +33,12 @@ public class ExampleTest {
                 EmbeddedRepresentation
                     .newBuilder("http://x.io/rels/customer")
                     .clazz("info", "customer")
-                    .properties(mapOf(
-                        entry("customerId", "pj123"),
-                        entry("name", "Peter Joseph")
-                    ))
+                    .properties(
+                        mapOf(
+                            "customerId" to "pj123",
+                            "name" to "Peter Joseph"
+                        )
+                    )
                     .links(
                         Link.newBuilder("self", URI.create("http://api.x.io/customers/pj123")).build()
                     )
@@ -65,19 +65,19 @@ public class ExampleTest {
                 Link.newBuilder("previous", URI.create("http://api.x.io/orders/41")).build(),
                 Link.newBuilder("next", URI.create("http://api.x.io/orders/43")).build()
             )
-            .build();
+            .build()
 
-        verifyRoot("SirenOfficialExample.siren.json", rootEntity);
+        verifyRoot("SirenOfficialExample.siren.json", rootEntity)
     }
 
     /**
      * Creates the fizzbuzzaas example structure and tests it against the provided JSON.
      *
-     * @see <a href="http://fizzbuzzaas.herokuapp.com/">FizzBuzzAAS example</a>
+     * @see [FizzBuzzAAS example](http://fizzbuzzaas.herokuapp.com/)
      */
     @Test
-    public void testFizzbuzzaasExample() {
-        Root root = Root
+    fun testFizzbuzzaasExample() {
+        val root = Root
             .newBuilder()
             .links(
                 Link.newBuilder("home", URI.create("/")).build(),
@@ -115,8 +115,8 @@ public class ExampleTest {
                     )
                     .build()
             )
-            .build();
+            .build()
 
-        verifyRoot("FizzbuzzaasExample.siren.json", root);
+        verifyRoot("FizzbuzzaasExample.siren.json", root)
     }
 }

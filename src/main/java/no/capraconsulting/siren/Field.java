@@ -286,7 +286,9 @@ public final class Field implements Serializable {
         @NotNull
         private final String value;
 
-        Type(@NotNull final String className) {
+        // For some reason Kotlin crashes if having @NotNull on the parameter.
+        @SuppressWarnings("NullableProblems")
+        Type(final String className) {
             this.value = className;
         }
 
