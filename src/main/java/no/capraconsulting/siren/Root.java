@@ -37,7 +37,7 @@ public final class Root implements Serializable {
     @Nullable
     private final String title;
     @Nullable
-    private final Map<Object, Object> properties;
+    private final Map<String, Object> properties;
     @Nullable
     private final List<Link> links;
     @Nullable
@@ -48,7 +48,7 @@ public final class Root implements Serializable {
     private Root(
         @Nullable final List<String> clazz,
         @Nullable final String title,
-        @Nullable final Map<Object, Object> properties,
+        @Nullable final Map<String, Object> properties,
         @Nullable final List<Link> links,
         @Nullable final List<Embedded> entities,
         @Nullable final List<Action> actions
@@ -131,7 +131,7 @@ public final class Root implements Serializable {
      * @return the value of properties attribute
      */
     @Nullable
-    public Map<Object, Object> getProperties() {
+    public Map<String, Object> getProperties() {
         return properties;
     }
 
@@ -189,8 +189,8 @@ public final class Root implements Serializable {
      * @return object
      */
     @NotNull
-    public Map<Object, Object> toRaw() {
-        Map<Object, Object> result = new LinkedHashMap<>();
+    public Map<String, Object> toRaw() {
+        Map<String, Object> result = new LinkedHashMap<>();
         result.put(Siren.CLASS, clazz);
         result.put(Siren.TITLE, title);
         result.put(Siren.PROPERTIES, properties);
@@ -213,7 +213,7 @@ public final class Root implements Serializable {
      * @return a new Root
      */
     @NotNull
-    public static Root fromRaw(@NotNull final Map<Object, Object> map) {
+    public static Root fromRaw(@NotNull final Map<String, Object> map) {
         return Root
             .newBuilder()
             .clazz(notNull(map, Siren.CLASS) ? objectAsStringList(map.get(Siren.CLASS)) : null)
@@ -259,7 +259,7 @@ public final class Root implements Serializable {
         @Nullable
         private String title;
         @Nullable
-        private Map<Object, Object> properties;
+        private Map<String, Object> properties;
         @Nullable
         private List<Link> links;
         @Nullable
@@ -314,7 +314,7 @@ public final class Root implements Serializable {
          * @return builder
          */
         @NotNull
-        public Builder properties(@Nullable Map<Object, Object> properties) {
+        public Builder properties(@Nullable Map<String, Object> properties) {
             this.properties = properties;
             return this;
         }

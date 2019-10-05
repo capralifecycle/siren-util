@@ -36,13 +36,13 @@ public class GenericsUtil {
     }
 
     @NotNull
-    public static Map<Object, Object> objectAsMap(@NotNull final Object value) {
+    public static Map<String, Object> objectAsMap(@NotNull final Object value) {
         if (!(value instanceof Map)) {
             throw new IllegalArgumentException("Casting to Map failed. Found type " + value.getClass());
         }
 
         //noinspection unchecked
-        return (Map<Object, Object>) value;
+        return (Map<String, Object>) value;
     }
 
     @NotNull

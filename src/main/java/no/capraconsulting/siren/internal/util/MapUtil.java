@@ -16,7 +16,7 @@ public final class MapUtil {
         return result;
     }
 
-    public static boolean notNull(Map<Object, Object> map, String key) {
+    public static boolean notNull(Map<String, Object> map, String key) {
         return map.containsKey(key) && map.get(key) != null;
     }
 }

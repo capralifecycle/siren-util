@@ -28,7 +28,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
     @Nullable
     private final String title;
     @Nullable
-    private final Map<Object, Object> properties;
+    private final Map<String, Object> properties;
     @Nullable
     private final List<Link> links;
     @Nullable
@@ -40,7 +40,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
         @Nullable final List<String> clazz,
         @Nullable final String title,
         @NotNull final List<String> rel,
-        @Nullable final Map<Object, Object> properties,
+        @Nullable final Map<String, Object> properties,
         @Nullable final List<Link> links,
         @Nullable final List<Embedded> entities,
         @Nullable final List<Action> actions
@@ -119,7 +119,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      * @return the value of properties attribute
      */
     @Nullable
-    public Map<Object, Object> getProperties() {
+    public Map<String, Object> getProperties() {
         return properties;
     }
 
@@ -134,8 +134,8 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
     }
 
     @Override
-    Map<Object, Object> toRaw() {
-        Map<Object, Object> result = new LinkedHashMap<>();
+    Map<String, Object> toRaw() {
+        Map<String, Object> result = new LinkedHashMap<>();
         result.put(Siren.CLASS, clazz);
         result.put(Siren.REL, rel);
         result.put(Siren.PROPERTIES, properties);
@@ -180,7 +180,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
         @NotNull
         private final List<String> rel;
         @Nullable
-        private Map<Object, Object> properties;
+        private Map<String, Object> properties;
         @Nullable
         private List<Link> links;
         @Nullable
@@ -236,7 +236,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
          * @return builder
          */
         @NotNull
-        public Builder properties(@Nullable Map<Object, Object> properties) {
+        public Builder properties(@Nullable Map<String, Object> properties) {
             this.properties = properties;
             return this;
         }

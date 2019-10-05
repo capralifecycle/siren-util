@@ -145,8 +145,8 @@ public final class Action implements Serializable {
     }
 
     @NotNull
-    Map<Object, Object> toRaw() {
-        Map<Object, Object> result = new LinkedHashMap<>();
+    Map<String, Object> toRaw() {
+        Map<String, Object> result = new LinkedHashMap<>();
         result.put(Siren.NAME, name);
         result.put(Siren.TITLE, title);
         result.put(Siren.CLASS, clazz);
@@ -172,7 +172,7 @@ public final class Action implements Serializable {
     }
 
     @NotNull
-    private static Action fromRaw(@NotNull final Map<Object, Object> map) {
+    private static Action fromRaw(@NotNull final Map<String, Object> map) {
         return Action
             .newBuilder(
                 (String) map.get(Siren.NAME),

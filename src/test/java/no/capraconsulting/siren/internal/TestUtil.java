@@ -37,9 +37,9 @@ public final class TestUtil {
      * Using a LinkedHashMap to ensure deterministic result.
      */
     @SafeVarargs
-    public static Map<Object, Object> mapOf(SimpleEntry<Object, Object>... entries) {
-        Map<Object, Object> result = new LinkedHashMap<>();
-        for (SimpleEntry<Object, Object> entry : entries) {
+    public static Map<String, Object> mapOf(SimpleEntry<String, Object>... entries) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (SimpleEntry<String, Object> entry : entries) {
             result.put(entry.getKey(), entry.getValue());
         }
         return result;
@@ -48,7 +48,7 @@ public final class TestUtil {
     /**
      * Create SimpleEntry with minimal code so the test can focus on its contents.
      */
-    public static SimpleEntry<Object, Object> entry(Object key, Object value) {
+    public static SimpleEntry<String, Object> entry(String key, Object value) {
         return new SimpleEntry<>(key, value);
     }
 

@@ -75,8 +75,8 @@ public final class EmbeddedLink extends Embedded implements Serializable {
     }
 
     @Override
-    Map<Object, Object> toRaw() {
-        Map<Object, Object> result = new LinkedHashMap<>();
+    Map<String, Object> toRaw() {
+        Map<String, Object> result = new LinkedHashMap<>();
         result.put(Siren.CLASS, clazz);
         result.put(Siren.REL, rel);
         result.put(Siren.HREF, href);

@@ -111,8 +111,8 @@ public final class Field implements Serializable {
     }
 
     @NotNull
-    Map<Object, Object> toRaw() {
-        Map<Object, Object> result = new LinkedHashMap<>();
+    Map<String, Object> toRaw() {
+        Map<String, Object> result = new LinkedHashMap<>();
         result.put(Siren.NAME, name);
         result.put(Siren.CLASS, clazz);
         result.put(Siren.TYPE, type);
@@ -127,7 +127,7 @@ public final class Field implements Serializable {
     }
 
     @NotNull
-    private static Field fromRaw(@NotNull final Map<Object, Object> map) {
+    private static Field fromRaw(@NotNull final Map<String, Object> map) {
         return Field
             .newBuilder((String) map.get(Siren.NAME))
             .clazz(notNull(map, Siren.CLASS) ? objectAsStringList(map.get(Siren.CLASS)) : null)

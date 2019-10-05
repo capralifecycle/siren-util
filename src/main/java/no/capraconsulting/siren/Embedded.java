@@ -92,7 +92,7 @@ public abstract class Embedded implements Serializable {
         return clazz;
     }
 
-    abstract Map<Object, Object> toRaw();
+    abstract Map<String, Object> toRaw();
 
     @NotNull
     static Embedded fromRaw(@NotNull final Object map) {
@@ -109,7 +109,7 @@ public abstract class Embedded implements Serializable {
     }
 
     @NotNull
-    static Embedded fromRaw(@NotNull final Map<Object, Object> map) {
+    static Embedded fromRaw(@NotNull final Map<String, Object> map) {
         List<String> clazz = notNull(map, Siren.CLASS) ? objectAsStringList(map.get(Siren.CLASS)) : null;
         List<String> rel = objectAsStringList(map.get(Siren.REL));
 

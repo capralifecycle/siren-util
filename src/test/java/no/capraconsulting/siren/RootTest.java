@@ -27,7 +27,7 @@ public class RootTest {
     @SuppressWarnings("ConstantConditions")
     @Test
     public void testFromRawWithNullValues() {
-        Map<Object, Object> rootMap = mapOf(
+        Map<String, Object> rootMap = mapOf(
             entry(Siren.CLASS, singletonList("class")),
             entry(Siren.ENTITIES, null),
             entry(Siren.LINKS, null),
@@ -48,7 +48,7 @@ public class RootTest {
 
     @Test
     public void testFromRawWithoutEntitiesAndLinks() {
-        Map<Object, Object> rootMap = mapOf(
+        Map<String, Object> rootMap = mapOf(
             entry(Siren.CLASS, singletonList("class")),
             entry(Siren.PROPERTIES, mapOf(
                 entry("prop1", "val1"),
@@ -196,7 +196,7 @@ public class RootTest {
             )
             .build();
 
-        Map<Object, Object> raw = root.toRaw();
+        Map<String, Object> raw = root.toRaw();
 
         assertFalse(raw.containsKey(Siren.PROPERTIES));
         assertFalse(raw.containsKey(Siren.CLASS));
@@ -206,7 +206,7 @@ public class RootTest {
         List<Object> entities = objectAsList(raw.get(Siren.ENTITIES));
         assertEquals(1, entities.size());
 
-        Map<Object, Object> firstEntity = objectAsMap(entities.get(0));
+        Map<String, Object> firstEntity = objectAsMap(entities.get(0));
         assertEquals(2, firstEntity.size());
         assertTrue(firstEntity.containsKey(Siren.PROPERTIES));
     }
