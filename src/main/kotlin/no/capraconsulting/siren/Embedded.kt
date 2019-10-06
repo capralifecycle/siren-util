@@ -68,7 +68,10 @@ abstract class Embedded protected constructor(
             try {
                 URI(value)
             } catch (e: URISyntaxException) {
-                throw IllegalArgumentException(String.format("Invalid %s in Embedded", Siren.HREF), e)
+                throw IllegalArgumentException(
+                    String.format("Invalid %s in Embedded", Siren.HREF),
+                    e
+                )
             }
 
         private fun fromRaw(map: Map<String, Any?>): Embedded {

@@ -42,6 +42,7 @@ private fun verifySnapshotInternal(name: String, value: String) {
         assertEquals("Snapshot [$name] should match", existingValue, value)
     } catch (e: ComparisonFailure) {
         // Make this verbose so the user more likely finds it in the log.
+        /* ktlint-disable max-line-length */
         println("#####################################################################")
         println()
         println()
@@ -50,6 +51,7 @@ private fun verifySnapshotInternal(name: String, value: String) {
         println()
         println()
         println("#####################################################################")
+        /* ktlint-enable max-line-length */
         throw e
     }
 }

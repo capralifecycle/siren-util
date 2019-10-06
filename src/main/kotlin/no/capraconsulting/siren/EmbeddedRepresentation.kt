@@ -182,7 +182,15 @@ class EmbeddedRepresentation private constructor(
          * Build the [EmbeddedRepresentation].
          */
         // TODO: Ensure immutability
-        fun build() = EmbeddedRepresentation(clazz, title, rel, properties, links, entities, actions)
+        fun build() = EmbeddedRepresentation(
+            clazz,
+            title,
+            rel,
+            properties,
+            links,
+            entities,
+            actions
+        )
     }
 
     /** @suppress */
