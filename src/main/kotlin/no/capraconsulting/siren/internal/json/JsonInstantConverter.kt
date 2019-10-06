@@ -9,9 +9,6 @@ import java.time.Instant
 import no.capraconsulting.siren.internal.util.toFormattedString
 import no.capraconsulting.siren.internal.util.toZonedDateTime
 
-/**
- * Custom json serializer for the [Instant] class.
- */
 internal class JsonInstantConverter : JsonSerializer<Instant> {
     override fun serialize(
         value: Instant,

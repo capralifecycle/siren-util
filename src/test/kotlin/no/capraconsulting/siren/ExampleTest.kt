@@ -6,12 +6,6 @@ import org.junit.jupiter.api.Test
 
 class ExampleTest {
 
-    /**
-     * Creates the Siren example structure and tests it against the provided
-     * JSON.
-     *
-     * **See also:** [Siren example](https://github.com/kevinswiber/siren.example)
-     */
     @Test
     fun testSirenOfficialExample() {
         val rootEntity = Root.newBuilder()
@@ -74,12 +68,6 @@ class ExampleTest {
         verifyRoot("SirenOfficialExample.siren.json", rootEntity)
     }
 
-    /**
-     * Creates the fizzbuzzaas example structure and tests it against the
-     * provided JSON.
-     *
-     * **See also:** [FizzBuzzAAS example](http://fizzbuzzaas.herokuapp.com/)
-     */
     @Test
     fun testFizzbuzzaasExample() {
         val root = Root

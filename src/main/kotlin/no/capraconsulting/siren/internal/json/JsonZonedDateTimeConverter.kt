@@ -11,9 +11,6 @@ import java.time.ZonedDateTime
 import no.capraconsulting.siren.internal.util.toFormattedString
 import no.capraconsulting.siren.internal.util.toZonedDateTime
 
-/**
- * Custom json serializer and deserializer for the [ZonedDateTime] class.
- */
 internal class JsonZonedDateTimeConverter : JsonSerializer<ZonedDateTime>,
     JsonDeserializer<ZonedDateTime> {
     override fun deserialize(

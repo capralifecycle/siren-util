@@ -1,10 +1,5 @@
 package no.capraconsulting.siren
 
-/**
- * Class provides constants related to the Siren specification.
- *
- * **See also:** [Siren specification](https://github.com/kevinswiber/siren.entities)
- */
 object Siren {
     const val ACTIONS = "actions"
     const val APPLICATION_SIREN_JSON = "application/vnd.siren+json"
