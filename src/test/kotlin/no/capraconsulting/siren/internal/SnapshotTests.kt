@@ -1,10 +1,10 @@
 package no.capraconsulting.siren.internal
 
-import org.junit.Assert.assertEquals
-import org.junit.ComparisonFailure
 import java.io.File
 import java.io.IOException
 import java.io.UncheckedIOException
+import org.junit.Assert.assertEquals
+import org.junit.ComparisonFailure
 
 private const val REGENERATE_SNAPSHOTS = "REGENERATE_SNAPSHOTS"
 

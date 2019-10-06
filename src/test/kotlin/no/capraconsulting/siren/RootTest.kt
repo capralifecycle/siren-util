@@ -1,5 +1,7 @@
 package no.capraconsulting.siren
 
+import java.net.URI
+import java.util.Collections.emptyList
 import no.capraconsulting.siren.internal.getResource
 import no.capraconsulting.siren.internal.parseAndVerifyRootStrict
 import no.capraconsulting.siren.internal.util.asList
@@ -12,8 +14,6 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.skyscreamer.jsonassert.JSONAssert
-import java.net.URI
-import java.util.Collections.emptyList
 
 class RootTest {
 

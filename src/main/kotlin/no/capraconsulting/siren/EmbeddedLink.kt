@@ -1,9 +1,9 @@
 package no.capraconsulting.siren
 
-import no.capraconsulting.siren.internal.util.skipNulls
 import java.io.Serializable
 import java.net.URI
 import java.util.LinkedHashMap
+import no.capraconsulting.siren.internal.util.skipNulls
 
 /**
  * Represents an embedded sub-entity that contains a URI link.

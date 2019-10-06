@@ -1,12 +1,12 @@
 package no.capraconsulting.siren
 
-import no.capraconsulting.siren.internal.util.asList
-import no.capraconsulting.siren.internal.util.asMap
-import no.capraconsulting.siren.internal.util.asNonNullStringList
 import java.io.Serializable
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.Collections.emptyList
+import no.capraconsulting.siren.internal.util.asList
+import no.capraconsulting.siren.internal.util.asMap
+import no.capraconsulting.siren.internal.util.asNonNullStringList
 
 /**
  * Represents a sub-entity in the Siren specification. Sub-entities can be expressed as either an

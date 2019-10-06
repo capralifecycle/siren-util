@@ -84,8 +84,7 @@ internal class CustomObjectTypeAdapter(private val gson: Gson) : TypeAdapter<Any
                 if (type.rawType == CustomObject::class.java) {
                     @Suppress("UNCHECKED_CAST")
                     CustomObjectTypeAdapter(gson) as TypeAdapter<T>
-                }
-                else null
+                } else null
         }
     }
 }

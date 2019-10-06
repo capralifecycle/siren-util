@@ -1,10 +1,10 @@
 package no.capraconsulting.siren
 
-import no.capraconsulting.siren.internal.util.skipNulls
 import java.io.Serializable
 import java.util.Collections.emptyList
 import java.util.Collections.emptyMap
 import java.util.LinkedHashMap
+import no.capraconsulting.siren.internal.util.skipNulls
 
 /**
  * Embedded sub-entity representations retain all the characteristics of a [standard entity][Root],
@@ -204,5 +204,4 @@ class EmbeddedRepresentation private constructor(
         @JvmStatic
         fun newBuilder(rel: String): Builder = Builder(listOf(rel))
     }
-
 }
