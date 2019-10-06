@@ -16,8 +16,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>8</maven.compiler.source>
-    <maven.compiler.target>8</maven.compiler.target>
 
     <!--
     Make IntelliJ use preferred Code Style.
@@ -141,6 +139,9 @@
   </profiles>
 
   <build>
+    <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+    <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -196,39 +197,6 @@
       </plugins>
     </pluginManagement>
     <plugins>
-      <!--
-      Support multiple source directories for dual Kotlin and Java compile.
-      This ensure both src/main/java and src/main/kotlin will work as sourceDirectory.
-      If Java support is not needed this can be removed and
-      specifying kotlin in sourceDirectory only.
-      -->
-
-      <!--
-      Support multiple source directories for dual Kotlin and Java compile.
-      This ensure both src/main/java and src/main/kotlin will work as sourceDirectory.
-      If Java support is not needed this can be removed and
-      specifying kotlin in sourceDirectory only.
-      -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>3.0.0</version>
-        <executions>
-          <execution>
-            <id>add-source</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>add-source</goal>
-            </goals>
-            <configuration>
-              <sources>
-                <source>${project.basedir}/src/main/kotlin</source>
-              </sources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <!-- Dual Kotlin and Java compile -->
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -243,53 +211,11 @@
             <goals>
               <goal>compile</goal>
             </goals>
-            <configuration>
-              <sourceDirs>
-                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-                <sourceDir>${project.basedir}/src/main/java</sourceDir>
-              </sourceDirs>
-            </configuration>
           </execution>
           <execution>
             <id>test-compile</id>
             <goals>
               <goal>test-compile</goal>
-            </goals>
-            <configuration>
-              <sourceDirs>
-                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
-              </sourceDirs>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <executions>
-          <!-- Replacing default-compile as it is treated specially by maven -->
-          <execution>
-            <id>default-compile</id>
-            <phase>none</phase>
-          </execution>
-          <!-- Replacing default-testCompile as it is treated specially by maven -->
-          <execution>
-            <id>default-testCompile</id>
-            <phase>none</phase>
-          </execution>
-          <execution>
-            <id>java-compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>java-test-compile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>testCompile</goal>
             </goals>
           </execution>
         </executions>
