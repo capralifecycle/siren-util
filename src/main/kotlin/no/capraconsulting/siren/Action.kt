@@ -1,14 +1,14 @@
 package no.capraconsulting.siren
 
-import no.capraconsulting.siren.internal.util.asList
-import no.capraconsulting.siren.internal.util.asMap
-import no.capraconsulting.siren.internal.util.asNonNullStringList
-import no.capraconsulting.siren.internal.util.skipNulls
 import java.io.Serializable
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.Collections.emptyList
 import java.util.LinkedHashMap
+import no.capraconsulting.siren.internal.util.asList
+import no.capraconsulting.siren.internal.util.asMap
+import no.capraconsulting.siren.internal.util.asNonNullStringList
+import no.capraconsulting.siren.internal.util.skipNulls
 
 /**
  * Actions show available behaviors an entity exposes and are used for executing state transitions.
@@ -226,6 +226,6 @@ class Action private constructor(
          * @return a new builder
          */
         @JvmStatic
-        fun newBuilder(name: String, href: URI): Builder =Builder(name, href)
+        fun newBuilder(name: String, href: URI): Builder = Builder(name, href)
     }
 }

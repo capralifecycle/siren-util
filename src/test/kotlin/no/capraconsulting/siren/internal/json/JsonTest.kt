@@ -1,14 +1,14 @@
 package no.capraconsulting.siren.internal.json
 
-import no.capraconsulting.siren.internal.util.toFormattedString
-import org.junit.Assert.assertEquals
-import org.junit.Test
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.Collections
+import no.capraconsulting.siren.internal.util.toFormattedString
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 class JsonTest {
 
@@ -59,5 +59,4 @@ class JsonTest {
             ZonedDateTime.parse("2016-08-22T14:30:00.120+02:00[Europe/Paris]").toFormattedString()
         )
     }
-
 }

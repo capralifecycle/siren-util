@@ -1,8 +1,8 @@
 package no.capraconsulting.siren
 
+import java.net.URI
 import no.capraconsulting.siren.internal.verifyRoot
 import org.junit.jupiter.api.Test
-import java.net.URI
 
 class ExampleTest {
 

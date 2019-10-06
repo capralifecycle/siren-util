@@ -1,15 +1,15 @@
 package no.capraconsulting.siren
 
+import java.io.Serializable
+import java.util.Collections.emptyList
+import java.util.Collections.emptyMap
+import java.util.LinkedHashMap
 import no.capraconsulting.siren.internal.json.parseJsonToMap
 import no.capraconsulting.siren.internal.json.toJson
 import no.capraconsulting.siren.internal.util.asList
 import no.capraconsulting.siren.internal.util.asMap
 import no.capraconsulting.siren.internal.util.asNonNullStringList
 import no.capraconsulting.siren.internal.util.skipNulls
-import java.io.Serializable
-import java.util.Collections.emptyList
-import java.util.Collections.emptyMap
-import java.util.LinkedHashMap
 
 /**
  * An Entity is a URI-addressable resource that has properties and actions associated with it.

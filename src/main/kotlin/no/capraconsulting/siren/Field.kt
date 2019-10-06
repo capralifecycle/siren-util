@@ -1,11 +1,11 @@
 package no.capraconsulting.siren
 
-import no.capraconsulting.siren.internal.util.asMap
-import no.capraconsulting.siren.internal.util.asNonNullStringList
-import no.capraconsulting.siren.internal.util.skipNulls
 import java.io.Serializable
 import java.util.Collections.emptyList
 import java.util.LinkedHashMap
+import no.capraconsulting.siren.internal.util.asMap
+import no.capraconsulting.siren.internal.util.asNonNullStringList
+import no.capraconsulting.siren.internal.util.skipNulls
 
 /**
  * Fields represent controls inside of [actions][Action].
@@ -134,7 +134,7 @@ class Field private constructor(
         fun build(): Field = Field(name, clazz, type, title, value)
     }
 
-    enum class Type  constructor(
+    enum class Type constructor(
         /**
          * The textual value as defined in Siren specification.
          */

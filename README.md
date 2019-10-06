@@ -59,3 +59,9 @@ mvn test -DREGENERATE_SNAPSHOTS=true
 
 When a snapshot fails the easiest way to compare the changes are by regenering
 snapshots and using Git diff.
+
+### Linting
+
+This project uses [ktlint](https://github.com/pinterest/ktlint) to enforce
+code style. Use `mvn ktlint:format` to sort most formatting issues if the
+build fails.

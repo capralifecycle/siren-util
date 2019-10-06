@@ -1,10 +1,10 @@
 package no.capraconsulting.siren.internal.util
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 private const val UTC = "2015-12-14T09:01:10.587Z"
 private const val CET = "2015-12-14T10:01:10.587+01:00[Europe/Oslo]"
