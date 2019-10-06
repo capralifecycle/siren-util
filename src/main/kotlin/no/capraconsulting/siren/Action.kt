@@ -169,7 +169,7 @@ class Action private constructor(
          * @param fields A collection of fields.
          * @return builder
          */
-        fun fields(vararg fields: Field) = apply { fields(listOf(*fields)) }
+        fun fields(vararg fields: Field) = fields(listOf(*fields))
 
         /**
          * Build the [Action].
