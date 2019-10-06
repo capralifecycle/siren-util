@@ -138,6 +138,15 @@
     </profile>
   </profiles>
 
+  <pluginRepositories>
+    <!-- jcenter for Dokka -->
+    <pluginRepository>
+      <id>jcenter</id>
+      <name>JCenter</name>
+      <url>https://jcenter.bintray.com/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <build>
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
@@ -234,18 +243,16 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.1.1</version>
-        <configuration>
-          <excludePackageNames>no.capraconsulting.siren.internal.*</excludePackageNames>
-        </configuration>
+        <groupId>org.jetbrains.dokka</groupId>
+        <artifactId>dokka-maven-plugin</artifactId>
+        <version>0.9.18</version>
         <executions>
           <execution>
-            <id>attach-javadocs</id>
+            <phase>verify</phase>
             <goals>
-              <goal>jar</goal>
+              <goal>javadocJar</goal>
             </goals>
           </execution>
         </executions>

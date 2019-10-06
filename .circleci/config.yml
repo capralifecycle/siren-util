@@ -71,7 +71,7 @@ jobs:
           path: ~/repo/compat_reports
           destination: compat_reports
       - store_artifacts:
-          path: ~/repo/target/apidocs
+          path: ~/repo/target/dokkaJavadocJar
           destination: apidocs
       - store_artifacts:
           path: ~/repo/target/site/jacoco
