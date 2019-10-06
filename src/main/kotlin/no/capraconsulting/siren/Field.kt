@@ -4,14 +4,13 @@ import no.capraconsulting.siren.internal.util.asMap
 import no.capraconsulting.siren.internal.util.asNonNullStringList
 import no.capraconsulting.siren.internal.util.skipNulls
 import java.io.Serializable
-import java.util.Arrays.asList
 import java.util.Collections.emptyList
 import java.util.LinkedHashMap
 
 /**
  * Fields represent controls inside of [actions][Action].
  *
- * @see [Field specification](https://github.com/kevinswiber/siren.fields-1)
+ * **See also:** [Field specification](https://github.com/kevinswiber/siren.fields-1)
  */
 class Field private constructor(
     /**
@@ -66,9 +65,7 @@ class Field private constructor(
         }.skipNulls()
 
     /**
-     * Builder for Field.
-     *
-     * @see Field
+     * Builder for [Field].
      */
     class Builder internal constructor(private val name: String) {
 
@@ -131,9 +128,7 @@ class Field private constructor(
         fun value(value: Any?) = apply { this.value = value }
 
         /**
-         * Build.
-         *
-         * @return new Field
+         * Build the [Field].
          */
         // TODO: Ensure immutability
         fun build(): Field = Field(name, clazz, type, title, value)
@@ -166,6 +161,7 @@ class Field private constructor(
         FILE("file")
     }
 
+    /** @suppress */
     companion object {
         private const val serialVersionUID = -4600180928453411445L
 

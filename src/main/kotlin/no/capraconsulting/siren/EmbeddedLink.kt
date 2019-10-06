@@ -8,11 +8,10 @@ import java.util.LinkedHashMap
 /**
  * Represents an embedded sub-entity that contains a URI link.
  *
+ * **See also:** [Embedded Link specification](https://github.com/kevinswiber/siren.embedded-link)
+ *
  * @see Embedded
- *
  * @see EmbeddedRepresentation
- *
- * @see [Embedded Link specification](https://github.com/kevinswiber/siren.embedded-link)
  */
 class EmbeddedLink private constructor(
     clazz: List<String>?,
@@ -48,9 +47,7 @@ class EmbeddedLink private constructor(
         }.skipNulls()
 
     /**
-     * Builder for EmbeddedLink.
-     *
-     * @see EmbeddedLink
+     * Builder for [EmbeddedLink].
      */
     class Builder internal constructor(private val rel: List<String>, private val href: URI) {
         private var clazz: List<String>? = null
@@ -93,14 +90,13 @@ class EmbeddedLink private constructor(
         fun title(title: String?) = apply { this.title = title }
 
         /**
-         * Build.
-         *
-         * @return new EmbeddedLink
+         * Build the [EmbeddedLink].
          */
         // TODO: Ensure immutability
         fun build(): EmbeddedLink = EmbeddedLink(clazz, rel, href, type, title)
     }
 
+    /** @suppress */
     companion object {
         private const val serialVersionUID = 7663303509287365613L
 

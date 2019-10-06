@@ -256,6 +256,11 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <outputFormat>javadoc</outputFormat>
+          <jdkVersion>8</jdkVersion>
+          <reportNotDocumented>false</reportNotDocumented>
+        </configuration>
       </plugin>
 
       <!-- minimum Maven version requirement -->

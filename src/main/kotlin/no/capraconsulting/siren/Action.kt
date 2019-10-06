@@ -12,9 +12,9 @@ import java.util.LinkedHashMap
 
 /**
  * Actions show available behaviors an entity exposes and are used for executing state transitions.
- * Represented in JSON Siren as an array such as { "actions": [{ ... }] }
+ * Represented in JSON Siren as an array such as `{ "actions": [{ ... }] }`.
  *
- * @see [Action specification](https://github.com/kevinswiber/siren.actions-1)
+ * **See also:** [Action specification](https://github.com/kevinswiber/siren.actions-1)
  */
 class Action private constructor(
     /**
@@ -86,9 +86,7 @@ class Action private constructor(
         }.skipNulls()
 
     /**
-     * Builder for Action.
-     *
-     * @see Action
+     * Builder for [Action].
      */
     class Builder internal constructor(private val name: String, private val href: URI) {
 
@@ -174,9 +172,7 @@ class Action private constructor(
         fun fields(vararg fields: Field) = apply { fields(listOf(*fields)) }
 
         /**
-         * Build.
-         *
-         * @return new Action
+         * Build the [Action].
          */
         // TODO: Ensure immutability
         fun build() = Action(name, clazz, method, href, title, type, fields)
@@ -195,6 +191,7 @@ class Action private constructor(
         DELETE
     }
 
+    /** @suppress */
     companion object {
         private const val serialVersionUID = -8092791402843123679L
 

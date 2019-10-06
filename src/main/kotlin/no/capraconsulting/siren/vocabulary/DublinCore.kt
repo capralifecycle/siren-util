@@ -3,7 +3,7 @@ package no.capraconsulting.siren.vocabulary
 /**
  * Class provides constants related to the Dublin Core Schema.
  *
- * @see [Dublin Core](https://en.wikipedia.org/wiki/Dublin_Core)
+ * **See also:** [Dublin Core](https://en.wikipedia.org/wiki/Dublin_Core)
  */
 object DublinCore {
 

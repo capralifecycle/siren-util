@@ -3,7 +3,7 @@ package no.capraconsulting.siren
 /**
  * Class provides constants related to the Siren specification.
  *
- * @see [Siren specification](https://github.com/kevinswiber/siren.entities)
+ * **See also:** [Siren specification](https://github.com/kevinswiber/siren.entities)
  */
 object Siren {
     const val ACTIONS = "actions"
