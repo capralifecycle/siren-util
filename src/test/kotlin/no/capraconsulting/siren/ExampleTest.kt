@@ -9,7 +9,7 @@ class ExampleTest {
     /**
      * Creates the Siren example structure and tests it against the provided JSON.
      *
-     * @see [Siren example](https://github.com/kevinswiber/siren.example)
+     * **See also:** [Siren example](https://github.com/kevinswiber/siren.example)
      */
     @Test
     fun testSirenOfficialExample() {
@@ -73,7 +73,7 @@ class ExampleTest {
     /**
      * Creates the fizzbuzzaas example structure and tests it against the provided JSON.
      *
-     * @see [FizzBuzzAAS example](http://fizzbuzzaas.herokuapp.com/)
+     * **See also:** [FizzBuzzAAS example](http://fizzbuzzaas.herokuapp.com/)
      */
     @Test
     fun testFizzbuzzaasExample() {

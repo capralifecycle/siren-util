@@ -15,15 +15,12 @@ import java.util.LinkedHashMap
  * An Entity is a URI-addressable resource that has properties and actions associated with it.
  * It may contain sub-entities and navigational links.
  *
+ * **See also:** [Entity specification](https://github.com/kevinswiber/siren.entities)
+ *
  * @see Link
- *
  * @see Field
- *
  * @see Action
- *
  * @see Embedded
- *
- * @see [Entity specification](https://github.com/kevinswiber/siren.entities)
  */
 class Root private constructor(
     private val _clazz: List<String>?,
@@ -42,29 +39,19 @@ class Root private constructor(
     /**
      * The first class of the entity.
      *
-     *
      * Only use this if you have full control over the Siren document as there is no guarantee
      * what will come first when having multiple class values.
-     *
-     * @return string or null if missing
-     * @see .getClazz
      */
     val firstClass: String? get() = _clazz?.firstOrNull()
 
     /**
      * Entities which are embedded links.
-     *
-     * @return list
-     * @see .getEntities
      */
     val embeddedLinks: List<EmbeddedLink>
         get() = _entities?.filterIsInstance<EmbeddedLink>() ?: emptyList()
 
     /**
      * Entities which are embedded representations.
-     *
-     * @return list
-     * @see .getEntities
      */
     val embeddedRepresentations: List<EmbeddedRepresentation>
         get() = _entities?.filterIsInstance<EmbeddedRepresentation>() ?: emptyList()
@@ -110,9 +97,7 @@ class Root private constructor(
     /**
      * Generate a JSON string representation of this entity.
      *
-     *
      * The value will be contained in a single line.
-     *
      *
      * The representation will be idempotent unless some special user data
      * is used as properties that does not guarantee ordering.
@@ -123,7 +108,6 @@ class Root private constructor(
 
     /**
      * Generate a representation of this entity by using generic java objects such as Map and List.
-     *
      *
      * Attributes in the Siren specific structure that are null is not included as it covers optional data.
      *
@@ -140,9 +124,7 @@ class Root private constructor(
         }.skipNulls()
 
     /**
-     * Builder for Root.
-     *
-     * @see Root
+     * Builder for [Root].
      */
     class Builder internal constructor() {
         private var clazz: List<String>? = null
@@ -237,26 +219,22 @@ class Root private constructor(
         fun actions(vararg actions: Action) = actions(listOf(*actions))
 
         /**
-         * Build.
-         *
-         * @return new Root
+         * Build the [Root].
          */
         // TODO: Ensure immutability
         fun build() = Root(clazz, title, properties, links, entities, actions)
     }
 
+    /** @suppress */
     companion object {
         private const val serialVersionUID = -6380321936545122329L
 
         /**
          * Create a Root by generic java objects such as Map and List.
          *
-         *
-         * This is effectively the inverse of {[.toRaw]}.
-         *
+         * This is effectively the inverse of [Root.toRaw].
          *
          * If extra attributes not specified in the Siren specification is included they will be discarded.
-         *
          *
          * Prefer using the builder instead of this to produce more readable code and avoid data loss.
          *
@@ -276,7 +254,6 @@ class Root private constructor(
 
         /**
          * Create a Root by parsing a JSON value that follows the Siren specification.
-         *
          *
          * If extra attributes not specified in the Siren specification is present in the JSON value it will be discarded.
          *

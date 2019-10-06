@@ -10,11 +10,10 @@ import java.util.LinkedHashMap
  * Embedded sub-entity representations retain all the characteristics of a [standard entity][Root],
  * but MUST also contain a rel attribute describing the relationship of the sub-entity to its parent.
  *
+ * **See also:** [Embedded Representation specification](https://github.com/kevinswiber/siren.embedded-representation)
+ *
  * @see Embedded
- *
  * @see EmbeddedLink
- *
- * @see [Embedded Representation specification](https://github.com/kevinswiber/siren.embedded-representation)
  */
 class EmbeddedRepresentation private constructor(
     clazz: List<String>?,
@@ -32,19 +31,13 @@ class EmbeddedRepresentation private constructor(
 ) : Embedded(clazz, rel), Serializable {
 
     /**
-     * Entities which are embedded links.
-     *
-     * @return list of embedded links
-     * @see .getEntities
+     * Entities which are of type [EmbeddedLink].
      */
     val embeddedLinks: List<EmbeddedLink>
         get() = _entities?.filterIsInstance<EmbeddedLink>() ?: emptyList()
 
     /**
-     * Entities which are embedded representations.
-     *
-     * @return list of embedded representations
-     * @see .getEntities
+     * Entities which are of type [EmbeddedRepresentation].
      */
     val embeddedRepresentations: List<EmbeddedRepresentation>
         get() = _entities?.filterIsInstance<EmbeddedRepresentation>() ?: emptyList()
@@ -90,9 +83,7 @@ class EmbeddedRepresentation private constructor(
         }.skipNulls()
 
     /**
-     * Builder for EmbeddedRepresentation.
-     *
-     * @see EmbeddedRepresentation
+     * Builder for [EmbeddedRepresentation].
      */
     class Builder internal constructor(private val rel: List<String>) {
         private var clazz: List<String>? = null
@@ -187,31 +178,28 @@ class EmbeddedRepresentation private constructor(
         fun actions(vararg actions: Action) = actions(listOf(*actions))
 
         /**
-         * Build.
-         *
-         * @return new EmbeddedRepresentation
+         * Build the [EmbeddedRepresentation].
          */
         // TODO: Ensure immutability
         fun build() = EmbeddedRepresentation(clazz, title, rel, properties, links, entities, actions)
     }
 
+    /** @suppress */
     companion object {
         private const val serialVersionUID = 82962202068591847L
 
         /**
-         * Create a new builder using the required attributes.
+         * Create a new [Builder] using the required attributes.
          *
          * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899).
-         * @return a new builder
          */
         @JvmStatic
         fun newBuilder(rel: List<String>): Builder = Builder(rel)
 
         /**
-         * Create a new builder using the required attributes.
+         * Create a new [Builder] using the required attributes.
          *
          * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899).
-         * @return a new builder
          */
         @JvmStatic
         fun newBuilder(rel: String): Builder = Builder(listOf(rel))

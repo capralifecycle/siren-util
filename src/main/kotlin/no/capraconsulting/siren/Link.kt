@@ -6,16 +6,15 @@ import no.capraconsulting.siren.internal.util.skipNulls
 import java.io.Serializable
 import java.net.URI
 import java.net.URISyntaxException
-import java.util.Arrays.asList
 import java.util.Collections.emptyList
 import java.util.LinkedHashMap
 
 /**
  * Links represent navigational transitions in the Siren specification.
  * In JSON Siren, links are represented as an array inside the entity,
- * such as { "links": [{ "rel": [ "self" ], "href": "http://api.x.io/orders/42"}] }
+ * such as `{ "links": [{ "rel": [ "self" ], "href": "http://api.x.io/orders/42"}] }`.
  *
- * @see [Link specification](https://github.com/kevinswiber/siren.links-1)
+ * **See also:** [Link specification](https://github.com/kevinswiber/siren.links-1)
  */
 class Link private constructor(
     private val _clazz: List<String>?,
@@ -53,9 +52,6 @@ class Link private constructor(
      *
      * Only use this method if you have full control over the Siren document as there is no guarantee
      * what will come first when having multiple rel values.
-     *
-     * @return string or null if missing
-     * @see .getRel
      */
     val firstRel: String get() = rel[0]
 
@@ -64,9 +60,6 @@ class Link private constructor(
      *
      * Only use this if you have full control over the Siren document as there is no guarantee
      * what will come first when having multiple class values.
-     *
-     * @return string or null if missing
-     * @see .getClazz
      */
     val firstClass: String? get() = _clazz?.firstOrNull()
 
@@ -88,9 +81,7 @@ class Link private constructor(
         }.skipNulls()
 
     /**
-     * Builder for Link.
-     *
-     * @see Link
+     * Builder for [Link].
      */
     class Builder internal constructor(private val rel: List<String>, private val href: URI) {
         private var clazz: List<String>? = null
@@ -133,14 +124,13 @@ class Link private constructor(
         fun type(type: String?) = apply { this.type = type }
 
         /**
-         * Build.
-         *
-         * @return new Link
+         * Build the [Link].
          */
         // TODO: Ensure immutability
         fun build() = Link(clazz, title, rel, href, type)
     }
 
+    /** @suppress */
     companion object {
         private const val serialVersionUID = -5250035724727313356L
 
