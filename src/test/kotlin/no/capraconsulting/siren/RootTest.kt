@@ -6,6 +6,7 @@ import no.capraconsulting.siren.internal.getResource
 import no.capraconsulting.siren.internal.parseAndVerifyRootStrict
 import no.capraconsulting.siren.internal.util.asList
 import no.capraconsulting.siren.internal.util.asMap
+import no.capraconsulting.siren.internal.verifyRoot
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -231,5 +232,48 @@ class RootTest {
             outputJson,
             true
         )
+    }
+
+    @Test
+    fun testEmptyListExcluded() {
+        val inputJson = getResource("RootTest.WithEmptyElements.siren.json")
+        val root = Root.fromJson(inputJson)
+
+        verifyRoot("RootTest.WithEmptyElements.out.siren.json", root)
+    }
+
+    @Test
+    fun testEquality() {
+        val doc = getResource("RootTest.Example1.siren.json")
+        val other = getResource("LinkTest.siren.json")
+
+        val root1 = Root.fromJson(doc)
+        val root2 = Root.fromJson(doc) // Read again to force other instances.
+        val root3 = Root.fromJson(other) // Other doc should never equal.
+
+        // Modify a field.
+        val root4 = root1.copy(
+            title = "Some other title"
+        )
+
+        // Modify contents of properties so it is not the same.
+        val root5 = root1.copy(
+            properties = LinkedHashMap(root1.properties).apply {
+                set("custom", "value")
+            }
+        )
+
+        // Remove field again so it moves forward to be the same as before.
+        val root6 = root5.copy(
+            properties = LinkedHashMap(root5.properties).apply {
+                remove("custom")
+            }
+        )
+
+        assertEquals(root1, root2)
+        assertNotEquals(root1, root3)
+        assertNotEquals(root1, root4)
+        assertNotEquals(root1, root5)
+        assertEquals(root1, root6)
     }
 }

@@ -1,0 +1,16 @@
+{
+  "class": [
+    "city"
+  ],
+  "entities": [],
+  "links": [
+    {
+      "class": [],
+      "rel": [
+        "self"
+      ],
+      "href": "http://localhost:8080/"
+    }
+  ],
+  "properties": {}
+}

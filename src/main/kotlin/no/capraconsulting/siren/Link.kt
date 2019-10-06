@@ -15,24 +15,37 @@ import no.capraconsulting.siren.internal.util.skipNulls
  * `{ "links": [{ "rel": [ "self" ], "href": "http://api.x.io/orders/42"}] }`.
  *
  * **See also:** [Link specification](https://github.com/kevinswiber/siren.links-1)
+ *
+ * Prefer using [newBuilder] to create a new instance instead of using the
+ * constructor, as the constructor has some relaxed checking which should
+ * only be used when deserializing an existing representation.
  */
-class Link private constructor(
-    private val _clazz: List<String>?,
+data class Link(
+    /**
+     * Describes aspects of the link based on the current representation.
+     * Possible values are implementation-dependent and should be documented.
+     *
+     * An empty list will be excluded during serialization to JSON as this
+     * element is optional.
+     *
+     * @return the value of class attribute
+     */
+    val clazz: List<String> = emptyList(),
     /**
      * Text describing the nature of a link.
      *
      * @return the value of title attribute
      */
-    val title: String?,
+    val title: String? = null,
     /**
      * Defines the relationship of the link to its entity, per Web
-     * Linking (RFC5988).
+     * Linking (RFC5988). Required.
      *
      * @return the value of rel attribute
      */
     val rel: List<String>,
     /**
-     * The URI of the linked resource.
+     * The URI of the linked resource. Required.
      *
      * @return the value of href attribute
      */
@@ -44,7 +57,7 @@ class Link private constructor(
      *
      * @return the value of type attribute
      */
-    val type: String?
+    val type: String? = null
 ) : Serializable {
 
     /**
@@ -65,21 +78,13 @@ class Link private constructor(
      * Only use this if you have full control over the Siren document as there
      * is no guarantee what will come first when having multiple class values.
      */
-    val firstClass: String? get() = _clazz?.firstOrNull()
-
-    /**
-     * Describes aspects of the link based on the current representation.
-     * Possible values are implementation-dependent and should be documented.
-     *
-     * @return the value of class attribute or an empty list if it is missing
-     */
-    val clazz: List<String> get() = _clazz ?: emptyList()
+    val firstClass: String? get() = clazz.firstOrNull()
 
     internal fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
-            this[Siren.CLASS] = _clazz
+            this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
             this[Siren.TITLE] = title
-            this[Siren.REL] = rel
+            this[Siren.REL] = if (rel.isEmpty()) null else rel
             this[Siren.HREF] = href
             this[Siren.TYPE] = type
         }.skipNulls()
@@ -88,7 +93,7 @@ class Link private constructor(
      * Builder for [Link].
      */
     class Builder internal constructor(private val rel: List<String>, private val href: URI) {
-        private var clazz: List<String>? = null
+        private var clazz: List<String> = emptyList()
         private var title: String? = null
         private var type: String? = null
 
@@ -108,7 +113,7 @@ class Link private constructor(
          * should be documented.
          * @return builder
          */
-        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
+        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz ?: emptyList() }
 
         /**
          * Add value for class.
@@ -134,7 +139,13 @@ class Link private constructor(
          * Build the [Link].
          */
         // TODO: Ensure immutability
-        fun build() = Link(clazz, title, rel, href, type)
+        fun build() = Link(
+            clazz = clazz,
+            title = title,
+            rel = rel,
+            href = href,
+            type = type
+        )
     }
 
     /** @suppress */
@@ -150,15 +161,13 @@ class Link private constructor(
                 throw IllegalArgumentException(String.format("Invalid %s in Link", Siren.HREF), e)
             }
 
-        private fun fromRaw(map: Map<String, Any?>): Link = Link
-            .newBuilder(
-                map.getValue(Siren.REL)!!.asNonNullStringList(),
-                parseHref(map[Siren.HREF].toString())
-            )
-            .title(map[Siren.TITLE] as String?)
-            .clazz(map[Siren.CLASS]?.asNonNullStringList())
-            .type(map[Siren.TYPE] as String?)
-            .build()
+        private fun fromRaw(map: Map<String, Any?>): Link = Link(
+            clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList(),
+            title = map[Siren.TITLE] as String?,
+            rel = map.getValue(Siren.REL)!!.asNonNullStringList(),
+            href = parseHref(map[Siren.HREF].toString()),
+            type = map[Siren.TYPE] as String?
+        )
 
         /**
          * Create a new builder using the required attributes.

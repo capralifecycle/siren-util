@@ -16,20 +16,28 @@ import no.capraconsulting.siren.internal.util.skipNulls
  * `{ "actions": [{ ... }] }`.
  *
  * **See also:** [Action specification](https://github.com/kevinswiber/siren.actions-1)
+ *
+ * Prefer using [newBuilder] to create a new instance instead of using the
+ * constructor, as the constructor has some relaxed checking which should
+ * only be used when deserializing an existing representation.
  */
-class Action private constructor(
+data class Action(
     /**
      * A string that identifies the action to be performed. Action names MUST be
      * unique within the set of actions for an entity. The behaviour of clients
      * when parsing a Siren document that violates this constraint is undefined.
+     * Required.
      *
      * @return the value of name attribute
      */
     val name: String,
     /**
-     * class
+     * Describes the nature of an action based on the current representation.
+     * Possible values are implementation-dependent and should be documented.
+     *
+     * @return the value of class attribute or an empty list if it is missing
      */
-    private val _clazz: List<String>?,
+    val clazz: List<String> = emptyList(),
     /**
      * An enumerated attribute mapping to a protocol method. For HTTP, these
      * values may be GET, PUT, POST, DELETE, or PATCH. As new methods are
@@ -38,9 +46,9 @@ class Action private constructor(
      *
      * @return the value of method attribute
      */
-    val method: String?,
+    val method: String? = null,
     /**
-     * The URI of the action.
+     * The URI of the action. Required.
      *
      * @return the value of href attribute
      */
@@ -50,57 +58,42 @@ class Action private constructor(
      *
      * @return the value of title attribute
      */
-    val title: String?,
+    val title: String? = null,
     /**
      * The encoding type for the request. When omitted and the fields attribute
      * exists, the default value is `application/x-www-form-urlencoded`.
      *
      * @return the value of type attribute
      */
-    val type: String?,
-    private val _fields: List<Field>?
-) : Serializable {
-
-    /**
-     * Describes the nature of an action based on the current representation.
-     * Possible values are implementation-dependent and should be documented.
-     *
-     * @return the value of class attribute or an empty list if it is missing
-     */
-    val clazz: List<String> get() = _clazz ?: emptyList()
-
+    val type: String? = null,
     /**
      * A collection of fields.
      *
      * @return the value of fields attribute or an empty list if it is missing
      */
-    val fields: List<Field> get() = _fields ?: emptyList()
+    val fields: List<Field> = emptyList()
+) : Serializable {
 
     internal fun toRaw(): Map<String, Any?> =
         LinkedHashMap<String, Any?>().apply {
             this[Siren.NAME] = name
             this[Siren.TITLE] = title
-            this[Siren.CLASS] = _clazz
+            this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
             this[Siren.METHOD] = method
             this[Siren.HREF] = href
             this[Siren.TYPE] = type
-            this[Siren.FIELDS] = _fields?.map(Field::toRaw)
+            this[Siren.FIELDS] = if (fields.isEmpty()) null else fields.map(Field::toRaw)
         }.skipNulls()
 
     /**
      * Builder for [Action].
      */
     class Builder internal constructor(private val name: String, private val href: URI) {
-
-        /**
-         * class
-         */
-        private var clazz: List<String>? = null
-
+        private var clazz: List<String> = emptyList()
         private var method: String? = null
         private var title: String? = null
         private var type: String? = null
-        private var fields: List<Field>? = null
+        private var fields: List<Field> = emptyList()
 
         /**
          * Set value for class.
@@ -110,7 +103,7 @@ class Action private constructor(
          * should be documented.
          * @return builder
          */
-        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
+        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz ?: emptyList() }
 
         /**
          * Set value for class.
@@ -168,7 +161,7 @@ class Action private constructor(
          * @param fields A collection of fields.
          * @return builder
          */
-        fun fields(fields: List<Field>?) = apply { this.fields = fields }
+        fun fields(fields: List<Field>?) = apply { this.fields = fields ?: emptyList() }
 
         /**
          * Set value for fields.
@@ -182,7 +175,15 @@ class Action private constructor(
          * Build the [Action].
          */
         // TODO: Ensure immutability
-        fun build() = Action(name, clazz, method, href, title, type, fields)
+        fun build() = Action(
+            name = name,
+            clazz = clazz,
+            method = method,
+            href = href,
+            title = title,
+            type = type,
+            fields = fields
+        )
     }
 
     /**
@@ -212,17 +213,15 @@ class Action private constructor(
                 throw IllegalArgumentException(String.format("Invalid %s in Action", Siren.HREF), e)
             }
 
-        private fun fromRaw(map: Map<String, Any?>): Action = Action
-            .newBuilder(
-                map[Siren.NAME] as String,
-                parseHref(map[Siren.HREF].toString())
-            )
-            .clazz(map[Siren.CLASS]?.asNonNullStringList())
-            .method(map[Siren.METHOD] as String?)
-            .title(map[Siren.TITLE] as String?)
-            .type(map[Siren.TYPE] as String?)
-            .fields(map[Siren.FIELDS]?.asList()?.map { Field.fromRaw(it) })
-            .build()
+        private fun fromRaw(map: Map<String, Any?>): Action = Action(
+            name = map[Siren.NAME] as String,
+            clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList(),
+            method = map[Siren.METHOD] as String?,
+            title = map[Siren.TITLE] as String?,
+            href = parseHref(map[Siren.HREF].toString()),
+            type = map[Siren.TYPE] as String?,
+            fields = map[Siren.FIELDS]?.asList()?.map { Field.fromRaw(it) } ?: emptyList()
+        )
 
         /**
          * Create a new builder using the required attributes.

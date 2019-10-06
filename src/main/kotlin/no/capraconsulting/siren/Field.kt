@@ -11,57 +11,55 @@ import no.capraconsulting.siren.internal.util.skipNulls
  * Fields represent controls inside of [actions][Action].
  *
  * **See also:** [Field specification](https://github.com/kevinswiber/siren.fields-1)
+ *
+ * Prefer using [newBuilder] to create a new instance instead of using the
+ * constructor, as the constructor has some relaxed checking which should
+ * only be used when deserializing an existing representation.
  */
-class Field private constructor(
+data class Field(
     /**
      * A name describing the control. Field names MUST be unique within the set
      * of fields for an action. The behaviour of clients when parsing a Siren
-     * document that violates this constraint is undefined.
+     * document that violates this constraint is undefined. Required.
      *
      * @return the value of name attribute
      */
     val name: String,
-    /**
-     * class
-     */
-    private val _clazz: List<String>?,
-    /**
-     * The input type of the field. This is a subset of the input types
-     * specified by HTML5.
-     *
-     * @return the value of type attribute
-     */
-    val type: String?,
-    /**
-     * Textual annotation of a field. Clients may use this as a label.
-     *
-     * @return the value of title attribute
-     */
-    val title: String?,
-    /**
-     * See spec for special values.
-     */
-    /**
-     * A value assigned to the field. May be a scalar value or a list of value
-     * objects.
-     *
-     * @return the value of value attribute
-     */
-    val value: Any?
-) : Serializable {
-
     /**
      * Describes aspects of the field based on the current representation.
      * Possible values are implementation-dependent and should be documented.
      *
      * @return the value of class attribute or an empty list if it is missing
      */
-    val clazz: List<String> get() = _clazz ?: emptyList()
+    val clazz: List<String> = emptyList(),
+    /**
+     * The input type of the field. This is a subset of the input types
+     * specified by HTML5.
+     *
+     * @return the value of type attribute
+     */
+    val type: String? = null,
+    /**
+     * Textual annotation of a field. Clients may use this as a label.
+     *
+     * @return the value of title attribute
+     */
+    val title: String? = null,
+    /**
+     * A value assigned to the field. May be a scalar value or a list of value
+     * objects.
+     *
+     * See specification for special values.
+     *
+     * @return the value of value attribute
+     */
+    val value: Any? = null
+) : Serializable {
 
     internal fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
             this[Siren.NAME] = name
-            this[Siren.CLASS] = _clazz
+            this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
             this[Siren.TYPE] = type
             this[Siren.TITLE] = title
             this[Siren.VALUE] = value
@@ -71,12 +69,7 @@ class Field private constructor(
      * Builder for [Field].
      */
     class Builder internal constructor(private val name: String) {
-
-        /**
-         * class
-         */
-        private var clazz: List<String>? = null
-
+        private var clazz: List<String> = emptyList()
         private var type: String? = null
         private var title: String? = null
         private var value: Any? = null
@@ -89,7 +82,7 @@ class Field private constructor(
          * should be documented.
          * @return builder
          */
-        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
+        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz ?: emptyList() }
 
         /**
          * Set value for class.
@@ -140,7 +133,13 @@ class Field private constructor(
          * Build the [Field].
          */
         // TODO: Ensure immutability
-        fun build(): Field = Field(name, clazz, type, title, value)
+        fun build() = Field(
+            name = name,
+            clazz = clazz,
+            type = type,
+            title = title,
+            value = value
+        )
     }
 
     enum class Type constructor(
@@ -176,13 +175,13 @@ class Field private constructor(
 
         internal fun fromRaw(map: Any?): Field = fromRaw(map!!.asMap())
 
-        private fun fromRaw(map: Map<String, Any?>): Field = Field
-            .newBuilder(map[Siren.NAME] as String)
-            .clazz(map[Siren.CLASS]?.asNonNullStringList())
-            .type(map[Siren.TYPE] as String?)
-            .title(map[Siren.TITLE] as String?)
-            .value(map[Siren.VALUE])
-            .build()
+        private fun fromRaw(map: Map<String, Any?>): Field = Field(
+            name = map[Siren.NAME] as String,
+            clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList(),
+            type = map[Siren.TYPE] as String?,
+            title = map[Siren.TITLE] as String?,
+            value = map[Siren.VALUE]
+        )
 
         /**
          * Create a new builder using the required attributes.

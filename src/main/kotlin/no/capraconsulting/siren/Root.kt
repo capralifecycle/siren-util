@@ -21,49 +21,33 @@ import no.capraconsulting.siren.internal.util.skipNulls
  * @see Field
  * @see Action
  * @see Embedded
+ *
+ * Prefer using [newBuilder] to create a new instance instead of using the
+ * constructor, as the constructor has some relaxed checking which should
+ * only be used when deserializing an existing representation.
  */
-class Root private constructor(
-    private val _clazz: List<String>?,
+data class Root(
+    /**
+     * Describes the nature of an entity's content based on the current
+     * representation. Possible values are implementation-dependent and should
+     * be documented.
+     *
+     * @return the value of class attribute or an empty list if it is missing
+     */
+    val clazz: List<String> = emptyList(),
     /**
      * Descriptive text about the entity.
      *
      * @return the value of title attribute
      */
-    val title: String?,
-    private val _properties: Map<String, Any?>?,
-    private val _links: List<Link>?,
-    private val _entities: List<Embedded>?,
-    private val _actions: List<Action>?
-) : Serializable {
-
+    val title: String? = null,
     /**
-     * The first class of the entity.
+     * A set of key-value pairs that describe the state of an entity.
      *
-     * Only use this if you have full control over the Siren document as there
-     * is no guarantee what will come first when having multiple class values.
-     */
-    val firstClass: String? get() = _clazz?.firstOrNull()
-
-    /**
-     * Entities which are embedded links.
-     */
-    val embeddedLinks: List<EmbeddedLink>
-        get() = _entities?.filterIsInstance<EmbeddedLink>() ?: emptyList()
-
-    /**
-     * Entities which are embedded representations.
-     */
-    val embeddedRepresentations: List<EmbeddedRepresentation>
-        get() = _entities?.filterIsInstance<EmbeddedRepresentation>() ?: emptyList()
-
-    /**
-     * A collection of related sub-entities.
-     *
-     * @return the value of entities attribute or an empty list if it is
+     * @return the value of properties attribute or an empty map if it is
      * missing
      */
-    val entities: List<Embedded> get() = _entities ?: emptyList()
-
+    val properties: Map<String, Any?> = emptyMap(),
     /**
      * A collection of items that describe navigational links, distinct from
      * entity relationships. Link items should contain a `rel` attribute to
@@ -72,32 +56,42 @@ class Root private constructor(
      *
      * @return the value of links attribute or an empty list if it is missing
      */
-    val links: List<Link> get() = _links ?: emptyList()
-
+    val links: List<Link> = emptyList(),
     /**
-     * A set of key-value pairs that describe the state of an entity.
+     * A collection of related sub-entities.
      *
-     * @return the value of properties attribute or an empty map if it is
+     * @return the value of entities attribute or an empty list if it is
      * missing
      */
-    val properties: Map<String, Any?> get() = _properties ?: emptyMap()
-
-    /**
-     * Describes the nature of an entity's content based on the current
-     * representation. Possible values are implementation-dependent and should
-     * be documented.
-     *
-     * @return the value of class attribute or an empty list if it is missing
-     */
-    val clazz: List<String> get() = _clazz ?: emptyList()
-
+    val entities: List<Embedded> = emptyList(),
     /**
      * A collection of actions; actions show available behaviors an entity
      * exposes.
      *
      * @return the value of actions attribute or an empty list if it is missing
      */
-    val actions: List<Action> get() = _actions ?: emptyList()
+    val actions: List<Action> = emptyList()
+) : Serializable {
+
+    /**
+     * The first class of the entity.
+     *
+     * Only use this if you have full control over the Siren document as there
+     * is no guarantee what will come first when having multiple class values.
+     */
+    val firstClass: String? get() = clazz.firstOrNull()
+
+    /**
+     * Entities which are embedded links.
+     */
+    val embeddedLinks: List<EmbeddedLink>
+        get() = entities.filterIsInstance<EmbeddedLink>()
+
+    /**
+     * Entities which are embedded representations.
+     */
+    val embeddedRepresentations: List<EmbeddedRepresentation>
+        get() = entities.filterIsInstance<EmbeddedRepresentation>()
 
     /**
      * Generate a JSON string representation of this entity.
@@ -116,30 +110,31 @@ class Root private constructor(
      * such as Map and List.
      *
      * Attributes in the Siren specific structure that are null is not included
-     * as it covers optional data.
+     * as it covers optional data. Attributes that is an empty list of empty
+     * map is treated as null and not included.
      *
      * @return object
      */
     fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
-            this[Siren.CLASS] = _clazz
+            this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
             this[Siren.TITLE] = title
-            this[Siren.PROPERTIES] = _properties
-            this[Siren.ENTITIES] = _entities?.map(Embedded::toRaw)
-            this[Siren.ACTIONS] = _actions?.map(Action::toRaw)
-            this[Siren.LINKS] = _links?.map(Link::toRaw)
+            this[Siren.PROPERTIES] = if (properties.isEmpty()) null else properties
+            this[Siren.ENTITIES] = if (entities.isEmpty()) null else entities.map(Embedded::toRaw)
+            this[Siren.ACTIONS] = if (actions.isEmpty()) null else actions.map(Action::toRaw)
+            this[Siren.LINKS] = if (links.isEmpty()) null else links.map(Link::toRaw)
         }.skipNulls()
 
     /**
      * Builder for [Root].
      */
     class Builder internal constructor() {
-        private var clazz: List<String>? = null
+        private var clazz: List<String> = emptyList()
         private var title: String? = null
-        private var properties: Map<String, Any?>? = null
-        private var links: List<Link>? = null
-        private var entities: List<Embedded>? = null
-        private var actions: List<Action>? = null
+        private var properties: Map<String, Any?> = emptyMap()
+        private var links: List<Link> = emptyList()
+        private var entities: List<Embedded> = emptyList()
+        private var actions: List<Action> = emptyList()
 
         /**
          * Set value for class.
@@ -149,7 +144,7 @@ class Root private constructor(
          * implementation-dependent and should be documented.
          * @return builder
          */
-        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
+        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz ?: emptyList() }
 
         /**
          * Set value for class.
@@ -176,7 +171,8 @@ class Root private constructor(
          * of an entity.
          * @return builder
          */
-        fun properties(properties: Map<String, Any?>?) = apply { this.properties = properties }
+        fun properties(properties: Map<String, Any?>?) =
+            apply { this.properties = properties ?: emptyMap() }
 
         /**
          * Set value for links.
@@ -186,7 +182,7 @@ class Root private constructor(
          * a link `rel` to `self`.
          * @return builder
          */
-        fun links(links: List<Link>?) = apply { this.links = links }
+        fun links(links: List<Link>?) = apply { this.links = links ?: emptyList() }
 
         /**
          * Set value for links.
@@ -204,7 +200,8 @@ class Root private constructor(
          * @param entities A collection of related sub-entities.
          * @return builder
          */
-        fun entities(entities: List<Embedded>?) = apply { this.entities = entities }
+        fun entities(entities: List<Embedded>?) =
+            apply { this.entities = entities ?: emptyList() }
 
         /**
          * Set value for entities.
@@ -221,7 +218,8 @@ class Root private constructor(
          * behaviors an entity exposes.
          * @return builder
          */
-        fun actions(actions: List<Action>?) = apply { this.actions = actions }
+        fun actions(actions: List<Action>?) =
+            apply { this.actions = actions ?: emptyList() }
 
         /**
          * Set value for actions.
@@ -236,7 +234,14 @@ class Root private constructor(
          * Build the [Root].
          */
         // TODO: Ensure immutability
-        fun build() = Root(clazz, title, properties, links, entities, actions)
+        fun build() = Root(
+            clazz = clazz,
+            title = title,
+            properties = properties,
+            links = links,
+            entities = entities,
+            actions = actions
+        )
     }
 
     /** @suppress */
@@ -258,15 +263,14 @@ class Root private constructor(
          * @return a new Root
          */
         @JvmStatic
-        fun fromRaw(map: Map<String, Any?>): Root = Root
-            .newBuilder()
-            .clazz(map[Siren.CLASS]?.asNonNullStringList())
-            .title(map[Siren.TITLE] as String?)
-            .properties(map[Siren.PROPERTIES]?.asMap())
-            .links(map[Siren.LINKS]?.asList()?.map { Link.fromRaw(it) })
-            .entities(map[Siren.ENTITIES]?.asList()?.map { Embedded.fromRaw(it) })
-            .actions(map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) })
-            .build()
+        fun fromRaw(map: Map<String, Any?>): Root = Root(
+            clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList(),
+            title = map[Siren.TITLE] as String?,
+            properties = map[Siren.PROPERTIES]?.asMap() ?: emptyMap(),
+            links = map[Siren.LINKS]?.asList()?.map { Link.fromRaw(it) } ?: emptyList(),
+            entities = map[Siren.ENTITIES]?.asList()?.map { Embedded.fromRaw(it) } ?: emptyList(),
+            actions = map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) } ?: emptyList()
+        )
 
         /**
          * Create a Root by parsing a JSON value that follows the Siren

@@ -16,19 +16,9 @@ import no.capraconsulting.siren.internal.util.asNonNullStringList
  *
  * **See also:** [Sub-entity specification](https://github.com/kevinswiber/siren.sub-entities)
  */
-abstract class Embedded protected constructor(
-    /**
-     * class
-     */
-    protected val _clazz: List<String>?,
-    /**
-     * Defines the relationship of the sub-entity to its parent, per Web
-     * Linking (RFC5899).
-     *
-     * @return the value of rel attribute
-     */
-    val rel: List<String>
-) : Serializable {
+abstract class Embedded : Serializable {
+    abstract val clazz: List<String>
+    abstract val rel: List<String>
 
     /**
      * The first rel of the entity.
@@ -40,8 +30,7 @@ abstract class Embedded protected constructor(
      * there is no guarantee what will come first when having multiple rel
      * values.
      */
-    val firstRel: String
-        get() = rel[0]
+    val firstRel: String get() = rel[0]
 
     /**
      * The first class of the entity.
@@ -49,17 +38,7 @@ abstract class Embedded protected constructor(
      * Only use this if you have full control over the Siren document as there
      * is no guarantee what will come first when having multiple class values.
      */
-    val firstClass: String?
-        get() = _clazz?.firstOrNull()
-
-    /**
-     * Describes the nature of an entity's content based on the current
-     * representation. Possible values are implementation-dependent and should
-     * be documented.
-     *
-     * @return the value of class attribute or an empty list if it is missing
-     */
-    val clazz: List<String> get() = _clazz ?: emptyList()
+    val firstClass: String? get() = clazz.firstOrNull()
 
     internal abstract fun toRaw(): Map<String, Any>
 
@@ -80,28 +59,29 @@ abstract class Embedded protected constructor(
             }
 
         private fun fromRaw(map: Map<String, Any?>): Embedded {
-            val clazz = map[Siren.CLASS]?.asNonNullStringList()
+            val clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList()
             val rel = map.getValue(Siren.REL)!!.asNonNullStringList()
 
-            if (map[Siren.HREF] != null) {
-                val href = parseHref(map[Siren.HREF].toString())
-                return EmbeddedLink
-                    .newBuilder(rel, href)
-                    .clazz(clazz)
-                    .type(map[Siren.TYPE] as String?)
-                    .title(map[Siren.TITLE] as String?)
-                    .build()
+            return if (map[Siren.HREF] != null) {
+                EmbeddedLink(
+                    clazz = clazz,
+                    rel = rel,
+                    href = parseHref(map[Siren.HREF].toString()),
+                    type = map[Siren.TYPE] as String?,
+                    title = map[Siren.TITLE] as String?
+                )
+            } else {
+                EmbeddedRepresentation(
+                    clazz = clazz,
+                    title = map[Siren.TITLE] as String?,
+                    rel = rel,
+                    properties = map[Siren.PROPERTIES]?.asMap() ?: emptyMap(),
+                    links = map[Siren.LINKS]?.asList()?.map { Link.fromRaw(it) } ?: emptyList(),
+                    entities = map[Siren.ENTITIES]?.asList()?.map { fromRaw(it) } ?: emptyList(),
+                    actions = map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) }
+                        ?: emptyList()
+                )
             }
-
-            return EmbeddedRepresentation
-                .newBuilder(rel)
-                .clazz(clazz)
-                .title(map[Siren.TITLE] as String?)
-                .properties(map[Siren.PROPERTIES]?.asMap())
-                .links(map[Siren.LINKS]?.asList()?.map { Link.fromRaw(it) })
-                .entities(map[Siren.ENTITIES]?.asList()?.map { fromRaw(it) })
-                .actions(map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) })
-                .build()
         }
     }
 }

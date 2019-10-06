@@ -2,6 +2,7 @@ package no.capraconsulting.siren
 
 import java.io.Serializable
 import java.net.URI
+import java.util.Collections
 import java.util.LinkedHashMap
 import no.capraconsulting.siren.internal.util.skipNulls
 
@@ -12,12 +13,29 @@ import no.capraconsulting.siren.internal.util.skipNulls
  *
  * @see Embedded
  * @see EmbeddedRepresentation
+ *
+ * Prefer using [newBuilder] to create a new instance instead of using the
+ * constructor, as the constructor has some relaxed checking which should
+ * only be used when deserializing an existing representation.
  */
-class EmbeddedLink private constructor(
-    clazz: List<String>?,
-    rel: List<String>,
+data class EmbeddedLink(
     /**
-     * The URI of the linked sub-entity.
+     * Describes the nature of an entity's content based on the current
+     * representation. Possible values are implementation-dependent and should
+     * be documented.
+     *
+     * @return the value of class attribute or an empty list if it is missing
+     */
+    override val clazz: List<String> = Collections.emptyList(),
+    /**
+     * Defines the relationship of the sub-entity to its parent, per Web
+     * Linking (RFC5899). Required.
+     *
+     * @return the value of rel attribute
+     */
+    override val rel: List<String>,
+    /**
+     * The URI of the linked sub-entity. Required.
      *
      * @return the value of href attribute
      */
@@ -29,19 +47,19 @@ class EmbeddedLink private constructor(
      *
      * @return the value of type attribute
      */
-    val type: String?,
+    val type: String? = null,
     /**
      * Descriptive text about the entity.
      *
      * @return the value of title attribute
      */
-    val title: String?
-) : Embedded(clazz, rel), Serializable {
+    val title: String? = null
+) : Embedded(), Serializable {
 
     override fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
-            this[Siren.CLASS] = _clazz
-            this[Siren.REL] = rel
+            this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
+            this[Siren.REL] = if (rel.isEmpty()) null else rel
             this[Siren.HREF] = href
             this[Siren.TYPE] = type
             this[Siren.TITLE] = title
@@ -51,7 +69,7 @@ class EmbeddedLink private constructor(
      * Builder for [EmbeddedLink].
      */
     class Builder internal constructor(private val rel: List<String>, private val href: URI) {
-        private var clazz: List<String>? = null
+        private var clazz: List<String> = emptyList()
         private var type: String? = null
         private var title: String? = null
 
@@ -63,7 +81,7 @@ class EmbeddedLink private constructor(
          * implementation-dependent and should be documented.
          * @return builder
          */
-        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
+        fun clazz(clazz: List<String>?) = apply { this.clazz = clazz ?: emptyList() }
 
         /**
          * Set value for class.
@@ -97,7 +115,13 @@ class EmbeddedLink private constructor(
          * Build the [EmbeddedLink].
          */
         // TODO: Ensure immutability
-        fun build(): EmbeddedLink = EmbeddedLink(clazz, rel, href, type, title)
+        fun build() = EmbeddedLink(
+            clazz = clazz,
+            rel = rel,
+            href = href,
+            type = type,
+            title = title
+        )
     }
 
     /** @suppress */
