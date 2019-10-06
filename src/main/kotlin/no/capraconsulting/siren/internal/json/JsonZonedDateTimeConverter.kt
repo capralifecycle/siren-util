@@ -14,12 +14,21 @@ import no.capraconsulting.siren.internal.util.toZonedDateTime
 /**
  * Custom json serializer and deserializer for the [ZonedDateTime] class.
  */
-internal class JsonZonedDateTimeConverter : JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
-    override fun deserialize(element: JsonElement, type: Type, context: JsonDeserializationContext): ZonedDateTime {
+internal class JsonZonedDateTimeConverter : JsonSerializer<ZonedDateTime>,
+    JsonDeserializer<ZonedDateTime> {
+    override fun deserialize(
+        element: JsonElement,
+        type: Type,
+        context: JsonDeserializationContext
+    ): ZonedDateTime {
         return element.asString.toZonedDateTime()
     }
 
-    override fun serialize(value: ZonedDateTime, type: Type, context: JsonSerializationContext): JsonElement {
+    override fun serialize(
+        value: ZonedDateTime,
+        type: Type,
+        context: JsonSerializationContext
+    ): JsonElement {
         return JsonPrimitive(value.toFormattedString())
     }
 }

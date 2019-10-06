@@ -40,7 +40,10 @@ class ExampleTest {
                         )
                     )
                     .links(
-                        Link.newBuilder("self", URI.create("http://api.x.io/customers/pj123")).build()
+                        Link.newBuilder(
+                            "self",
+                            URI.create("http://api.x.io/customers/pj123")
+                        ).build()
                     )
                     .build()
             )
