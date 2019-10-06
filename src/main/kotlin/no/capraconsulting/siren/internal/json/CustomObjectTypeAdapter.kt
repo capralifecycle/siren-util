@@ -11,8 +11,9 @@ import com.google.gson.stream.JsonWriter
 import java.util.ArrayList
 
 /**
- * A special adapter to override the built-in Object adapter, which cannot be overridden
- * in GSON. This adapter covers special logic for mapping JSON values to Java objects.
+ * A special adapter to override the built-in Object adapter, which cannot be
+ * overridden in GSON. This adapter covers special logic for mapping JSON
+ * values to Java objects.
  *
  * This file is based on com.google.gson.internal.bind.ObjectTypeAdapter.
  */

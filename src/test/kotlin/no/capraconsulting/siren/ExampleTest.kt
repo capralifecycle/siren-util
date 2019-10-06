@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test
 class ExampleTest {
 
     /**
-     * Creates the Siren example structure and tests it against the provided JSON.
+     * Creates the Siren example structure and tests it against the provided
+     * JSON.
      *
      * **See also:** [Siren example](https://github.com/kevinswiber/siren.example)
      */
@@ -74,7 +75,8 @@ class ExampleTest {
     }
 
     /**
-     * Creates the fizzbuzzaas example structure and tests it against the provided JSON.
+     * Creates the fizzbuzzaas example structure and tests it against the
+     * provided JSON.
      *
      * **See also:** [FizzBuzzAAS example](http://fizzbuzzaas.herokuapp.com/)
      */

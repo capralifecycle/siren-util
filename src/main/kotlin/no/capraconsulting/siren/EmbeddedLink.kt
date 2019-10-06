@@ -23,8 +23,9 @@ class EmbeddedLink private constructor(
      */
     val href: URI,
     /**
-     * Defines media type of the linked resource, per Web Linking (RFC5988). For the syntax, see
-     * RFC2045 (section 5.1), RFC4288 (section 4.2), RFC6838 (section 4.2)
+     * Defines media type of the linked resource, per Web Linking (RFC5988).
+     * For the syntax, see RFC2045 (section 5.1), RFC4288 (section 4.2),
+     * RFC6838 (section 4.2)
      *
      * @return the value of type attribute
      */
@@ -57,8 +58,9 @@ class EmbeddedLink private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes the nature of an entity's content based on the current representation.
-         * Possible values are implementation-dependent and should be documented.
+         * @param clazz Describes the nature of an entity's content based on
+         * the current representation. Possible values are
+         * implementation-dependent and should be documented.
          * @return builder
          */
         fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
@@ -66,8 +68,9 @@ class EmbeddedLink private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes the nature of an entity's content based on the current representation.
-         * Possible values are implementation-dependent and should be documented.
+         * @param clazz Describes the nature of an entity's content based on
+         * the current representation. Possible values are
+         * implementation-dependent and should be documented.
          * @return builder
          */
         fun clazz(vararg clazz: String) = clazz(listOf(*clazz))
@@ -75,8 +78,9 @@ class EmbeddedLink private constructor(
         /**
          * Set value for type.
          *
-         * @param type Defines media type of the linked resource, per Web Linking (RFC5988). For the syntax,
-         * see RFC2045 (section 5.1), RFC4288 (section 4.2), RFC6838 (section 4.2)
+         * @param type Defines media type of the linked resource, per Web
+         * Linking (RFC5988). For the syntax, see RFC2045 (section 5.1),
+         * RFC4288 (section 4.2), RFC6838 (section 4.2)
          * @return builder
          */
         fun type(type: String?) = apply { this.type = type }
@@ -103,7 +107,8 @@ class EmbeddedLink private constructor(
         /**
          * Create a new builder using the required attributes.
          *
-         * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899).
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899).
          * @param href The URI of the linked sub-entity.
          * @return a new builder
          */
@@ -113,7 +118,8 @@ class EmbeddedLink private constructor(
         /**
          * Create a new builder using the required attributes.
          *
-         * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899).
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899).
          * @param href The URI of the linked sub-entity.
          * @return a new builder
          */

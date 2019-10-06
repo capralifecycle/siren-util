@@ -13,7 +13,8 @@ object DublinCore {
     const val ALTERNATIVE = "alternative"
 
     /**
-     * Denotes first available datetime observation found in the corresponding data set of a part
+     * Denotes first available datetime observation found in the corresponding
+     * data set of a part
      */
     const val AVAILABLE = "available"
 
@@ -45,7 +46,8 @@ object DublinCore {
     const val HAS_VERSION = "hasVersion"
 
     /**
-     * Unique identifier of an entity, part or version. Required when updating an entity
+     * Unique identifier of an entity, part or version. Required when updating
+     * an entity
      */
     const val IDENTIFIER = "identifier"
 
@@ -74,7 +76,8 @@ object DublinCore {
     const val MODIFIED = "modified"
 
     /**
-     * Identifies the change request command applied to an entity, part and/or version
+     * Identifies the change request command applied to an entity, part and/or
+     * version
      */
     const val PROVENANCE = "provenance"
 
@@ -84,7 +87,8 @@ object DublinCore {
     const val PUBLISHER = "publisher"
 
     /**
-     * Uniquely identifies an entity or version by external relation (third party identifier). Can not be changed on an existing entity
+     * Uniquely identifies an entity or version by external relation (third
+     * party identifier). Can not be changed on an existing entity
      */
     const val REFERENCES = "references"
 
@@ -101,12 +105,14 @@ object DublinCore {
     const val SOURCE = "source"
 
     /**
-     * Unique identifier (name) of the attribute of an entity. Optional subject of an entity
+     * Unique identifier (name) of the attribute of an entity. Optional subject
+     * of an entity
      */
     const val SUBJECT = "subject"
 
     /**
-     * Identifies the searchable name of an entity. Required when creating an entity
+     * Identifies the searchable name of an entity. Required when creating an
+     * entity
      */
     const val TITLE = "title"
 
@@ -117,7 +123,8 @@ object DublinCore {
 
     /**
      * Denotes when an entity was no longer valid (deleted).
-     * Also denotes the last available datetime observation found in the corresponding data set of a part
+     * Also denotes the last available datetime observation found in the
+     * corresponding data set of a part
      */
     const val VALID = "valid"
 }

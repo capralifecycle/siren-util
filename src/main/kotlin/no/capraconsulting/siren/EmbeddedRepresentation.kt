@@ -7,8 +7,9 @@ import java.util.LinkedHashMap
 import no.capraconsulting.siren.internal.util.skipNulls
 
 /**
- * Embedded sub-entity representations retain all the characteristics of a [standard entity][Root],
- * but MUST also contain a rel attribute describing the relationship of the sub-entity to its parent.
+ * Embedded sub-entity representations retain all the characteristics of a
+ * [standard entity][Root], but MUST also contain a rel attribute describing
+ * the relationship of the sub-entity to its parent.
  *
  * **See also:** [Embedded Representation specification](https://github.com/kevinswiber/siren.embedded-representation)
  *
@@ -50,9 +51,10 @@ class EmbeddedRepresentation private constructor(
     val entities: List<Embedded> get() = _entities ?: emptyList()
 
     /**
-     * A collection of items that describe navigational links, distinct from entity relationships.
-     * Link items should contain a `rel` attribute to describe the relationship and an `href` attribute
-     * to point to the target URI. Entities should include a link `rel` to `self`.
+     * A collection of items that describe navigational links, distinct from
+     * entity relationships. Link items should contain a `rel` attribute to
+     * describe the relationship and an `href` attribute to point to the target
+     * URI. Entities should include a link `rel` to `self`.
      *
      * @return the value of links attribute or an empty list if it is missing
      */
@@ -61,12 +63,14 @@ class EmbeddedRepresentation private constructor(
     /**
      * A set of key-value pairs that describe the state of an entity.
      *
-     * @return the value of properties attribute or an empty map if it is missing
+     * @return the value of properties attribute or an empty map if it is
+     * missing
      */
     val properties: Map<String, Any?> get() = _properties ?: emptyMap()
 
     /**
-     * A collection of actions; actions show available behaviors an entity exposes.
+     * A collection of actions; actions show available behaviors an entity
+     * exposes.
      *
      * @return the value of actions attribute or an empty list if it is missing
      */
@@ -97,8 +101,9 @@ class EmbeddedRepresentation private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes the nature of an entity's content based on the current representation.
-         * Possible values are implementation-dependent and should be documented.
+         * @param clazz Describes the nature of an entity's content based on
+         * the current representation. Possible values are
+         * implementation-dependent and should be documented.
          * @return builder
          */
         fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
@@ -106,8 +111,9 @@ class EmbeddedRepresentation private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes the nature of an entity's content based on the current representation.
-         * Possible values are implementation-dependent and should be documented.
+         * @param clazz Describes the nature of an entity's content based on
+         * the current representation. Possible values are
+         * implementation-dependent and should be documented.
          * @return builder
          */
         fun clazz(vararg clazz: String) = clazz(listOf(*clazz))
@@ -123,7 +129,8 @@ class EmbeddedRepresentation private constructor(
         /**
          * Set value for properties.
          *
-         * @param properties A set of key-value pairs that describe the state of an entity.
+         * @param properties A set of key-value pairs that describe the state
+         * of an entity.
          * @return builder
          */
         fun properties(properties: Map<String, Any?>?) = apply { this.properties = properties }
@@ -131,8 +138,9 @@ class EmbeddedRepresentation private constructor(
         /**
          * Set value for links.
          *
-         * @param links A collection of items that describe navigational links, distinct from entity relationships.
-         * Entities should include a link `rel` to `self`.
+         * @param links A collection of items that describe navigational links,
+         * distinct from entity relationships. Entities should include a
+         * link `rel` to `self`.
          * @return builder
          */
         fun links(links: List<Link>?) = apply { this.links = links }
@@ -140,8 +148,9 @@ class EmbeddedRepresentation private constructor(
         /**
          * Set value for links.
          *
-         * @param links A collection of items that describe navigational links, distinct from entity relationships.
-         * Entities should include a link `rel` to `self`.
+         * @param links A collection of items that describe navigational links,
+         * distinct from entity relationships. Entities should include a
+         * link `rel` to `self`.
          * @return builder
          */
         fun links(vararg links: Link) = links(listOf(*links))
@@ -165,7 +174,8 @@ class EmbeddedRepresentation private constructor(
         /**
          * Set value for actions.
          *
-         * @param actions A collection of actions; actions show available behaviors an entity exposes.
+         * @param actions A collection of actions; actions show available
+         * behaviors an entity exposes.
          * @return builder
          */
         fun actions(actions: List<Action>?) = apply { this.actions = actions }
@@ -173,7 +183,8 @@ class EmbeddedRepresentation private constructor(
         /**
          * Set value for actions.
          *
-         * @param actions A collection of actions; actions show available behaviors an entity exposes.
+         * @param actions A collection of actions; actions show available
+         * behaviors an entity exposes.
          * @return builder
          */
         fun actions(vararg actions: Action) = actions(listOf(*actions))
@@ -200,7 +211,8 @@ class EmbeddedRepresentation private constructor(
         /**
          * Create a new [Builder] using the required attributes.
          *
-         * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899).
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899).
          */
         @JvmStatic
         fun newBuilder(rel: List<String>): Builder = Builder(rel)
@@ -208,7 +220,8 @@ class EmbeddedRepresentation private constructor(
         /**
          * Create a new [Builder] using the required attributes.
          *
-         * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899).
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899).
          */
         @JvmStatic
         fun newBuilder(rel: String): Builder = Builder(listOf(rel))

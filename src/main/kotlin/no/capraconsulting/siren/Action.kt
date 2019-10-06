@@ -11,16 +11,17 @@ import no.capraconsulting.siren.internal.util.asNonNullStringList
 import no.capraconsulting.siren.internal.util.skipNulls
 
 /**
- * Actions show available behaviors an entity exposes and are used for executing state transitions.
- * Represented in JSON Siren as an array such as `{ "actions": [{ ... }] }`.
+ * Actions show available behaviors an entity exposes and are used for executing
+ * state transitions. Represented in JSON Siren as an array such as
+ * `{ "actions": [{ ... }] }`.
  *
  * **See also:** [Action specification](https://github.com/kevinswiber/siren.actions-1)
  */
 class Action private constructor(
     /**
-     * A string that identifies the action to be performed. Action names MUST be unique within the set of
-     * actions for an entity. The behaviour of clients when parsing a Siren document that violates this
-     * constraint is undefined.
+     * A string that identifies the action to be performed. Action names MUST be
+     * unique within the set of actions for an entity. The behaviour of clients
+     * when parsing a Siren document that violates this constraint is undefined.
      *
      * @return the value of name attribute
      */
@@ -30,8 +31,9 @@ class Action private constructor(
      */
     private val _clazz: List<String>?,
     /**
-     * An enumerated attribute mapping to a protocol method. For HTTP, these values may be GET, PUT, POST,
-     * DELETE, or PATCH. As new methods are introduced, this list can be extended. If this attribute is
+     * An enumerated attribute mapping to a protocol method. For HTTP, these
+     * values may be GET, PUT, POST, DELETE, or PATCH. As new methods are
+     * introduced, this list can be extended. If this attribute is
      * omitted, GET should be assumed.
      *
      * @return the value of method attribute
@@ -50,8 +52,8 @@ class Action private constructor(
      */
     val title: String?,
     /**
-     * The encoding type for the request. When omitted and the fields attribute exists, the default value
-     * is `application/x-www-form-urlencoded`.
+     * The encoding type for the request. When omitted and the fields attribute
+     * exists, the default value is `application/x-www-form-urlencoded`.
      *
      * @return the value of type attribute
      */
@@ -60,8 +62,8 @@ class Action private constructor(
 ) : Serializable {
 
     /**
-     * Describes the nature of an action based on the current representation. Possible values are
-     * implementation-dependent and should be documented.
+     * Describes the nature of an action based on the current representation.
+     * Possible values are implementation-dependent and should be documented.
      *
      * @return the value of class attribute or an empty list if it is missing
      */
@@ -103,8 +105,9 @@ class Action private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes the nature of an action based on the current representation.
-         * Possible values are implementation-dependent and should be documented.
+         * @param clazz Describes the nature of an action based on the current
+         * representation. Possible values are implementation-dependent and
+         * should be documented.
          * @return builder
          */
         fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
@@ -112,8 +115,9 @@ class Action private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes the nature of an action based on the current representation.
-         * Possible values are implementation-dependent and should be documented.
+         * @param clazz Describes the nature of an action based on the current
+         * representation. Possible values are implementation-dependent and
+         * should be documented.
          * @return builder
          */
         fun clazz(vararg clazz: String) = clazz(listOf(*clazz))
@@ -121,9 +125,10 @@ class Action private constructor(
         /**
          * Set value for method.
          *
-         * @param method An enumerated attribute mapping to a protocol method. For HTTP, these values may be GET,
-         * PUT, POST, DELETE, or PATCH. As new methods are introduced, this list can be extended.
-         * If this attribute is omitted, GET should be assumed.
+         * @param method An enumerated attribute mapping to a protocol method.
+         * For HTTP, these values may be GET, PUT, POST, DELETE, or PATCH. As
+         * new methods are introduced, this list can be extended. If this
+         * attribute is omitted, GET should be assumed.
          * @return builder
          */
         fun method(method: String?) = apply { this.method = method }
@@ -131,9 +136,10 @@ class Action private constructor(
         /**
          * Set value for method.
          *
-         * @param method An enumerated attribute mapping to a protocol method. For HTTP, these values may be GET,
-         * PUT, POST, DELETE, or PATCH. As new methods are introduced, this list can be extended.
-         * If this attribute is omitted, GET should be assumed.
+         * @param method An enumerated attribute mapping to a protocol method.
+         * For HTTP, these values may be GET, PUT, POST, DELETE, or PATCH. As
+         * new methods are introduced, this list can be extended. If this
+         * attribute is omitted, GET should be assumed.
          * @return builder
          */
         fun method(method: Method?) = apply { this.method = method?.name }
@@ -149,8 +155,9 @@ class Action private constructor(
         /**
          * Set value for type.
          *
-         * @param type The encoding type for the request. When omitted and the fields attribute exists, the
-         * default value is `application/x-www-form-urlencoded`.
+         * @param type The encoding type for the request. When omitted and the
+         * fields attribute exists, the default value is
+         * `application/x-www-form-urlencoded`.
          * @return builder
          */
         fun type(type: String?) = apply { this.type = type }
@@ -179,8 +186,9 @@ class Action private constructor(
     }
 
     /**
-     * An enumerated attribute mapping to a protocol method. For HTTP, these values may be GET, PUT, POST,
-     * DELETE, or PATCH. As new methods are introduced, this list can be extended.
+     * An enumerated attribute mapping to a protocol method. For HTTP, these
+     * values may be GET, PUT, POST, DELETE, or PATCH. As new methods are
+     * introduced, this list can be extended.
      */
     enum class Method {
         HEAD,
@@ -219,9 +227,10 @@ class Action private constructor(
         /**
          * Create a new builder using the required attributes.
          *
-         * @param name A string that identifies the action to be performed. Action names MUST be unique
-         * within the set of actions for an entity. The behaviour of clients when parsing a
-         * Siren document that violates this constraint is undefined.
+         * @param name A string that identifies the action to be performed.
+         * Action names MUST be unique within the set of actions for an entity.
+         * The behaviour of clients when parsing a Siren document that violates
+         * this constraint is undefined.
          * @param href The URI of the action.
          * @return a new builder
          */
