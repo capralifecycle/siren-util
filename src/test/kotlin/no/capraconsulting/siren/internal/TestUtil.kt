@@ -8,9 +8,10 @@ fun getResource(name: String): String =
     object : Any() {}.javaClass.classLoader.getResource(name)!!.readText()
 
 /**
- * Verify Root object against snapshot and that it can be serialized to JSON, deserialized back
- * and that another round of serialization produces exactly the same JSON. This ensures we have
- * no data loss in serialization/deserialization.
+ * Verify Root object against snapshot and that it can be serialized to JSON,
+ * deserialized back and that another round of serialization produces exactly
+ * the same JSON. This ensures we have no data loss in
+ * serialization/deserialization.
  */
 fun verifyRoot(snapshotName: String, root: Root) {
     val json = root.toJson()
@@ -20,11 +21,11 @@ fun verifyRoot(snapshotName: String, root: Root) {
 }
 
 /**
- * Verify a JSON value can be parsed to a Root object and serialized again without any
- * data loss. Return the parsed Root object.
+ * Verify a JSON value can be parsed to a Root object and serialized again
+ * without any data loss. Return the parsed Root object.
  *
- * This performs strict check so that the input JSON must be formatted exactly as
- * the Root object will produce.
+ * This performs strict check so that the input JSON must be formatted
+ * exactly as the Root object will produce.
  */
 fun parseAndVerifyRootStrict(json: String): Root {
     val root = Root.fromJson(json)
@@ -37,11 +38,12 @@ fun parseAndVerifyRootStrict(json: String): Root {
 }
 
 /**
- * Verify a JSON value can be parsed to a Root object and serialized again without any
- * data loss. Return the parsed Root object.
+ * Verify a JSON value can be parsed to a Root object and serialized again
+ * without any data loss. Return the parsed Root object.
  *
- * This performs relaxed check so that the JSON format only has to have the same data,
- * but can have different whitespace, map ordering and some data formatting.
+ * This performs relaxed check so that the JSON format only has to have the
+ * same data, but can have different whitespace, map ordering and some data
+ * formatting.
  */
 fun parseAndVerifyRootRelaxed(json: String): Root {
     val root = Root.fromJson(json)

@@ -14,8 +14,9 @@ import no.capraconsulting.siren.internal.util.skipNulls
  */
 class Field private constructor(
     /**
-     * A name describing the control. Field names MUST be unique within the set of fields for an action.
-     * The behaviour of clients when parsing a Siren document that violates this constraint is undefined.
+     * A name describing the control. Field names MUST be unique within the set
+     * of fields for an action. The behaviour of clients when parsing a Siren
+     * document that violates this constraint is undefined.
      *
      * @return the value of name attribute
      */
@@ -25,7 +26,8 @@ class Field private constructor(
      */
     private val _clazz: List<String>?,
     /**
-     * The input type of the field. This is a subset of the input types specified by HTML5.
+     * The input type of the field. This is a subset of the input types
+     * specified by HTML5.
      *
      * @return the value of type attribute
      */
@@ -40,7 +42,8 @@ class Field private constructor(
      * See spec for special values.
      */
     /**
-     * A value assigned to the field. May be a scalar value or a list of value objects.
+     * A value assigned to the field. May be a scalar value or a list of value
+     * objects.
      *
      * @return the value of value attribute
      */
@@ -48,8 +51,8 @@ class Field private constructor(
 ) : Serializable {
 
     /**
-     * Describes aspects of the field based on the current representation. Possible values are
-     * implementation-dependent and should be documented.
+     * Describes aspects of the field based on the current representation.
+     * Possible values are implementation-dependent and should be documented.
      *
      * @return the value of class attribute or an empty list if it is missing
      */
@@ -81,8 +84,9 @@ class Field private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes aspects of the field based on the current representation.
-         * Possible values areimplementation-dependent and should be documented.
+         * @param clazz Describes aspects of the field based on the current
+         * representation. Possible values areimplementation-dependent and
+         * should be documented.
          * @return builder
          */
         fun clazz(clazz: List<String>?) = apply { this.clazz = clazz }
@@ -90,8 +94,9 @@ class Field private constructor(
         /**
          * Set value for class.
          *
-         * @param clazz Describes aspects of the field based on the current representation.
-         * Possible values areimplementation-dependent and should be documented.
+         * @param clazz Describes aspects of the field based on the current
+         * representation. Possible values areimplementation-dependent and
+         * should be documented.
          * @return builder
          */
         fun clazz(vararg clazz: String): Builder = clazz(listOf(*clazz))
@@ -99,7 +104,8 @@ class Field private constructor(
         /**
          * Set value for type.
          *
-         * @param type The input type of the field. This is a subset of the input types specified by HTML5.
+         * @param type The input type of the field. This is a subset of the
+         * input types specified by HTML5.
          * @return builder
          */
         fun type(type: String?) = apply { this.type = type }
@@ -107,7 +113,8 @@ class Field private constructor(
         /**
          * Set value for type.
          *
-         * @param type The input type of the field. This is a subset of the input types specified by HTML5.
+         * @param type The input type of the field. This is a subset of the
+         * input types specified by HTML5.
          * @return builder
          */
         fun type(type: Type?) = apply { this.type = type?.value }
@@ -115,14 +122,16 @@ class Field private constructor(
         /**
          * Set value for title.
          *
-         * @param title Textual annotation of a field. Clients may use this as a label.
+         * @param title Textual annotation of a field. Clients may use this as
+         * a label.
          * @return builder
          */
         fun title(title: String?) = apply { this.title = title }
 
         /**
          * Set value for value.
-         * @param value A value assigned to the field. May be a scalar value or a list of value objects.
+         * @param value A value assigned to the field. May be a scalar value
+         * or a list of value objects.
          * @return builder
          */
         fun value(value: Any?) = apply { this.value = value }
@@ -178,7 +187,8 @@ class Field private constructor(
         /**
          * Create a new builder using the required attributes.
          *
-         * @param name A name describing the control. Field names MUST be unique within the set of fields for an action.
+         * @param name A name describing the control. Field names MUST be
+         * unique within the set of fields for an action.
          * @return a new builder
          */
         @JvmStatic
