@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static no.capraconsulting.siren.internal.util.MapUtil.skipNulls;
 
@@ -31,7 +32,7 @@ public final class EmbeddedLink extends Embedded implements Serializable {
     private final String title;
 
     private EmbeddedLink(
-        @Nullable final List<String> clazz,
+        @NotNull final List<String> clazz,
         @NotNull final List<String> rel,
         @NotNull final URI href,
         @Nullable final String type,
@@ -44,7 +45,7 @@ public final class EmbeddedLink extends Embedded implements Serializable {
     }
 
     /**
-     * The URI of the linked sub-entity.
+     * The URI of the linked sub-entity. Required.
      *
      * @return the value of href attribute
      */
@@ -77,8 +78,8 @@ public final class EmbeddedLink extends Embedded implements Serializable {
     @Override
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put(Siren.CLASS, clazz);
-        result.put(Siren.REL, rel);
+        result.put(Siren.CLASS, clazz.isEmpty() ? null : clazz);
+        result.put(Siren.REL, rel.isEmpty() ? null : rel);
         result.put(Siren.HREF, href);
         result.put(Siren.TYPE, type);
         result.put(Siren.TITLE, title);
@@ -115,8 +116,8 @@ public final class EmbeddedLink extends Embedded implements Serializable {
      * @see EmbeddedLink
      */
     public static class Builder {
-        @Nullable
-        private List<String> clazz;
+        @NotNull
+        private List<String> clazz = emptyList();
         @NotNull
         private final List<String> rel;
         @NotNull
@@ -140,7 +141,7 @@ public final class EmbeddedLink extends Embedded implements Serializable {
          */
         @NotNull
         public Builder clazz(@Nullable List<String> clazz) {
-            this.clazz = clazz;
+            this.clazz = clazz == null ? emptyList() : clazz;
             return this;
         }
 

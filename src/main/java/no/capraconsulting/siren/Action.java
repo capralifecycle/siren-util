@@ -34,7 +34,7 @@ public final class Action implements Serializable {
     /**
      * class
      */
-    @Nullable
+    @NotNull
     private final List<String> clazz;
 
     /**
@@ -48,17 +48,17 @@ public final class Action implements Serializable {
     private final String title;
     @Nullable
     private final String type;
-    @Nullable
+    @NotNull
     private final List<Field> fields;
 
     private Action(
         @NotNull final String name,
-        @Nullable final List<String> clazz,
+        @NotNull final List<String> clazz,
         @Nullable final String method,
         @NotNull final URI href,
         @Nullable final String title,
         @Nullable final String type,
-        @Nullable final List<Field> fields
+        @NotNull final List<Field> fields
     ) {
         this.name = name;
         this.clazz = clazz;
@@ -72,7 +72,7 @@ public final class Action implements Serializable {
     /**
      * A string that identifies the action to be performed. Action names MUST be unique within the set of
      * actions for an entity. The behaviour of clients when parsing a Siren document that violates this
-     * constraint is undefined.
+     * constraint is undefined. Required.
      *
      * @return the value of name attribute
      */
@@ -89,7 +89,7 @@ public final class Action implements Serializable {
      */
     @NotNull
     public List<String> getClazz() {
-        return clazz == null ? emptyList() : clazz;
+        return clazz;
     }
 
     /**
@@ -105,7 +105,7 @@ public final class Action implements Serializable {
     }
 
     /**
-     * The URI of the action.
+     * The URI of the action. Required.
      *
      * @return the value of href attribute
      */
@@ -142,7 +142,7 @@ public final class Action implements Serializable {
      */
     @NotNull
     public List<Field> getFields() {
-        return fields == null ? emptyList() : fields;
+        return fields;
     }
 
     @NotNull
@@ -150,11 +150,11 @@ public final class Action implements Serializable {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put(Siren.NAME, name);
         result.put(Siren.TITLE, title);
-        result.put(Siren.CLASS, clazz);
+        result.put(Siren.CLASS, clazz.isEmpty() ? null : clazz);
         result.put(Siren.METHOD, method);
         result.put(Siren.HREF, href);
         result.put(Siren.TYPE, type);
-        result.put(Siren.FIELDS, fields == null ? null : map(fields, Field::toRaw));
+        result.put(Siren.FIELDS, fields.isEmpty() ? null : map(fields, Field::toRaw));
         return skipNulls(result);
     }
 
@@ -217,8 +217,8 @@ public final class Action implements Serializable {
         /**
          * class
          */
-        @Nullable
-        private List<String> clazz;
+        @NotNull
+        private List<String> clazz = emptyList();
 
         @Nullable
         private String method;
@@ -228,8 +228,8 @@ public final class Action implements Serializable {
         private String title;
         @Nullable
         private String type;
-        @Nullable
-        private List<Field> fields;
+        @NotNull
+        private List<Field> fields = emptyList();
 
         private Builder(@NotNull final String name, @NotNull final URI href) {
             this.name = name;
@@ -245,7 +245,7 @@ public final class Action implements Serializable {
          */
         @NotNull
         public Builder clazz(@Nullable List<String> clazz) {
-            this.clazz = clazz;
+            this.clazz = clazz == null ? emptyList() : clazz;
             return this;
         }
 
@@ -322,7 +322,7 @@ public final class Action implements Serializable {
          */
         @NotNull
         public Builder fields(@Nullable List<Field> fields) {
-            this.fields = fields;
+            this.fields = fields == null ? emptyList() : fields;
             return this;
         }
 

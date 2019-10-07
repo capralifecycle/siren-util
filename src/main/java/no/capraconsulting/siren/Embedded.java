@@ -31,13 +31,13 @@ public abstract class Embedded implements Serializable {
     /**
      * class
      */
-    @Nullable
+    @NotNull
     protected final List<String> clazz;
 
     @NotNull
     protected final List<String> rel;
 
-    Embedded(@Nullable List<String> clazz, @NotNull List<String> rel) {
+    Embedded(@NotNull List<String> clazz, @NotNull List<String> rel) {
         this.clazz = clazz;
         this.rel = rel;
     }
@@ -69,11 +69,11 @@ public abstract class Embedded implements Serializable {
      */
     @Nullable
     public String getFirstClass() {
-        return clazz == null ? null : clazz.stream().findFirst().orElse(null);
+        return clazz.stream().findFirst().orElse(null);
     }
 
     /**
-     * Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899).
+     * Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899). Required.
      *
      * @return the value of rel attribute
      */

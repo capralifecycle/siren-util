@@ -13,6 +13,7 @@ import static no.capraconsulting.siren.internal.TestUtil.entry;
 import static no.capraconsulting.siren.internal.TestUtil.getResource;
 import static no.capraconsulting.siren.internal.TestUtil.mapOf;
 import static no.capraconsulting.siren.internal.TestUtil.parseAndVerifyRootStrict;
+import static no.capraconsulting.siren.internal.TestUtil.verifyRoot;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap;
 import static org.junit.Assert.assertEquals;
@@ -255,5 +256,13 @@ public class RootTest {
             //  Either don't fail or improve the message.
             assertEquals("Casting to List failed. Found type null", e.getMessage());
         }
+    }
+
+    @Test
+    public void testEmptyListExcluded() {
+        String inputJson = getResource("RootTest.WithEmptyElements.siren.json");
+        Root root = Root.fromJson(inputJson);
+
+        verifyRoot("RootTest.WithEmptyElements.out.siren.json", root);
     }
 }

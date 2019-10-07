@@ -29,7 +29,7 @@ public final class Field implements Serializable {
     /**
      * class
      */
-    @Nullable
+    @NotNull
     private final List<String> clazz;
 
     @Nullable
@@ -47,7 +47,7 @@ public final class Field implements Serializable {
 
     private Field(
         @NotNull final String name,
-        @Nullable final List<String> clazz,
+        @NotNull final List<String> clazz,
         @Nullable final String type,
         @Nullable final String title,
         @Nullable final Object value
@@ -62,6 +62,7 @@ public final class Field implements Serializable {
     /**
      * A name describing the control. Field names MUST be unique within the set of fields for an action.
      * The behaviour of clients when parsing a Siren document that violates this constraint is undefined.
+     * Required.
      *
      * @return the value of name attribute
      */
@@ -78,7 +79,7 @@ public final class Field implements Serializable {
      */
     @NotNull
     public List<String> getClazz() {
-        return clazz == null ? emptyList() : clazz;
+        return clazz;
     }
 
     /**
@@ -104,6 +105,8 @@ public final class Field implements Serializable {
     /**
      * A value assigned to the field. May be a scalar value or a list of value objects.
      *
+     * See specification for special values.
+     *
      * @return the value of value attribute
      */
     @Nullable
@@ -115,7 +118,7 @@ public final class Field implements Serializable {
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put(Siren.NAME, name);
-        result.put(Siren.CLASS, clazz);
+        result.put(Siren.CLASS, clazz.isEmpty() ? null : clazz);
         result.put(Siren.TYPE, type);
         result.put(Siren.TITLE, title);
         result.put(Siren.VALUE, value);
@@ -161,8 +164,8 @@ public final class Field implements Serializable {
         /**
          * class
          */
-        @Nullable
-        private List<String> clazz;
+        @NotNull
+        private List<String> clazz = emptyList();
 
         @Nullable
         private String type;
@@ -184,7 +187,7 @@ public final class Field implements Serializable {
          */
         @NotNull
         public Builder clazz(@Nullable List<String> clazz) {
-            this.clazz = clazz;
+            this.clazz = clazz == null ? emptyList() : clazz;
             return this;
         }
 

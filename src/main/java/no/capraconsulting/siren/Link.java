@@ -28,7 +28,7 @@ import static no.capraconsulting.siren.internal.util.MapUtil.skipNulls;
 public final class Link implements Serializable {
     private static final long serialVersionUID = -5250035724727313356L;
 
-    @Nullable
+    @NotNull
     private final List<String> clazz;
     @Nullable
     private final String title;
@@ -40,7 +40,7 @@ public final class Link implements Serializable {
     private final String type;
 
     private Link(
-        @Nullable final List<String> clazz,
+        @NotNull final List<String> clazz,
         @Nullable final String title,
         @NotNull final List<String> rel,
         @NotNull final URI href,
@@ -54,7 +54,7 @@ public final class Link implements Serializable {
     }
 
     /**
-     * The URI of the linked resource.
+     * The URI of the linked resource. Required.
      *
      * @return the value of href attribute
      */
@@ -100,11 +100,11 @@ public final class Link implements Serializable {
      */
     @Nullable
     public String getFirstClass() {
-        return clazz == null ? null : clazz.stream().findFirst().orElse(null);
+        return clazz.stream().findFirst().orElse(null);
     }
 
     /**
-     * Defines the relationship of the link to its entity, per Web Linking (RFC5988).
+     * Defines the relationship of the link to its entity, per Web Linking (RFC5988). Required.
      *
      * @return the value of rel attribute
      */
@@ -121,7 +121,7 @@ public final class Link implements Serializable {
      */
     @NotNull
     public List<String> getClazz() {
-        return clazz == null ? emptyList() : clazz;
+        return clazz;
     }
 
     /**
@@ -138,9 +138,9 @@ public final class Link implements Serializable {
     @NotNull
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put(Siren.CLASS, clazz);
+        result.put(Siren.CLASS, clazz.isEmpty() ? null : clazz);
         result.put(Siren.TITLE, title);
-        result.put(Siren.REL, rel);
+        result.put(Siren.REL, rel.isEmpty() ? null : rel);
         result.put(Siren.HREF, href);
         result.put(Siren.TYPE, type);
         return skipNulls(result);
@@ -203,8 +203,8 @@ public final class Link implements Serializable {
      * @see Link
      */
     public static class Builder {
-        @Nullable
-        private List<String> clazz;
+        @NotNull
+        private List<String> clazz = emptyList();
         @Nullable
         private String title;
         @NotNull
@@ -240,7 +240,7 @@ public final class Link implements Serializable {
          */
         @NotNull
         public Builder clazz(@Nullable List<String> clazz) {
-            this.clazz = clazz;
+            this.clazz = clazz == null ? emptyList() : clazz;
             return this;
         }
 

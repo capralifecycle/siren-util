@@ -29,23 +29,23 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
 
     @Nullable
     private final String title;
-    @Nullable
+    @NotNull
     private final Map<String, Object> properties;
-    @Nullable
+    @NotNull
     private final List<Link> links;
-    @Nullable
+    @NotNull
     private final List<Embedded> entities;
-    @Nullable
+    @NotNull
     private final List<Action> actions;
 
     private EmbeddedRepresentation(
-        @Nullable final List<String> clazz,
+        @NotNull final List<String> clazz,
         @Nullable final String title,
         @NotNull final List<String> rel,
-        @Nullable final Map<String, Object> properties,
-        @Nullable final List<Link> links,
-        @Nullable final List<Embedded> entities,
-        @Nullable final List<Action> actions
+        @NotNull final Map<String, Object> properties,
+        @NotNull final List<Link> links,
+        @NotNull final List<Embedded> entities,
+        @NotNull final List<Action> actions
     ) {
         super(clazz, rel);
         this.title = title;
@@ -63,7 +63,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      */
     @NotNull
     public List<EmbeddedLink> getEmbeddedLinks() {
-        return entities == null ? emptyList() : entities.stream()
+        return entities.stream()
             .filter(EmbeddedLink.class::isInstance)
             .map(item -> (EmbeddedLink) item)
             .collect(Collectors.toList());
@@ -77,7 +77,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      */
     @NotNull
     public List<EmbeddedRepresentation> getEmbeddedRepresentations() {
-        return entities == null ? emptyList() : entities.stream()
+        return entities.stream()
             .filter(EmbeddedRepresentation.class::isInstance)
             .map(item -> (EmbeddedRepresentation) item)
             .collect(Collectors.toList());
@@ -100,7 +100,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      */
     @NotNull
     public List<Embedded> getEntities() {
-        return entities == null ? emptyList() : entities;
+        return entities;
     }
 
     /**
@@ -112,7 +112,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      */
     @NotNull
     public List<Link> getLinks() {
-        return links == null ? emptyList() : links;
+        return links;
     }
 
     /**
@@ -122,7 +122,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      */
     @NotNull
     public Map<String, Object> getProperties() {
-        return properties == null ? emptyMap() : properties;
+        return properties;
     }
 
     /**
@@ -130,20 +130,20 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      *
      * @return the value of actions attribute or an empty list if it is missing
      */
-    @Nullable
+    @NotNull
     public List<Action> getActions() {
-        return actions == null ? emptyList() : actions;
+        return actions;
     }
 
     @Override
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put(Siren.CLASS, clazz);
-        result.put(Siren.REL, rel);
-        result.put(Siren.PROPERTIES, properties);
-        result.put(Siren.LINKS, links == null ? null : map(links, Link::toRaw));
-        result.put(Siren.ENTITIES, entities == null ? null : map(entities, Embedded::toRaw));
-        result.put(Siren.ACTIONS, actions == null ? null : map(actions, Action::toRaw));
+        result.put(Siren.CLASS, clazz.isEmpty() ? null : clazz);
+        result.put(Siren.REL, rel.isEmpty() ? null : rel);
+        result.put(Siren.PROPERTIES, properties.isEmpty() ? null : properties);
+        result.put(Siren.LINKS, links.isEmpty() ? null : map(links, Link::toRaw));
+        result.put(Siren.ENTITIES, entities.isEmpty() ? null : map(entities, Embedded::toRaw));
+        result.put(Siren.ACTIONS, actions.isEmpty() ? null : map(actions, Action::toRaw));
         result.put(Siren.TITLE, title);
         return skipNulls(result);
     }
@@ -176,20 +176,20 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
      * @see EmbeddedRepresentation
      */
     public static class Builder {
-        @Nullable
-        private List<String> clazz;
+        @NotNull
+        private List<String> clazz = emptyList();
         @Nullable
         private String title;
         @NotNull
         private final List<String> rel;
-        @Nullable
-        private Map<String, Object> properties;
-        @Nullable
-        private List<Link> links;
-        @Nullable
-        private List<Embedded> entities;
-        @Nullable
-        private List<Action> actions;
+        @NotNull
+        private Map<String, Object> properties = emptyMap();
+        @NotNull
+        private List<Link> links = emptyList();
+        @NotNull
+        private List<Embedded> entities = emptyList();
+        @NotNull
+        private List<Action> actions = emptyList();
 
         private Builder(@NotNull List<String> rel) {
             this.rel = rel;
@@ -204,7 +204,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
          */
         @NotNull
         public Builder clazz(@Nullable List<String> clazz) {
-            this.clazz = clazz;
+            this.clazz = clazz == null ? emptyList() : clazz;
             return this;
         }
 
@@ -240,7 +240,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
          */
         @NotNull
         public Builder properties(@Nullable Map<String, Object> properties) {
-            this.properties = properties;
+            this.properties = properties == null ? emptyMap() : properties;
             return this;
         }
 
@@ -253,7 +253,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
          */
         @NotNull
         public Builder links(@Nullable List<Link> links) {
-            this.links = links;
+            this.links = links == null ? emptyList() : links;
             return this;
         }
 
@@ -277,7 +277,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
          */
         @NotNull
         public Builder entities(@Nullable List<Embedded> entities) {
-            this.entities = entities;
+            this.entities = entities == null ? emptyList() : entities;
             return this;
         }
 
@@ -300,7 +300,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
          */
         @NotNull
         public Builder actions(@Nullable List<Action> actions) {
-            this.actions = actions;
+            this.actions = actions == null ? emptyList() : actions;
             return this;
         }
 
@@ -326,5 +326,4 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
             return new EmbeddedRepresentation(clazz, title, rel, properties, links, entities, actions);
         }
     }
-
 }
