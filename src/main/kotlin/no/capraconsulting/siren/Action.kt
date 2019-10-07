@@ -2,7 +2,6 @@ package no.capraconsulting.siren
 
 import java.io.Serializable
 import java.net.URI
-import java.net.URISyntaxException
 import java.util.Collections.emptyList
 import java.util.LinkedHashMap
 import no.capraconsulting.siren.internal.util.asList
@@ -206,19 +205,12 @@ data class Action(
 
         internal fun fromRaw(map: Any?): Action = fromRaw(map!!.asMap())
 
-        private fun parseHref(value: String): URI =
-            try {
-                URI(value)
-            } catch (e: URISyntaxException) {
-                throw IllegalArgumentException(String.format("Invalid %s in Action", Siren.HREF), e)
-            }
-
         private fun fromRaw(map: Map<String, Any?>): Action = Action(
             name = map[Siren.NAME] as String,
             clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList(),
             method = map[Siren.METHOD] as String?,
             title = map[Siren.TITLE] as String?,
-            href = parseHref(map[Siren.HREF].toString()),
+            href = URI.create(map[Siren.HREF].toString()),
             type = map[Siren.TYPE] as String?,
             fields = map[Siren.FIELDS]?.asList()?.map { Field.fromRaw(it) } ?: emptyList()
         )

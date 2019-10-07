@@ -2,7 +2,6 @@ package no.capraconsulting.siren
 
 import java.io.Serializable
 import java.net.URI
-import java.net.URISyntaxException
 import java.util.Collections.emptyList
 import java.util.LinkedHashMap
 import no.capraconsulting.siren.internal.util.asMap
@@ -154,18 +153,11 @@ data class Link(
 
         internal fun fromRaw(map: Any?): Link = fromRaw(map!!.asMap())
 
-        private fun parseHref(value: String): URI =
-            try {
-                URI(value)
-            } catch (e: URISyntaxException) {
-                throw IllegalArgumentException(String.format("Invalid %s in Link", Siren.HREF), e)
-            }
-
         private fun fromRaw(map: Map<String, Any?>): Link = Link(
             clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList(),
             title = map[Siren.TITLE] as String?,
             rel = map.getValue(Siren.REL)!!.asNonNullStringList(),
-            href = parseHref(map[Siren.HREF].toString()),
+            href = URI.create(map[Siren.HREF].toString()),
             type = map[Siren.TYPE] as String?
         )
 

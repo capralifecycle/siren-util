@@ -2,7 +2,6 @@ package no.capraconsulting.siren
 
 import java.io.Serializable
 import java.net.URI
-import java.net.URISyntaxException
 import java.util.Collections.emptyList
 import no.capraconsulting.siren.internal.util.asList
 import no.capraconsulting.siren.internal.util.asMap
@@ -48,16 +47,6 @@ abstract class Embedded : Serializable {
 
         internal fun fromRaw(map: Any?): Embedded = fromRaw(map!!.asMap())
 
-        private fun parseHref(value: String): URI =
-            try {
-                URI(value)
-            } catch (e: URISyntaxException) {
-                throw IllegalArgumentException(
-                    String.format("Invalid %s in Embedded", Siren.HREF),
-                    e
-                )
-            }
-
         private fun fromRaw(map: Map<String, Any?>): Embedded {
             val clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList()
             val rel = map.getValue(Siren.REL)!!.asNonNullStringList()
@@ -66,7 +55,7 @@ abstract class Embedded : Serializable {
                 EmbeddedLink(
                     clazz = clazz,
                     rel = rel,
-                    href = parseHref(map[Siren.HREF].toString()),
+                    href = URI.create(map[Siren.HREF].toString()),
                     type = map[Siren.TYPE] as String?,
                     title = map[Siren.TITLE] as String?
                 )
