@@ -1,0 +1,15 @@
+{
+  "entities": [
+    {
+      "class": [
+        "event"
+      ],
+      "rel": [
+        "test"
+      ],
+      "properties": {
+        "name": "something"
+      }
+    }
+  ]
+}

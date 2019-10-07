@@ -1,0 +1,12 @@
+{
+  "entities": [
+    {
+      "class": [
+        "event"
+      ],
+      "properties": {
+        "name": "something"
+      }
+    }
+  ]
+}

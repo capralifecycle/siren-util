@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class RootTest {
 
@@ -233,5 +234,27 @@ public class RootTest {
             outputJson,
             true
         );
+    }
+
+    @Test
+    public void testInvalidDoc() {
+        // Currently 'rel' is required for an embedded entity. We might
+        // want to relax on this to allow parsing invalid documents but
+        // try to enforce it when constructing new documents.
+
+        String valid = getResource("RootTest.InvalidDoc1.valid.siren.json");
+        String invalid = getResource("RootTest.InvalidDoc1.invalid.siren.json");
+
+        Root rootValid = Root.fromJson(valid);
+        assertEquals(1, rootValid.getEmbeddedRepresentations().size());
+
+        try {
+            Root.fromJson(invalid);
+            fail("Exception not thrown");
+        } catch (IllegalArgumentException e) {
+            // TODO: This message is not very helpful for the user.
+            //  Either don't fail or improve the message.
+            assertEquals("Casting to List failed. Found type null", e.getMessage());
+        }
     }
 }
