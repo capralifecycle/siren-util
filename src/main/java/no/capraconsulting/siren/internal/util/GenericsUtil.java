@@ -11,7 +11,8 @@ public class GenericsUtil {
     @NotNull
     public static List<Object> objectAsList(@NotNull final Object value) {
         if (!(value instanceof List)) {
-            throw new IllegalArgumentException("Casting to List failed. Found type " + value.getClass());
+            //noinspection ConstantConditions
+            throw new IllegalArgumentException("Casting to List failed. Found type " + (value == null ? "null" : value.getClass()));
         }
 
         //noinspection unchecked
@@ -21,7 +22,8 @@ public class GenericsUtil {
     @NotNull
     public static List<String> objectAsStringList(@NotNull final Object value) {
         if (!(value instanceof List)) {
-            throw new IllegalArgumentException("Casting to List failed. Found type " + value.getClass());
+            //noinspection ConstantConditions
+            throw new IllegalArgumentException("Casting to List failed. Found type " + (value == null ? "null" : value.getClass()));
         }
 
         //noinspection unchecked
@@ -38,7 +40,8 @@ public class GenericsUtil {
     @NotNull
     public static Map<String, Object> objectAsMap(@NotNull final Object value) {
         if (!(value instanceof Map)) {
-            throw new IllegalArgumentException("Casting to Map failed. Found type " + value.getClass());
+            //noinspection ConstantConditions
+            throw new IllegalArgumentException("Casting to Map failed. Found type " + (value == null ? "null" : value.getClass()));
         }
 
         //noinspection unchecked
