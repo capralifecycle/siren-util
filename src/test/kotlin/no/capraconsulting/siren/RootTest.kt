@@ -276,4 +276,201 @@ class RootTest {
         assertNotEquals(root1, root5)
         assertEquals(root1, root6)
     }
+
+    @Test
+    fun testCompleteData() {
+        val root = Root.newBuilder()
+            .clazz("order")
+            .title("Complete data")
+            .properties(
+                mapOf(
+                    "orderNumber" to 42,
+                    "status" to "pending"
+                )
+            )
+            .entities(
+                EmbeddedLink
+                    .newBuilder(
+                        "http://x.io/rels/order-items",
+                        URI.create("http://api.x.io/orders/42/items")
+                    )
+                    .clazz("embeddedlinkclass")
+                    .title("Embedded link")
+                    .type("application/json")
+                    .build(),
+                EmbeddedRepresentation
+                    .newBuilder("http://x.io/rels/customer")
+                    .clazz("info", "customer")
+                    .title("Customer Peter Joseph")
+                    .properties(
+                        mapOf(
+                            "customerId" to "pj123",
+                            "name" to "Peter Joseph"
+                        )
+
+                    )
+                    .entities(
+                        EmbeddedLink
+                            .newBuilder(
+                                "http://x.io/rels/order-items",
+                                URI.create("http://api.x.io/orders/44/items")
+                            )
+                            .clazz("embeddedlinkclass")
+                            .title("Another embedded link")
+                            .type("application/json")
+                            .build()
+                        )
+                    .links(
+                        Link
+                            .newBuilder("self", URI.create("http://api.x.io/customers/pj123"))
+                            .title("Customer pj123")
+                            .clazz("info", "customer")
+                            .type("application/json")
+                            .build()
+                    )
+                    .actions(
+                        Action
+                            .newBuilder(
+                                "update-address",
+                                URI.create("http://api.x.io/customers/pj123/address")
+                            )
+                            .method(Action.Method.PUT)
+                            .title("Update Address")
+                            .clazz("update", "address")
+                            .type("application/json")
+                            .fields(
+                                Field.newBuilder("customerId")
+                                    .clazz("some class")
+                                    .type(Field.Type.HIDDEN)
+                                    .title("Customer ID")
+                                    .value("pj123")
+                                    .build(),
+                                Field.newBuilder("address")
+                                    .clazz("some class")
+                                    .type(Field.Type.TEXT)
+                                    .title("Address")
+                                    .value(null)
+                                    .build()
+                            )
+                            .build()
+                    )
+                    .build()
+            )
+            .actions(
+                Action
+                    .newBuilder(
+                        "add-item",
+                        URI.create("http://api.x.io/orders/42/items")
+                    )
+                    .method(Action.Method.POST)
+                    .title("Add Item")
+                    .clazz("add-item")
+                    .type("application/json")
+                    .fields(
+                        Field.newBuilder("orderNumber")
+                            .clazz("some class")
+                            .type(Field.Type.HIDDEN)
+                            .title("Order Number")
+                            .value("42")
+                            .build(),
+                        Field.newBuilder("productCode")
+                            .clazz("some class")
+                            .type(Field.Type.TEXT)
+                            .title("Product Code")
+                            .value(null)
+                            .build()
+                    )
+                    .build()
+            )
+            .links(
+                Link.newBuilder("self", URI.create("http://api.x.io/orders/42"))
+                    .clazz("linkclass")
+                    .title("A link")
+                    .type("application/json")
+                    .build()
+            )
+            .build()
+
+        verifyRoot("RootTest.CompleteData.siren.json", root)
+
+        // Verify all getters.
+
+        assertEquals(listOf("order"), root.clazz)
+        assertEquals("order", root.firstClass)
+        assertEquals("Complete data", root.title)
+        assertEquals(
+            mapOf(
+                "orderNumber" to 42,
+                "status" to "pending"
+            ),
+            root.properties
+        )
+
+        assertEquals(2, root.entities.size)
+        assertEquals(listOf(root.entities[0]), root.embeddedLinks)
+        assertEquals(listOf(root.entities[1]), root.embeddedRepresentations)
+
+        val emblink = root.embeddedLinks[0]
+        assertEquals(listOf("http://x.io/rels/order-items"), emblink.rel)
+        assertEquals("http://x.io/rels/order-items", emblink.firstRel)
+        assertEquals(URI.create("http://api.x.io/orders/42/items"), emblink.href)
+        assertEquals(listOf("embeddedlinkclass"), emblink.clazz)
+        assertEquals("embeddedlinkclass", emblink.firstClass)
+        assertEquals("Embedded link", emblink.title)
+        assertEquals("application/json", emblink.type)
+
+        val embrepr = root.embeddedRepresentations[0]
+        assertEquals(listOf("http://x.io/rels/customer"), embrepr.rel)
+        assertEquals("http://x.io/rels/customer", embrepr.firstRel)
+        assertEquals(listOf("info", "customer"), embrepr.clazz)
+        assertEquals("info", embrepr.firstClass)
+        assertEquals("Customer Peter Joseph", embrepr.title)
+        assertEquals(
+            mapOf(
+                "customerId" to "pj123",
+                "name" to "Peter Joseph"
+            ),
+            embrepr.properties
+        )
+        assertEquals(1, embrepr.entities.size)
+        assertEquals(1, embrepr.embeddedLinks.size)
+        assertEquals(0, embrepr.embeddedRepresentations.size)
+
+        // Skipping verify of second EmbeddedLink.
+
+        assertEquals(1, embrepr.links.size)
+
+        val link = embrepr.links[0]
+        assertEquals(listOf("self"), link.rel)
+        assertEquals("self", link.firstRel)
+        assertEquals(URI.create("http://api.x.io/customers/pj123"), link.href)
+        assertEquals(listOf("info", "customer"), link.clazz)
+        assertEquals("info", link.firstClass)
+        assertEquals("Customer pj123", link.title)
+        assertEquals("application/json", link.type)
+
+        assertEquals(1, embrepr.actions.size)
+
+        val action = embrepr.actions[0]
+        assertEquals("update-address", action.name)
+        assertEquals(URI.create("http://api.x.io/customers/pj123/address"), action.href)
+        assertEquals("PUT", action.method)
+        assertEquals("Update Address", action.title)
+        assertEquals(listOf("update", "address"), action.clazz)
+        assertEquals("application/json", action.type)
+        assertEquals(2, action.fields.size)
+
+        // Skipping verify of second Field.
+        val field = action.fields[0]
+        assertEquals("customerId", field.name)
+        assertEquals(listOf("some class"), field.clazz)
+        assertEquals("hidden", field.type)
+        assertEquals("Customer ID", field.title)
+        assertEquals("pj123", field.value)
+
+        // Action already verified above. Skipping here.
+
+        // Link already verified above. Skipping here.
+        assertEquals(1, root.links.size)
+    }
 }
