@@ -56,4 +56,25 @@ public class ActionTest {
             assertEquals("Expected scheme name at index 0: ::", e.getMessage());
         }
     }
+
+    @Test
+    public void testToBuilder() {
+        Action action = Action
+            .newBuilder("name", URI.create("uri"))
+            .title("title")
+            .clazz("class")
+            .method(Action.Method.GET)
+            .href(URI.create("uri"))
+            .type("type")
+            .fields(Field.newBuilder("field").build())
+            .build()
+            .toBuilder()
+            .name("new name")
+            .build();
+
+        verifyRoot(
+            "ActionTest.ToBuilder.siren.json",
+            Root.newBuilder().actions(action).build()
+        );
+    }
 }

@@ -6,6 +6,7 @@ import java.net.URI;
 
 import static no.capraconsulting.siren.internal.TestUtil.getResource;
 import static no.capraconsulting.siren.internal.TestUtil.parseAndVerifyRootRelaxed;
+import static no.capraconsulting.siren.internal.TestUtil.verifyRoot;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -43,5 +44,23 @@ public class LinkTest {
         assertEquals(1, link.getClazz().size());
         assertEquals("dummyclass", link.getFirstClass());
         assertTrue(link.toRaw().containsKey("class"));
+    }
+
+    @Test
+    public void testToBuilder() {
+        Link link = Link
+            .newBuilder("rel", URI.create("uri"))
+            .clazz("class")
+            .title("title")
+            .type("type")
+            .build()
+            .toBuilder()
+            .rel("other")
+            .build();
+
+        verifyRoot(
+            "LinkTest.ToBuilder.siren.json",
+            Root.newBuilder().links(link).build()
+        );
     }
 }

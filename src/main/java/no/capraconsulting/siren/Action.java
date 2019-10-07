@@ -1,13 +1,12 @@
 package no.capraconsulting.siren;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -144,6 +143,19 @@ public final class Action implements Serializable {
         return fields;
     }
 
+    /**
+     * Create a new builder using the current data.
+     */
+    public Builder toBuilder() {
+        return Action
+            .newBuilder(name, href)
+            .clazz(clazz)
+            .method(method)
+            .title(title)
+            .type(type)
+            .fields(fields);
+    }
+
     @NotNull
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
@@ -202,7 +214,7 @@ public final class Action implements Serializable {
      */
     public static class Builder {
         @NotNull
-        private final String name;
+        private String name;
 
         /**
          * class
@@ -213,7 +225,7 @@ public final class Action implements Serializable {
         @Nullable
         private String method;
         @NotNull
-        private final URI href;
+        private URI href;
         @Nullable
         private String title;
         @Nullable
@@ -224,6 +236,31 @@ public final class Action implements Serializable {
         private Builder(@NotNull final String name, @NotNull final URI href) {
             this.name = name;
             this.href = href;
+        }
+
+        /**
+         * Set value for name.
+         *
+         * @param name A string that identifies the action to be performed. Action names MUST be unique
+         *             within the set of actions for an entity. The behaviour of clients when parsing a
+         *             Siren document that violates this constraint is undefined. Required.
+         * @return builder
+         */
+        @NotNull
+        public Builder name(@NotNull String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * Set value for href.
+         *
+         * @param href The URI of the action. Required.
+         */
+        @NotNull
+        public Builder href(@NotNull URI href) {
+            this.href = href;
+            return this;
         }
 
         /**

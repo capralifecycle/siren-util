@@ -1,7 +1,6 @@
 package no.capraconsulting.siren;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.stream.Collectors;
 import no.capraconsulting.siren.internal.json.Json;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -166,6 +164,20 @@ public final class Root implements Serializable {
     @NotNull
     public List<Action> getActions() {
         return actions;
+    }
+
+    /**
+     * Create a new builder using the current data.
+     */
+    public Builder toBuilder() {
+        return Root
+            .newBuilder()
+            .clazz(clazz)
+            .title(title)
+            .properties(properties)
+            .links(links)
+            .entities(entities)
+            .actions(actions);
     }
 
     /**

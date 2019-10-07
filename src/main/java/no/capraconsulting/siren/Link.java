@@ -1,13 +1,12 @@
 package no.capraconsulting.siren;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -134,6 +133,17 @@ public final class Link implements Serializable {
         return type;
     }
 
+    /**
+     * Create a new builder using the current data.
+     */
+    public Builder toBuilder() {
+        return Link
+            .newBuilder(rel, href)
+            .title(title)
+            .clazz(clazz)
+            .type(type);
+    }
+
     @NotNull
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
@@ -198,9 +208,9 @@ public final class Link implements Serializable {
         @Nullable
         private String title;
         @NotNull
-        private final List<String> rel;
+        private List<String> rel;
         @NotNull
-        private final URI href;
+        private URI href;
         @Nullable
         private String type;
 
@@ -218,6 +228,40 @@ public final class Link implements Serializable {
         @NotNull
         public Builder title(@Nullable String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the link to its entity, per Web Linking (RFC5988). Required.
+         * @return builder
+         */
+        @NotNull
+        public Builder rel(@NotNull List<String> rel) {
+            this.rel = rel;
+            return this;
+        }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the link to its entity, per Web Linking (RFC5988). Required.
+         * @return builder
+         */
+        @NotNull
+        public Builder rel(@NotNull String rel) {
+            return rel(singletonList(rel));
+        }
+
+        /**
+         * Set value for href.
+         *
+         * @param href The URI of the linked resource. Required.
+         */
+        @NotNull
+        public Builder href(@NotNull URI href) {
+            this.href = href;
             return this;
         }
 

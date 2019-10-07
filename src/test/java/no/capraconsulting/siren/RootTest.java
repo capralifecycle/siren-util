@@ -1,14 +1,14 @@
 package no.capraconsulting.siren;
 
-import org.junit.Test;
-import org.skyscreamer.jsonassert.JSONAssert;
-
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
+import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static no.capraconsulting.siren.internal.TestUtil.entry;
 import static no.capraconsulting.siren.internal.TestUtil.getResource;
 import static no.capraconsulting.siren.internal.TestUtil.mapOf;
@@ -264,5 +264,22 @@ public class RootTest {
         Root root = Root.fromJson(inputJson);
 
         verifyRoot("RootTest.WithEmptyElements.out.siren.json", root);
+    }
+
+    @Test
+    public void testToBuilder() {
+        Root root = Root.newBuilder()
+            .clazz("class")
+            .title("title")
+            .properties(singletonMap("some key",  "value"))
+            .entities(EmbeddedLink.newBuilder("emblink", URI.create("uri")).build())
+            .actions(Action.newBuilder("link", URI.create("uri")).build())
+            .links(Link.newBuilder("linkrel", URI.create("uri")).build())
+            .build()
+            .toBuilder()
+            .title("other")
+            .build();
+
+        verifyRoot("RootTest.ToBuilder.siren.json", root);
     }
 }

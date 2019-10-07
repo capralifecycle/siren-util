@@ -7,7 +7,6 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsMap;
@@ -114,6 +113,18 @@ public final class Field implements Serializable {
         return value;
     }
 
+    /**
+     * Create a new builder using the current data.
+     */
+    public Builder toBuilder() {
+        return Field
+            .newBuilder(name)
+            .clazz(clazz)
+            .type(type)
+            .title(title)
+            .value(value);
+    }
+
     @NotNull
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
@@ -159,7 +170,7 @@ public final class Field implements Serializable {
      */
     public static class Builder {
         @NotNull
-        private final String name;
+        private String name;
 
         /**
          * class
@@ -176,6 +187,19 @@ public final class Field implements Serializable {
 
         private Builder(@NotNull final String name) {
             this.name = name;
+        }
+
+        /**
+         * Set value for name.
+         *
+         * @param name A name describing the control. Field names MUST be unique within the set of fields for an action.
+         *             Required.
+         * @return builder
+         */
+        @NotNull
+        public Builder name(@NotNull String name) {
+            this.name = name;
+            return this;
         }
 
         /**

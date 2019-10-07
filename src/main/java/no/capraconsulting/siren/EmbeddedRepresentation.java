@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptyMap;
@@ -135,6 +134,20 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
         return actions;
     }
 
+    /**
+     * Create a new builder using the current data.
+     */
+    public Builder toBuilder() {
+        return EmbeddedRepresentation
+            .newBuilder(rel)
+            .clazz(clazz)
+            .title(title)
+            .properties(properties)
+            .links(links)
+            .entities(entities)
+            .actions(actions);
+    }
+
     @Override
     Map<String, Object> toRaw() {
         Map<String, Object> result = new LinkedHashMap<>();
@@ -181,7 +194,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
         @Nullable
         private String title;
         @NotNull
-        private final List<String> rel;
+        private List<String> rel;
         @NotNull
         private Map<String, Object> properties = emptyMap();
         @NotNull
@@ -230,6 +243,29 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
         public Builder title(@Nullable String title) {
             this.title = title;
             return this;
+        }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899). Required.
+         * @return builder
+         */
+        @NotNull
+        public Builder rel(@NotNull List<String> rel) {
+            this.rel = rel;
+            return this;
+        }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the sub-entity to its parent, per Web Linking (RFC5899). Required.
+         * @return builder
+         */
+        @NotNull
+        public Builder rel(@NotNull String rel) {
+            return rel(singletonList(rel));
         }
 
         /**
