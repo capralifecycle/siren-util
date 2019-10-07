@@ -25,7 +25,6 @@ import static org.junit.Assert.fail;
 
 public class RootTest {
 
-    @SuppressWarnings("ConstantConditions")
     @Test
     public void testFromRawWithNullValues() {
         Map<String, Object> rootMap = mapOf(
