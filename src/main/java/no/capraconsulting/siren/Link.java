@@ -1,14 +1,13 @@
 package no.capraconsulting.siren;
 
-import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serializable;
+import java.net.URI;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -152,20 +151,11 @@ public final class Link implements Serializable {
     }
 
     @NotNull
-    private static URI parseHref(@NotNull String value) {
-        try {
-            return new URI(value);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(String.format("Invalid %s in Link", Siren.HREF), e);
-        }
-    }
-
-    @NotNull
     private static Link fromRaw(@NotNull final Map<String, Object> map) {
         return Link
             .newBuilder(
                 objectAsStringList(map.get(Siren.REL)),
-                parseHref(map.get(Siren.HREF).toString())
+                URI.create(map.get(Siren.HREF).toString())
             )
             .title((String) map.get(Siren.TITLE))
             .clazz(notNull(map, Siren.CLASS) ? objectAsStringList(map.get(Siren.CLASS)) : null)

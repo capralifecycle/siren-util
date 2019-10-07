@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.net.URI;
 
 import static no.capraconsulting.siren.internal.TestUtil.verifyRoot;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class ActionTest {
 
@@ -29,5 +31,29 @@ public class ActionTest {
             .build();
 
         verifyRoot("ActionTest1.siren.json", root);
+    }
+
+    @Test
+    public void testInvalidHref() {
+        String json = Root
+            .newBuilder()
+            .actions(
+                Action
+                    .newBuilder(
+                        "action-name",
+                        URI.create("http://example.com:8080/")
+                    )
+                    .build()
+            )
+            .build()
+            .toJson()
+            .replace("http://example.com:8080/", "::");
+
+        try {
+            Root.fromJson(json);
+            fail("Exception expected");
+        } catch (IllegalArgumentException e) {
+            assertEquals("Expected scheme name at index 0: ::", e.getMessage());
+        }
     }
 }

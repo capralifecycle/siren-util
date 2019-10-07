@@ -1,13 +1,12 @@
 package no.capraconsulting.siren;
 
-import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.Serializable;
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.emptyList;
 import static no.capraconsulting.siren.internal.util.GenericsUtil.objectAsList;
@@ -101,23 +100,13 @@ public abstract class Embedded implements Serializable {
     }
 
     @NotNull
-    private static URI parseHref(@NotNull String value) {
-        try {
-            return new URI(value);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(String.format("Invalid %s in Embedded", Siren.HREF), e);
-        }
-    }
-
-    @NotNull
     static Embedded fromRaw(@NotNull final Map<String, Object> map) {
         List<String> clazz = notNull(map, Siren.CLASS) ? objectAsStringList(map.get(Siren.CLASS)) : null;
         List<String> rel = objectAsStringList(map.get(Siren.REL));
 
         if (notNull(map, Siren.HREF)) {
-            URI href = parseHref(map.get(Siren.HREF).toString());
             return EmbeddedLink
-                .newBuilder(rel, href)
+                .newBuilder(rel, URI.create(map.get(Siren.HREF).toString()))
                 .clazz(clazz)
                 .type((String) map.get(Siren.TYPE))
                 .title((String) map.get(Siren.TITLE))
