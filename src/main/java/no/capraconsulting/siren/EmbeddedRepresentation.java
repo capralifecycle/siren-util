@@ -144,6 +144,7 @@ public final class EmbeddedRepresentation extends Embedded implements Serializab
         result.put(Siren.LINKS, links == null ? null : map(links, Link::toRaw));
         result.put(Siren.ENTITIES, entities == null ? null : map(entities, Embedded::toRaw));
         result.put(Siren.ACTIONS, actions == null ? null : map(actions, Action::toRaw));
+        result.put(Siren.TITLE, title);
         return skipNulls(result);
     }
 
