@@ -27,18 +27,21 @@ Root siren = Root
     .build();
 
 String json = siren.toJson();
+// Result: {"class":["order"],"properties":{"orderNumber":42,"itemCount":3,"status":"pending"},"links":[{"rel":["self"],"href":"https://example.com/orders/42"}]}
 
 // Parsing.
 Root parsed = Root.fromJson(json);
 if (parsed.getProperties() != null) {
     parsed.getProperties().get("status");
+    // Result: pending
 }
-```
 
-Result:
-
-```json
-{"class":["order"],"properties":{"orderNumber":42,"itemCount":3,"status":"pending"},"links":[{"rel":["self"],"href":"https://example.com/orders/42"}]}
+// Updating.
+Map<String, Object> newProperties = new LinkedHashMap<>(parsed.getProperties());
+newProperties.put("status", "completed");
+Root updated = parsed.toBuilder()
+    .properties(newProperties)
+    .build();
 ```
 
 See tests for more examples.
