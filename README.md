@@ -8,6 +8,10 @@
 Build and parse [Siren hypermedia](https://github.com/kevinswiber/siren)
 compliant JSON representations of entities.
 
+This project is currently released to internal repositories only.
+The goal is to release to Central Repository as soon as it reaches a
+stable version.
+
 ## Example
 
 ```java
@@ -62,3 +66,12 @@ mvn test -DREGENERATE_SNAPSHOTS=true
 
 When a snapshot fails the easiest way to compare the changes are by regenering
 snapshots and using Git diff.
+
+### Performing releases
+
+Currently done from the developer machine having write access to
+GitHub and Nexus:
+
+```bash
+mvn release:prepare release:perform -DuseReleaseProfile=false
+```
