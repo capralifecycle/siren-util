@@ -56,6 +56,16 @@ data class Field(
     val value: Any? = null
 ) : Serializable {
 
+    /**
+     * Create a new builder using the current data.
+     */
+    fun toBuilder() = Field
+        .newBuilder(name)
+        .clazz(clazz)
+        .type(type)
+        .title(title)
+        .value(value)
+
     internal fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
             this[Siren.NAME] = name
@@ -68,11 +78,20 @@ data class Field(
     /**
      * Builder for [Field].
      */
-    class Builder internal constructor(private val name: String) {
+    class Builder internal constructor(private var name: String) {
         private var clazz: List<String> = emptyList()
         private var type: String? = null
         private var title: String? = null
         private var value: Any? = null
+
+        /**
+         * Set value for name.
+         *
+         * @param name A name describing the control. Field names MUST be
+         * unique within the set of fields for an action. Required.
+         * @return builder
+         */
+        fun name(name: String) = apply { this.name = name }
 
         /**
          * Set value for class.

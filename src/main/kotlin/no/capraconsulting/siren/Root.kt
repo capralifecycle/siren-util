@@ -94,6 +94,18 @@ data class Root(
         get() = entities.filterIsInstance<EmbeddedRepresentation>()
 
     /**
+     * Create a new builder using the current data.
+     */
+    fun toBuilder() = Root
+        .newBuilder()
+        .clazz(clazz)
+        .title(title)
+        .properties(properties)
+        .links(links)
+        .entities(entities)
+        .actions(actions)
+
+    /**
      * Generate a JSON string representation of this entity.
      *
      * The value will be contained in a single line.

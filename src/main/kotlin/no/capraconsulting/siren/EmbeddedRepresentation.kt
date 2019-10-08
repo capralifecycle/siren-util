@@ -85,6 +85,18 @@ data class EmbeddedRepresentation(
     val embeddedRepresentations: List<EmbeddedRepresentation>
         get() = entities.filterIsInstance<EmbeddedRepresentation>()
 
+    /**
+     * Create a new builder using the current data.
+     */
+    fun toBuilder() = EmbeddedRepresentation
+        .newBuilder(rel)
+        .clazz(clazz)
+        .title(title)
+        .properties(properties)
+        .links(links)
+        .entities(entities)
+        .actions(actions)
+
     override fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
             this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
@@ -99,7 +111,7 @@ data class EmbeddedRepresentation(
     /**
      * Builder for [EmbeddedRepresentation].
      */
-    class Builder internal constructor(private val rel: List<String>) {
+    class Builder internal constructor(private var rel: List<String>) {
         private var clazz: List<String> = emptyList()
         private var title: String? = null
         private var properties: Map<String, Any?> = emptyMap()
@@ -134,6 +146,24 @@ data class EmbeddedRepresentation(
          * @return builder
          */
         fun title(title: String?) = apply { this.title = title }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899). Required.
+         * @return builder
+         */
+        fun rel(rel: List<String>) = apply { this.rel = rel }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899). Required.
+         * @return builder
+         */
+        fun rel(rel: String) = rel(listOf<String>(rel))
 
         /**
          * Set value for properties.

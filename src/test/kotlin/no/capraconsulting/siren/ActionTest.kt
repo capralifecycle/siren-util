@@ -3,7 +3,7 @@ package no.capraconsulting.siren
 import java.net.URI
 import no.capraconsulting.siren.internal.verifyRoot
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
+import org.junit.Assert.fail
 import org.junit.Test
 
 class ActionTest {
@@ -49,9 +49,30 @@ class ActionTest {
 
         try {
             Root.fromJson(json)
-            assertFalse("Should throw exception and not hit this!", true)
+            fail("Exception expected")
         } catch (e: IllegalArgumentException) {
             assertEquals("Expected scheme name at index 0: ::", e.message)
         }
+    }
+
+    @Test
+    fun testToBuilder() {
+        val action = Action
+            .newBuilder("name", URI.create("uri"))
+            .title("title")
+            .clazz("class")
+            .method(Action.Method.GET)
+            .href(URI.create("uri"))
+            .type("type")
+            .fields(Field.newBuilder("field").build())
+            .build()
+            .toBuilder()
+            .name("new name")
+            .build()
+
+        verifyRoot(
+            "ActionTest.ToBuilder.siren.json",
+            Root.newBuilder().actions(action).build()
+        )
     }
 }

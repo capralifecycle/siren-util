@@ -13,6 +13,7 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 import org.skyscreamer.jsonassert.JSONAssert
 
@@ -319,7 +320,7 @@ class RootTest {
                             .title("Another embedded link")
                             .type("application/json")
                             .build()
-                        )
+                    )
                     .links(
                         Link
                             .newBuilder("self", URI.create("http://api.x.io/customers/pj123"))
@@ -472,5 +473,42 @@ class RootTest {
 
         // Link already verified above. Skipping here.
         assertEquals(1, root.links.size)
+    }
+
+    @Test
+    fun testInvalidDoc() {
+        // Currently 'rel' is required for an embedded entity. We might
+        // want to relax on this to allow parsing invalid documents but
+        // try to enforce it when constructing new documents.
+
+        val valid = getResource("RootTest.InvalidDoc1.valid.siren.json")
+        val invalid = getResource("RootTest.InvalidDoc1.invalid.siren.json")
+
+        val rootValid = Root.fromJson(valid)
+        assertEquals(1, rootValid.embeddedRepresentations.size)
+
+        try {
+            Root.fromJson(invalid)
+            fail("Exception not thrown")
+        } catch (e: NoSuchElementException) {
+            assertEquals("Key rel is missing in the map.", e.message)
+        }
+    }
+
+    @Test
+    fun testToBuilder() {
+        val root = Root.newBuilder()
+            .clazz("class")
+            .title("title")
+            .properties(mapOf("some key" to "value"))
+            .entities(EmbeddedLink.newBuilder("emblink", URI.create("uri")).build())
+            .actions(Action.newBuilder("link", URI.create("uri")).build())
+            .links(Link.newBuilder("linkrel", URI.create("uri")).build())
+            .build()
+            .toBuilder()
+            .title("other")
+            .build()
+
+        verifyRoot("RootTest.ToBuilder.siren.json", root)
     }
 }

@@ -73,6 +73,17 @@ data class Action(
     val fields: List<Field> = emptyList()
 ) : Serializable {
 
+    /**
+     * Create a new builder using the current data.
+     */
+    fun toBuilder(): Builder = Action
+        .newBuilder(name, href)
+        .clazz(clazz)
+        .method(method)
+        .title(title)
+        .type(type)
+        .fields(fields)
+
     internal fun toRaw(): Map<String, Any?> =
         LinkedHashMap<String, Any?>().apply {
             this[Siren.NAME] = name
@@ -87,12 +98,30 @@ data class Action(
     /**
      * Builder for [Action].
      */
-    class Builder internal constructor(private val name: String, private val href: URI) {
+    class Builder internal constructor(private var name: String, private var href: URI) {
         private var clazz: List<String> = emptyList()
         private var method: String? = null
         private var title: String? = null
         private var type: String? = null
         private var fields: List<Field> = emptyList()
+
+        /**
+         * Set value for name.
+         *
+         * @param name A string that identifies the action to be performed.
+         * Action names MUST be unique within the set of actions for an entity.
+         * The behaviour of clients when parsing a Siren document that violates
+         * this constraint is undefined. Required.
+         * @return builder
+         */
+        fun name(name: String) = apply { this.name = name }
+
+        /**
+         * Set value for href.
+         *
+         * @param href The URI of the action. Required.
+         */
+        fun href(href: URI) = apply { this.href = href }
 
         /**
          * Set value for class.

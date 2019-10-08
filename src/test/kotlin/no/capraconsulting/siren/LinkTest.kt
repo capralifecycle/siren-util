@@ -3,6 +3,7 @@ package no.capraconsulting.siren
 import java.net.URI
 import no.capraconsulting.siren.internal.getResource
 import no.capraconsulting.siren.internal.parseAndVerifyRootRelaxed
+import no.capraconsulting.siren.internal.verifyRoot
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -38,5 +39,23 @@ class LinkTest {
         assertEquals(1, link.clazz.size.toLong())
         assertEquals("dummyclass", link.firstClass)
         assertTrue(link.toRaw().containsKey("class"))
+    }
+
+    @Test
+    fun testToBuilder() {
+        val link = Link
+            .newBuilder("rel", URI.create("uri"))
+            .clazz("class")
+            .title("title")
+            .type("type")
+            .build()
+            .toBuilder()
+            .rel("other")
+            .build()
+
+        verifyRoot(
+            "LinkTest.ToBuilder.siren.json",
+            Root.newBuilder().links(link).build()
+        )
     }
 }

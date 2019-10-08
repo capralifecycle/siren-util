@@ -56,6 +56,15 @@ data class EmbeddedLink(
     val title: String? = null
 ) : Embedded(), Serializable {
 
+    /**
+     * Create a new builder using the current data.
+     */
+    fun toBuilder() = EmbeddedLink
+        .newBuilder(rel, href)
+        .clazz(clazz)
+        .type(type)
+        .title(title)
+
     override fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
             this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
@@ -68,7 +77,7 @@ data class EmbeddedLink(
     /**
      * Builder for [EmbeddedLink].
      */
-    class Builder internal constructor(private val rel: List<String>, private val href: URI) {
+    class Builder internal constructor(private var rel: List<String>, private var href: URI) {
         private var clazz: List<String> = emptyList()
         private var type: String? = null
         private var title: String? = null
@@ -92,6 +101,31 @@ data class EmbeddedLink(
          * @return builder
          */
         fun clazz(vararg clazz: String) = clazz(listOf(*clazz))
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899). Required.
+         * @return builder
+         */
+        fun rel(rel: List<String>) = apply { this.rel = rel }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the sub-entity to its parent,
+         * per Web Linking (RFC5899). Required.
+         * @return builder
+         */
+        fun rel(rel: String) = rel(listOf(rel))
+
+        /**
+         * Set value for href.
+         *
+         * @param href The URI of the linked sub-entity. Required.
+         */
+        fun href(href: URI) = apply { this.href = href }
 
         /**
          * Set value for type.

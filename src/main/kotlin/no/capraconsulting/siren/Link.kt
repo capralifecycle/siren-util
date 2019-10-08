@@ -79,6 +79,15 @@ data class Link(
      */
     val firstClass: String? get() = clazz.firstOrNull()
 
+    /**
+     * Create a new builder using the current data.
+     */
+    fun toBuilder(): Builder = Link
+        .newBuilder(rel, href)
+        .title(title)
+        .clazz(clazz)
+        .type(type)
+
     internal fun toRaw(): Map<String, Any> =
         LinkedHashMap<String, Any?>().apply {
             this[Siren.CLASS] = if (clazz.isEmpty()) null else clazz
@@ -91,7 +100,7 @@ data class Link(
     /**
      * Builder for [Link].
      */
-    class Builder internal constructor(private val rel: List<String>, private val href: URI) {
+    class Builder internal constructor(private var rel: List<String>, private var href: URI) {
         private var clazz: List<String> = emptyList()
         private var title: String? = null
         private var type: String? = null
@@ -103,6 +112,31 @@ data class Link(
          * @return builder
          */
         fun title(title: String?) = apply { this.title = title }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the link to its entity, per
+         * Web Linking (RFC5988). Required.
+         * @return builder
+         */
+        fun rel(rel: List<String>) = apply { this.rel = rel }
+
+        /**
+         * Set value for rel.
+         *
+         * @param rel Defines the relationship of the link to its entity, per
+         * Web Linking (RFC5988). Required.
+         * @return builder
+         */
+        fun rel(rel: String) = rel(listOf<String>(rel))
+
+        /**
+         * Set value for href.
+         *
+         * @param href The URI of the linked resource. Required.
+         */
+        fun href(href: URI) = apply { this.href = href }
 
         /**
          * Add value for class.
