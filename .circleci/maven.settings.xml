@@ -1,7 +1,7 @@
 <settings>
     <servers>
         <server>
-            <id>capra-snapshots</id>
+            <id>ossrh</id>
             <username>${env.NEXUS_USERNAME}</username>
             <password>${env.NEXUS_PASSWORD}</password>
         </server>
