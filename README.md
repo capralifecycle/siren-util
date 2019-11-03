@@ -70,8 +70,9 @@ snapshots and using Git diff.
 ### Performing releases
 
 Currently done from the developer machine having write access to
-GitHub and Nexus:
+GitHub and OSSRH. See https://confluence.capraconsulting.no/x/mTBaBw
+for internal details.
 
 ```bash
-mvn release:prepare release:perform -DuseReleaseProfile=false
+mvn release:prepare release:perform
 ```
