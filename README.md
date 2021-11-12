@@ -73,3 +73,10 @@ for internal details.
 ```bash
 mvn release:prepare release:perform
 ```
+
+#### Troubleshooting
+
+* `gpg: signing failed: Inappropriate ioctl for device`
+  * `export GPG_TTY=$(tty)`
+* `Unable to make field private final java.util.Comparator java.util.TreeMap.comparator accessible: module java.base does not “opens java.util” to unnamed module @4a9486c0`
+  * `export JAVA_HOME=$(/usr/libexec/java_home -v1.8)`
