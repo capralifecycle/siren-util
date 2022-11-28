@@ -1,7 +1,5 @@
 # siren-util
 
-[![CircleCI](https://circleci.com/gh/capralifecycle/siren-util/tree/master.svg?style=shield)](https://circleci.com/gh/capralifecycle/siren-util/tree/master)
-[![Central Repository](https://img.shields.io/maven-central/v/no.capraconsulting/siren-util?label=release)](https://search.maven.org/search?q=g:no.capraconsulting%20AND%20a:siren-util)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=alert_status)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=coverage)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=sqale_index)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
@@ -66,13 +64,7 @@ snapshots and using Git diff.
 
 ### Performing releases
 
-Currently done from the developer machine having write access to
-GitHub and OSSRH. See https://confluence.capraconsulting.no/x/mTBaBw
-for internal details.
-
-```bash
-mvn release:prepare release:perform
-```
+Artifacts are released to GitHub Packages through the Jenkins pipeline
 
 #### Troubleshooting
 
