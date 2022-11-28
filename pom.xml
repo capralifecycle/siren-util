@@ -42,9 +42,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:git://github.com/capraconsulting/siren-util.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/capraconsulting/siren-util.git</developerConnection>
-    <url>https://github.com/capraconsulting/siren-util/tree/master</url>
+    <connection>scm:git:https://github.com/capralifecycle/siren-util.git</connection>
+    <developerConnection>scm:git:https://github.com/capralifecycle/siren-util.git</developerConnection>
+    <url>https://github.com/capralifecycle/siren-util/tree/master</url>
     <tag>HEAD</tag>
   </scm>
 
