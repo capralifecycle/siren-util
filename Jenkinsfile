@@ -7,5 +7,5 @@ simpleMavenLibPipeline(
   buildConfigParams: [
     slack: [channel: "#europris-dev-info"],
   ],
-  dockerBuildImage: toolImageDockerReference("maven:3-jdk-8-alpine")
+  dockerBuildImage: toolImageDockerReference("maven:3-jdk-17-alpine")
 )
