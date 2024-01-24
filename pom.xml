@@ -49,6 +49,13 @@
     </license>
   </licenses>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/capralifecycle/siren-util</url>
+    </repository>
+  </distributionManagement>
+
   <developers>
     <developer>
       <name>Henrik Steen</name>
