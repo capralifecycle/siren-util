@@ -1,0 +1,58 @@
+{
+  "class": [
+    "theclass"
+  ],
+  "properties": {
+    "someId": "abc",
+    "theNumber": 64,
+    "some_boolean": true,
+    "description": "a little description",
+    "more": "UPPERCASE",
+    "another numbers": 3,
+    "created": "2017-09-18T08:45:05.197Z"
+  },
+  "entities": [
+    {
+      "class": [
+        "location"
+      ],
+      "rel": [
+        "hasA"
+      ],
+      "properties": {
+        "locationId": "location4",
+        "latitude": 54.801913,
+        "longitude": 12.317822
+      }
+    },
+    {
+      "class": [
+        "location"
+      ],
+      "rel": [
+        "hasA"
+      ],
+      "href": "https://example.com/entity/entity1/location/location4"
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "https://example.com/entity/entity1/some/abc"
+    },
+    {
+      "rel": [
+        "parent"
+      ],
+      "href": "https://example.com/entity/entity1/some/def"
+    },
+    {
+      "rel": [
+        "hasA"
+      ],
+      "href": "https://example.com/entity/entity1/location/location4"
+    }
+  ]
+}

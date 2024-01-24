@@ -1,0 +1,31 @@
+{
+  "class": [
+    "class"
+  ],
+  "title": "other",
+  "properties": {
+    "some key": "value"
+  },
+  "entities": [
+    {
+      "rel": [
+        "emblink"
+      ],
+      "href": "uri"
+    }
+  ],
+  "actions": [
+    {
+      "name": "link",
+      "href": "uri"
+    }
+  ],
+  "links": [
+    {
+      "rel": [
+        "linkrel"
+      ],
+      "href": "uri"
+    }
+  ]
+}

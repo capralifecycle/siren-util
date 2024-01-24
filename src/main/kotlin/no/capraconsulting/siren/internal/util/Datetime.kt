@@ -10,9 +10,9 @@ internal fun Instant.toZonedDateTime(): ZonedDateTime =
 
 internal fun String.toZonedDateTime(): ZonedDateTime =
     try {
-        ZonedDateTime.parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+      ZonedDateTime.parse(this, DateTimeFormatter.ISO_ZONED_DATE_TIME)
     } catch (e: Exception) {
-        throw IllegalArgumentException(this)
+      throw IllegalArgumentException(this)
     }
 
 internal fun ZonedDateTime.toFormattedString() = format(DateTimeFormatter.ISO_INSTANT)

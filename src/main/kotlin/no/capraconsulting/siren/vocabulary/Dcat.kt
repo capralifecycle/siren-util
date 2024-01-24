@@ -6,5 +6,5 @@ package no.capraconsulting.siren.vocabulary
  * **See also:** [Data Catalog Vocabulary](https://www.w3.org/TR/vocab-dcat/)
  */
 object Dcat {
-    const val KEYWORD = "keyword"
+  const val KEYWORD = "keyword"
 }

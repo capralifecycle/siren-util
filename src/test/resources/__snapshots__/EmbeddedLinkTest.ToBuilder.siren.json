@@ -1,0 +1,15 @@
+{
+  "entities": [
+    {
+      "class": [
+        "class"
+      ],
+      "rel": [
+        "other"
+      ],
+      "href": "uri",
+      "type": "type",
+      "title": "title"
+    }
+  ]
+}

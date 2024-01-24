@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {
+      "name": "name",
+      "href": "uri",
+      "fields": [
+        {
+          "name": "other",
+          "class": [
+            "class"
+          ],
+          "type": "number",
+          "title": "title",
+          "value": "some value"
+        }
+      ]
+    }
+  ]
+}

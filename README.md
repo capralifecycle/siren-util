@@ -1,44 +1,61 @@
 # siren-util
 
-[![CircleCI](https://circleci.com/gh/capraconsulting/siren-util.svg?style=svg)](https://circleci.com/gh/capraconsulting/siren-util)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=alert_status)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=coverage)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=capraconsulting_siren-util&metric=sqale_index)](https://sonarcloud.io/dashboard?id=capraconsulting_siren-util)
+![Java Badge](https://img.shields.io/badge/java-17-blue?logo=java)
+![Kotlin Badge](https://img.shields.io/badge/kotlin--blue?logo=kotlin)
+[![Build Status](https://jenkins.capra.tv/buildStatus/icon?style=flat&job=liflig-internal%2Fsiren-util%2Fmaster)](https://jenkins.capra.tv/job/liflig-internal/job/siren-util/job/master/)
 
 Build and parse [Siren hypermedia](https://github.com/kevinswiber/siren)
 compliant JSON representations of entities.
 
 ## Example
 
-```java
-Map<String, Object> properties = new LinkedHashMap<>();
-properties.put("orderNumber", 42);
-properties.put("itemCount", 3);
-properties.put("status", "pending");
+```kotlin
+val properties = mapOf(
+  "orderNumber" to 42,
+  "itemCount" to 3,
+  "status" to "pending"
+)
 
 // Building.
-Root siren = Root
-    .newBuilder()
-    .clazz("order")
-    .properties(properties)
-    .links(
-        Link.newBuilder("self", URI.create("https://example.com/orders/42")).build()
-    )
-    .build();
+val siren = Root
+  .newBuilder()
+  .clazz("order")
+  .properties(properties)
+  .links(
+    Link.newBuilder("self", URI.create("https://example.com/orders/42")).build()
+  )
+  .build()
 
-String json = siren.toJson();
+val json = siren.toJson()
 
 // Parsing.
-Root parsed = Root.fromJson(json);
+val parsed = Root.fromJson(json)
 if (parsed.getProperties() != null) {
-    parsed.getProperties().get("status");
+  parsed.getProperties().get("status")
 }
 ```
 
 Result:
 
 ```json
-{"class":["order"],"properties":{"orderNumber":42,"itemCount":3,"status":"pending"},"links":[{"rel":["self"],"href":"https://example.com/orders/42"}]}
+{
+  "class": [
+    "order"
+  ],
+  "properties": {
+    "orderNumber": 42,
+    "itemCount": 3,
+    "status": "pending"
+  },
+  "links": [
+    {
+      "rel": [
+        "self"
+      ],
+      "href": "https://example.com/orders/42"
+    }
+  ]
+}
 ```
 
 See tests for more examples.

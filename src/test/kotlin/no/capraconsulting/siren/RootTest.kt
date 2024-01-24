@@ -3,338 +3,250 @@ package no.capraconsulting.siren
 import java.net.URI
 import java.util.Collections.emptyList
 import no.capraconsulting.siren.internal.getResource
-import no.capraconsulting.siren.internal.parseAndVerifyRootStrict
 import no.capraconsulting.siren.internal.util.asList
 import no.capraconsulting.siren.internal.util.asMap
 import no.capraconsulting.siren.internal.verifyRoot
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
-import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
-import org.junit.Test
-import org.skyscreamer.jsonassert.JSONAssert
+import no.liflig.snapshot.verifyJsonSnapshot
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.junit.jupiter.api.Test
 
 class RootTest {
 
-    @Test
-    fun testFromRawWithNullValues() {
-        val rootMap = mapOf(
+  @Test
+  fun testFromRawWithNullValues() {
+    val rootMap =
+        mapOf(
             Siren.CLASS to listOf("class"),
             Siren.ENTITIES to null,
             Siren.LINKS to null,
-            Siren.PROPERTIES to mapOf(
-                "prop1" to "val1",
-                "prop2" to "val2"
-            )
-        )
+            Siren.PROPERTIES to mapOf("prop1" to "val1", "prop2" to "val2"))
 
-        val rootEntity = Root.fromRaw(rootMap)
+    val rootEntity = Root.fromRaw(rootMap)
 
-        assertTrue(rootEntity.links.isEmpty())
-        assertTrue(rootEntity.entities.isEmpty())
-        assertEquals(1, rootEntity.clazz.size.toLong())
-        assertEquals("val1", rootEntity.properties["prop1"])
-        assertEquals("val2", rootEntity.properties["prop2"])
-    }
+    assertThat(rootEntity.links).isEmpty()
+    assertThat(rootEntity.entities).isEmpty()
+    assertThat(rootEntity.clazz.size).isEqualTo(1)
+    assertThat(rootEntity.properties["prop1"]).isEqualTo("val1")
+    assertThat(rootEntity.properties["prop2"]).isEqualTo("val2")
+  }
 
-    @Test
-    fun testFromRawWithoutEntitiesAndLinks() {
-        val rootMap = mapOf(
+  @Test
+  fun testFromRawWithoutEntitiesAndLinks() {
+    val rootMap =
+        mapOf(
             Siren.CLASS to listOf("class"),
-            Siren.PROPERTIES to mapOf(
-                "prop1" to "val1",
-                "prop2" to "val2"
-            )
-        )
+            Siren.PROPERTIES to mapOf("prop1" to "val1", "prop2" to "val2"))
 
-        val root = Root.fromRaw(rootMap)
+    val root = Root.fromRaw(rootMap)
 
-        assertTrue(root.links.isEmpty())
-        assertTrue(root.entities.isEmpty())
+    assertThat(root.links).isEmpty()
+    assertThat(root.entities).isEmpty()
 
-        assertNotNull(root.clazz)
-        assertEquals(1, root.clazz.size.toLong())
+    assertThat(root.clazz).isNotNull.hasSize(1)
 
-        assertNotNull(root.properties)
-        assertEquals("val1", root.properties["prop1"])
-        assertEquals("val2", root.properties["prop2"])
-    }
+    assertThat(root.properties).isNotNull
+    assertThat(root.properties["prop1"]).isEqualTo("val1")
+    assertThat(root.properties["prop2"]).isEqualTo("val2")
+  }
 
-    @Test
-    fun testGetEntitiesWithEntities() {
-        val root = Root
-            .newBuilder()
+  @Test
+  fun `Siren object should contain correct embedded representations`() {
+    val root =
+        Root.newBuilder()
             .entities(
-                EmbeddedRepresentation
-                    .newBuilder("parent")
-                    .properties(
-                        mapOf(
-                            "prop1" to "val1",
-                            "prop2" to "val2"
-                        )
-                    )
-                    .build()
-            )
+                EmbeddedRepresentation.newBuilder("parent")
+                    .properties(mapOf("prop1" to "val1", "prop2" to "val2"))
+                    .build())
             .build()
 
-        assertNotNull(root.entities)
-        assertEquals(1, root.entities.size.toLong())
-        val subEntity = root.embeddedRepresentations[0]
+    assertThat(root.entities).isNotNull().hasSize(1)
 
-        assertNotNull(subEntity.properties)
-        assertEquals("val1", subEntity.properties["prop1"])
-        assertEquals("val2", subEntity.properties["prop2"])
-    }
+    val subEntity = root.embeddedRepresentations[0]
 
-    @Test
-    fun testShouldReturnEmptyListsAndMapsWhereNoData() {
-        val root = Root
-            .newBuilder()
-            .build()
+    assertThat(subEntity.properties).isNotNull()
+    assertThat(subEntity.properties["prop1"]).isEqualTo("val1")
+    assertThat(subEntity.properties["prop2"]).isEqualTo("val2")
+  }
 
-        // Fields.
-        assertTrue(root.links.isEmpty())
-        assertTrue(root.properties.isEmpty())
-        assertTrue(root.clazz.isEmpty())
-        assertTrue(root.entities.isEmpty())
-        assertTrue(root.actions.isEmpty())
-        assertNull(root.title) // not a list/map
+  @Test
+  fun `Should return empty lists and maps where no data`() {
+    val root = Root.newBuilder().build()
 
-        // Other getters.
-        assertNull(root.firstClass)
+    // Fields.
+    assertThat(root.links).isEmpty()
+    assertThat(root.properties).isEmpty()
+    assertThat(root.clazz).isEmpty()
+    assertThat(root.entities).isEmpty()
+    assertThat(root.actions).isEmpty()
+    assertThat(root.title).isNull() // not a list/map
 
-        // Expect for the special getters.
-        assertTrue(root.embeddedRepresentations.isEmpty())
-        assertTrue(root.embeddedLinks.isEmpty())
-    }
+    // Other getters.
+    assertThat(root.firstClass).isNull()
 
-    @Test
-    fun testReturnEmptyListWhenBuiltWithIt() {
-        // As far as I can see an empty list is still valid in the Siren specification,
-        // except where explicitly noted a list must contain items.
+    // Expect for the special getters.
+    assertThat(root.embeddedRepresentations).isEmpty()
+    assertThat(root.embeddedLinks).isEmpty()
+  }
 
-        val root = Root
-            .newBuilder()
-            .links(emptyList())
-            .build()
+  @Test
+  fun `Builder should return root with empty list when built with it`() {
+    // As far as I can see an empty list is still valid in the Siren specification,
+    // except where explicitly noted a list must contain items.
 
-        assertNotNull(root.links)
-        assertEquals(0, root.links.size.toLong())
-    }
+    val root = Root.newBuilder().links(emptyList()).build()
 
-    @Test
-    fun testGetLinks() {
-        val root = Root
-            .newBuilder()
+    assertThat(root.links).isNotNull().hasSize(0)
+  }
+
+  @Test
+  fun `Siren object should encapsulate links`() {
+    val root =
+        Root.newBuilder()
             .links(
-                Link
-                    .newBuilder("self", URI.create("http://localhost:80"))
+                Link.newBuilder("self", URI.create("http://localhost:80"))
                     .clazz("dummytype")
-                    .build()
-            )
+                    .build())
             .build()
 
-        assertNotNull(root.links)
-        assertEquals(1, root.links.size.toLong())
+    assertThat(root.links).isNotNull.hasSize(1)
 
-        val firstLink = root.links[0]
-        assertEquals(URI.create("http://localhost:80"), firstLink.href)
+    val firstLink = root.links[0]
+    assertThat(firstLink.href).isEqualTo(URI.create("http://localhost:80"))
 
-        assertEquals(1, firstLink.rel.size.toLong())
-        assertEquals("self", firstLink.rel[0])
-        assertEquals(firstLink.firstRel, firstLink.rel[0])
+    assertThat(firstLink.rel).hasSize(1)
+    assertThat(firstLink.rel[0]).isEqualTo("self").isEqualTo(firstLink.firstRel)
 
-        assertNotNull(firstLink.clazz)
-        assertEquals("dummytype", firstLink.clazz[0])
-        assertEquals(firstLink.firstClass, firstLink.clazz[0])
-    }
+    assertThat(firstLink.clazz).isNotNull()
+    assertThat(firstLink.clazz[0]).isEqualTo("dummytype").isEqualTo(firstLink.firstClass)
+  }
 
-    @Test
-    fun testGetProperties() {
-        val root = Root.newBuilder()
-            .properties(
-                mapOf(
-                    "prop1" to "val1",
-                    "prop2" to "val2"
-                )
-            )
-            .build()
+  @Test
+  fun `A constructed siren object should contain the correct properties`() {
+    val root = Root.newBuilder().properties(mapOf("prop1" to "val1", "prop2" to "val2")).build()
 
-        assertNotNull(root.properties)
-        assertEquals(2, root.properties.size.toLong())
-        assertEquals("val1", root.properties["prop1"])
-    }
+    assertThat(root.properties).isNotNull().hasSize(2)
+    assertThat(root.properties["prop1"]).isEqualTo("val1")
+  }
 
-    @Test
-    fun testGetClass() {
-        val root = Root
-            .newBuilder()
-            .clazz("City")
-            .build()
+  @Test
+  fun `A constructed siren object should contain the correct class`() {
+    val root = Root.newBuilder().clazz("City").build()
 
-        assertNotNull(root.clazz)
-        assertEquals(1, root.clazz.size.toLong())
-        assertEquals("City", root.clazz[0])
-    }
+    assertThat(root.clazz).isNotNull().hasSize(1)
+    assertThat(root.clazz[0]).isEqualTo("City")
+  }
 
-    @Test
-    fun testToRaw() {
-        val root = Root.newBuilder()
+  @Test
+  fun `Converting a siren object to a raw list and hash map representation should not loose information`() {
+    val root =
+        Root.newBuilder()
             .entities(
-                EmbeddedRepresentation
-                    .newBuilder("parent")
-                    .properties(
-                        mapOf(
-                            "prop1" to "val1",
-                            "prop2" to "val2"
-                        )
-                    )
-                    .build()
-            )
+                EmbeddedRepresentation.newBuilder("parent")
+                    .properties(mapOf("prop1" to "val1", "prop2" to "val2"))
+                    .build())
             .build()
 
-        val raw = root.toRaw()
+    val raw = root.toRaw()
 
-        assertFalse(raw.containsKey(Siren.PROPERTIES))
-        assertFalse(raw.containsKey(Siren.CLASS))
-        assertTrue(raw.containsKey(Siren.ENTITIES))
-        assertFalse(raw.containsKey(Siren.LINKS))
+    assertThat(raw.entries.find { it.key == Siren.PROPERTIES }).isNull()
+    assertThat(raw.entries.find { it.key == Siren.CLASS }).isNull()
+    assertThat(raw.entries.find { it.key == Siren.LINKS }).isNull()
+    assertThat(raw.entries.find { it.key == Siren.ENTITIES }).isNotNull()
 
-        val entities = raw.getValue(Siren.ENTITIES).asList()
-        assertEquals(1, entities.size.toLong())
+    val entities = raw.getValue(Siren.ENTITIES).asList()
+    assertThat(entities).hasSize(1)
 
-        val firstEntity = entities[0]!!.asMap()
-        assertEquals(2, firstEntity.size.toLong())
-        assertTrue(firstEntity.containsKey(Siren.PROPERTIES))
-    }
+    val firstEntity = entities[0]!!.asMap()
+    assertThat(firstEntity).hasSize(2).containsKey(Siren.PROPERTIES)
+  }
 
-    @Test
-    fun testExample1() {
-        val inputJson = getResource("RootTest.Example1.siren.json")
-        val root = Root.fromJson(inputJson)
+  @Test
+  fun testExample1() {
+    val inputJson = getResource("RootTest.Example1.siren.json")
+    val root = Root.fromJson(inputJson)
 
-        val outputJson = root.toJson()
+    val outputJson = root.toJson()
 
-        assertNotEquals(
-            "toJson will not be equal to formatted input json",
-            inputJson,
-            outputJson
-        )
+    assertThat(outputJson)
+        .`as` { "toJson will not be equal to formatted input json" }
+        .isNotEqualTo(inputJson)
 
-        // But if we retry on the generated output it should be valid.
-        parseAndVerifyRootStrict(outputJson)
+    verifyJsonSnapshot("/roottest/example1.json", outputJson)
+    verifyJsonSnapshot("/roottest/example1.json", inputJson)
+  }
 
-        JSONAssert.assertEquals(
-            "by ignoring formatting input will be equal to output",
-            inputJson,
-            outputJson,
-            true
-        )
-    }
+  @Test
+  fun testEmptyListExcluded() {
+    val inputJson = getResource("RootTest.WithEmptyElements.siren.json")
+    val root = Root.fromJson(inputJson)
 
-    @Test
-    fun testEmptyListExcluded() {
-        val inputJson = getResource("RootTest.WithEmptyElements.siren.json")
-        val root = Root.fromJson(inputJson)
+    verifyRoot("RootTest.WithEmptyElements.out.siren.json", root)
+  }
 
-        verifyRoot("RootTest.WithEmptyElements.out.siren.json", root)
-    }
+  @Test
+  fun `Siren objects should be equal when their data is equal`() {
+    val doc = getResource("RootTest.Example1.siren.json")
+    val other = getResource("LinkTest.siren.json")
 
-    @Test
-    fun testEquality() {
-        val doc = getResource("RootTest.Example1.siren.json")
-        val other = getResource("LinkTest.siren.json")
+    val root1 = Root.fromJson(doc)
+    val root2 = Root.fromJson(doc) // Read again to force other instances.
+    val root3 = Root.fromJson(other) // Other doc should never equal.
 
-        val root1 = Root.fromJson(doc)
-        val root2 = Root.fromJson(doc) // Read again to force other instances.
-        val root3 = Root.fromJson(other) // Other doc should never equal.
+    // Modify a field.
+    val root4 = root1.copy(title = "Some other title")
 
-        // Modify a field.
-        val root4 = root1.copy(
-            title = "Some other title"
-        )
+    // Modify contents of properties so it is not the same.
+    val root5 =
+        root1.copy(properties = LinkedHashMap(root1.properties).apply { set("custom", "value") })
 
-        // Modify contents of properties so it is not the same.
-        val root5 = root1.copy(
-            properties = LinkedHashMap(root1.properties).apply {
-                set("custom", "value")
-            }
-        )
+    // Remove field again so it moves forward to be the same as before.
+    val root6 = root5.copy(properties = LinkedHashMap(root5.properties).apply { remove("custom") })
 
-        // Remove field again so it moves forward to be the same as before.
-        val root6 = root5.copy(
-            properties = LinkedHashMap(root5.properties).apply {
-                remove("custom")
-            }
-        )
+    assertThat(root1).isEqualTo(root2)
+    assertThat(root1).isNotEqualTo(root3)
+    assertThat(root1).isNotEqualTo(root4)
+    assertThat(root1).isNotEqualTo(root5)
+    assertThat(root1).isEqualTo(root6)
+  }
 
-        assertEquals(root1, root2)
-        assertNotEquals(root1, root3)
-        assertNotEquals(root1, root4)
-        assertNotEquals(root1, root5)
-        assertEquals(root1, root6)
-    }
-
-    @Test
-    fun testCompleteData() {
-        val root = Root.newBuilder()
+  @Test
+  fun testCompleteData() {
+    val root =
+        Root.newBuilder()
             .clazz("order")
             .title("Complete data")
-            .properties(
-                mapOf(
-                    "orderNumber" to 42,
-                    "status" to "pending"
-                )
-            )
+            .properties(mapOf("orderNumber" to 42, "status" to "pending"))
             .entities(
-                EmbeddedLink
-                    .newBuilder(
+                EmbeddedLink.newBuilder(
                         "http://x.io/rels/order-items",
-                        URI.create("http://api.x.io/orders/42/items")
-                    )
+                        URI.create("http://api.x.io/orders/42/items"))
                     .clazz("embeddedlinkclass")
                     .title("Embedded link")
                     .type("application/json")
                     .build(),
-                EmbeddedRepresentation
-                    .newBuilder("http://x.io/rels/customer")
+                EmbeddedRepresentation.newBuilder("http://x.io/rels/customer")
                     .clazz("info", "customer")
                     .title("Customer Peter Joseph")
-                    .properties(
-                        mapOf(
-                            "customerId" to "pj123",
-                            "name" to "Peter Joseph"
-                        )
-
-                    )
+                    .properties(mapOf("customerId" to "pj123", "name" to "Peter Joseph"))
                     .entities(
-                        EmbeddedLink
-                            .newBuilder(
+                        EmbeddedLink.newBuilder(
                                 "http://x.io/rels/order-items",
-                                URI.create("http://api.x.io/orders/44/items")
-                            )
+                                URI.create("http://api.x.io/orders/44/items"))
                             .clazz("embeddedlinkclass")
                             .title("Another embedded link")
                             .type("application/json")
-                            .build()
-                    )
+                            .build())
                     .links(
-                        Link
-                            .newBuilder("self", URI.create("http://api.x.io/customers/pj123"))
+                        Link.newBuilder("self", URI.create("http://api.x.io/customers/pj123"))
                             .title("Customer pj123")
                             .clazz("info", "customer")
                             .type("application/json")
-                            .build()
-                    )
+                            .build())
                     .actions(
-                        Action
-                            .newBuilder(
+                        Action.newBuilder(
                                 "update-address",
-                                URI.create("http://api.x.io/customers/pj123/address")
-                            )
+                                URI.create("http://api.x.io/customers/pj123/address"))
                             .method(Action.Method.PUT)
                             .title("Update Address")
                             .clazz("update", "address")
@@ -351,18 +263,11 @@ class RootTest {
                                     .type(Field.Type.TEXT)
                                     .title("Address")
                                     .value(null)
-                                    .build()
-                            )
-                            .build()
-                    )
-                    .build()
-            )
+                                    .build())
+                            .build())
+                    .build())
             .actions(
-                Action
-                    .newBuilder(
-                        "add-item",
-                        URI.create("http://api.x.io/orders/42/items")
-                    )
+                Action.newBuilder("add-item", URI.create("http://api.x.io/orders/42/items"))
                     .method(Action.Method.POST)
                     .title("Add Item")
                     .clazz("add-item")
@@ -379,125 +284,110 @@ class RootTest {
                             .type(Field.Type.TEXT)
                             .title("Product Code")
                             .value(null)
-                            .build()
-                    )
-                    .build()
-            )
+                            .build())
+                    .build())
             .links(
                 Link.newBuilder("self", URI.create("http://api.x.io/orders/42"))
                     .clazz("linkclass")
                     .title("A link")
                     .type("application/json")
-                    .build()
-            )
+                    .build())
             .build()
 
-        verifyRoot("RootTest.CompleteData.siren.json", root)
+    verifyRoot("RootTest.CompleteData.siren.json", root)
 
-        // Verify all getters.
+    // Verify all getters.
 
-        assertEquals(listOf("order"), root.clazz)
-        assertEquals("order", root.firstClass)
-        assertEquals("Complete data", root.title)
-        assertEquals(
-            mapOf(
-                "orderNumber" to 42,
-                "status" to "pending"
-            ),
-            root.properties
-        )
+    assertThat(root.clazz).isEqualTo(listOf("order"))
+    assertThat(root.firstClass).isEqualTo("order")
+    assertThat(root.title).isEqualTo("Complete data")
+    assertThat(root.properties).isEqualTo(mapOf("orderNumber" to 42, "status" to "pending"))
 
-        assertEquals(2, root.entities.size)
-        assertEquals(listOf(root.entities[0]), root.embeddedLinks)
-        assertEquals(listOf(root.entities[1]), root.embeddedRepresentations)
+    assertThat(root.entities).hasSize(2)
+    assertThat(listOf(root.entities[0])).isEqualTo(root.embeddedLinks)
+    assertThat(listOf(root.entities[1])).isEqualTo(root.embeddedRepresentations)
 
-        val emblink = root.embeddedLinks[0]
-        assertEquals(listOf("http://x.io/rels/order-items"), emblink.rel)
-        assertEquals("http://x.io/rels/order-items", emblink.firstRel)
-        assertEquals(URI.create("http://api.x.io/orders/42/items"), emblink.href)
-        assertEquals(listOf("embeddedlinkclass"), emblink.clazz)
-        assertEquals("embeddedlinkclass", emblink.firstClass)
-        assertEquals("Embedded link", emblink.title)
-        assertEquals("application/json", emblink.type)
+    val emblink = root.embeddedLinks[0]
+    assertThat(emblink.rel).isEqualTo(listOf("http://x.io/rels/order-items"))
+    assertThat(emblink.firstRel).isEqualTo(("http://x.io/rels/order-items"))
+    assertThat(emblink.href).isEqualTo(URI.create("http://api.x.io/orders/42/items"))
+    assertThat(emblink.clazz).isEqualTo(listOf("embeddedlinkclass"))
+    assertThat(emblink.firstClass).isEqualTo("embeddedlinkclass")
+    assertThat(emblink.title).isEqualTo("Embedded link")
+    assertThat(emblink.type).isEqualTo("application/json")
 
-        val embrepr = root.embeddedRepresentations[0]
-        assertEquals(listOf("http://x.io/rels/customer"), embrepr.rel)
-        assertEquals("http://x.io/rels/customer", embrepr.firstRel)
-        assertEquals(listOf("info", "customer"), embrepr.clazz)
-        assertEquals("info", embrepr.firstClass)
-        assertEquals("Customer Peter Joseph", embrepr.title)
-        assertEquals(
-            mapOf(
-                "customerId" to "pj123",
-                "name" to "Peter Joseph"
-            ),
-            embrepr.properties
-        )
-        assertEquals(1, embrepr.entities.size)
-        assertEquals(1, embrepr.embeddedLinks.size)
-        assertEquals(0, embrepr.embeddedRepresentations.size)
+    val embrepr = root.embeddedRepresentations[0]
+    assertThat(embrepr.rel).isEqualTo(listOf("http://x.io/rels/customer"))
+    assertThat(embrepr.firstRel).isEqualTo("http://x.io/rels/customer")
+    assertThat(embrepr.clazz).isEqualTo(listOf("info", "customer"))
+    assertThat(embrepr.firstClass).isEqualTo("info")
+    assertThat(embrepr.title).isEqualTo("Customer Peter Joseph")
 
-        // Skipping verify of second EmbeddedLink.
+    assertThat(embrepr.properties)
+        .isEqualTo(mapOf("customerId" to "pj123", "name" to "Peter Joseph"))
 
-        assertEquals(1, embrepr.links.size)
+    assertThat(embrepr.entities).hasSize(1)
+    assertThat(embrepr.embeddedLinks).hasSize(1)
+    assertThat(embrepr.embeddedRepresentations).hasSize(0)
 
-        val link = embrepr.links[0]
-        assertEquals(listOf("self"), link.rel)
-        assertEquals("self", link.firstRel)
-        assertEquals(URI.create("http://api.x.io/customers/pj123"), link.href)
-        assertEquals(listOf("info", "customer"), link.clazz)
-        assertEquals("info", link.firstClass)
-        assertEquals("Customer pj123", link.title)
-        assertEquals("application/json", link.type)
+    // Skipping verify of second EmbeddedLink.
+    assertThat(embrepr.links).hasSize(1)
 
-        assertEquals(1, embrepr.actions.size)
+    val link = embrepr.links[0]
+    assertThat(link.rel).isEqualTo(listOf("self"))
+    assertThat(link.firstRel).isEqualTo("self")
+    assertThat(link.href).isEqualTo(URI.create("http://api.x.io/customers/pj123"))
+    assertThat(link.clazz).isEqualTo(listOf("info", "customer"))
+    assertThat(link.firstClass).isEqualTo("info")
+    assertThat(link.title).isEqualTo("Customer pj123")
+    assertThat(link.type).isEqualTo("application/json")
 
-        val action = embrepr.actions[0]
-        assertEquals("update-address", action.name)
-        assertEquals(URI.create("http://api.x.io/customers/pj123/address"), action.href)
-        assertEquals("PUT", action.method)
-        assertEquals("Update Address", action.title)
-        assertEquals(listOf("update", "address"), action.clazz)
-        assertEquals("application/json", action.type)
-        assertEquals(2, action.fields.size)
+    assertThat(embrepr.actions).hasSize(1)
 
-        // Skipping verify of second Field.
-        val field = action.fields[0]
-        assertEquals("customerId", field.name)
-        assertEquals(listOf("some class"), field.clazz)
-        assertEquals("hidden", field.type)
-        assertEquals("Customer ID", field.title)
-        assertEquals("pj123", field.value)
+    val action = embrepr.actions[0]
+    assertThat(action.name).isEqualTo("update-address")
+    assertThat(action.href).isEqualTo(URI.create("http://api.x.io/customers/pj123/address"))
+    assertThat(action.method).isEqualTo("PUT")
+    assertThat(action.title).isEqualTo("Update Address")
+    assertThat(action.clazz).isEqualTo(listOf("update", "address"))
+    assertThat(action.type).isEqualTo("application/json")
+    assertThat(action.fields).hasSize(2)
 
-        // Action already verified above. Skipping here.
+    // Skipping verify of second Field.
+    val field = action.fields[0]
+    assertThat(field.name).isEqualTo("customerId")
+    assertThat(field.clazz).isEqualTo(listOf("some class"))
+    assertThat(field.type).isEqualTo("hidden")
+    assertThat(field.title).isEqualTo("Customer ID")
+    assertThat(field.value).isEqualTo("pj123")
 
-        // Link already verified above. Skipping here.
-        assertEquals(1, root.links.size)
-    }
+    // Action already verified above. Skipping here.
 
-    @Test
-    fun testInvalidDoc() {
-        // Currently 'rel' is required for an embedded entity. We might
-        // want to relax on this to allow parsing invalid documents but
-        // try to enforce it when constructing new documents.
+    // Link already verified above. Skipping here.
+    assertThat(root.links).hasSize(1)
+  }
 
-        val valid = getResource("RootTest.InvalidDoc1.valid.siren.json")
-        val invalid = getResource("RootTest.InvalidDoc1.invalid.siren.json")
+  @Test
+  fun `Should fail when constructing siren from invalid data`() {
+    // Currently 'rel' is required for an embedded entity. We might
+    // want to relax on this to allow parsing invalid documents but
+    // try to enforce it when constructing new documents.
 
-        val rootValid = Root.fromJson(valid)
-        assertEquals(1, rootValid.embeddedRepresentations.size)
+    val valid = getResource("RootTest.InvalidDoc1.valid.siren.json")
+    val invalid = getResource("RootTest.InvalidDoc1.invalid.siren.json")
 
-        try {
-            Root.fromJson(invalid)
-            fail("Exception not thrown")
-        } catch (e: NoSuchElementException) {
-            assertEquals("Key rel is missing in the map.", e.message)
-        }
-    }
+    val rootValid = Root.fromJson(valid)
+    assertThat(rootValid.embeddedRepresentations).hasSize(1)
 
-    @Test
-    fun testToBuilder() {
-        val root = Root.newBuilder()
+    assertThatExceptionOfType(java.util.NoSuchElementException::class.java)
+        .isThrownBy { Root.fromJson(invalid) }
+        .withMessage("Key rel is missing in the map.")
+  }
+
+  @Test
+  fun testToBuilder() {
+    val root =
+        Root.newBuilder()
             .clazz("class")
             .title("title")
             .properties(mapOf("some key" to "value"))
@@ -509,6 +399,6 @@ class RootTest {
             .title("other")
             .build()
 
-        verifyRoot("RootTest.ToBuilder.siren.json", root)
-    }
+    verifyRoot("RootTest.ToBuilder.siren.json", root)
+  }
 }
