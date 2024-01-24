@@ -1,0 +1,78 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-dependencies-
+      - restore_cache:
+          keys:
+            - japi-2.4
+      - run:
+          name: Install japi-compliance-checker
+          command: |
+            if ! [ -d /tmp/japi ]; then
+              mkdir /tmp/japi
+              cd /tmp/japi
+              wget -O /tmp/japi.tgz https://github.com/lvc/japi-compliance-checker/archive/2.4.tar.gz
+              tar -zxf /tmp/japi.tgz --strip-components 1
+            fi
+            cd /tmp/japi
+            sudo make install
+      - save_cache:
+          paths:
+            - /tmp/japi
+          key: japi-2.4
+      - run:
+          name: Build and deploy (for master)
+          command: |
+            if [ "$CIRCLE_BRANCH" = "master" ]; then
+              mvn -B -s .circleci/maven.settings.xml deploy
+            else
+              mvn -B verify
+            fi
+      - run:
+          name: SonarCloud
+          command: |
+            if [ -n "$SONARCLOUD_TOKEN" ]; then
+              if [ -n "$CIRCLE_PULL_REQUEST" ]; then
+                mvn -B sonar:sonar \
+                  -Dsonar.login="$SONARCLOUD_TOKEN" \
+                  -Dsonar.pullrequest.branch="$CIRCLE_BRANCH" \
+                  -Dsonar.pullrequest.provider=GitHub \
+                  -Dsonar.pullrequest.github.repository="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" \
+                  -Dsonar.pullrequest.key="${CIRCLE_PULL_REQUEST##*/}"
+              else
+                mvn -B sonar:sonar \
+                  -Dsonar.login="$SONARCLOUD_TOKEN" \
+                  -Dsonar.branch.name="$CIRCLE_BRANCH"
+              fi
+            else
+              echo "Token for SonarCloud not available - skipping"
+            fi
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v2-dependencies-{{ checksum "pom.xml" }}
+      - run:
+          name: Generate binary comparison
+          command: |
+            jarfile=$(ls -1 target/*jar | LANG=C sort -d | head -1)
+            japi-compliance-checker .circleci/siren-util-2.0.0-beta-1.jar $jarfile || {
+              echo 'Not fully compliant - ignoring for now'
+            }
+      - store_artifacts:
+          path: ~/repo/compat_reports
+          destination: compat_reports
+      - store_artifacts:
+          path: ~/repo/target/dokkaJavadocJar
+          destination: apidocs
+      - store_artifacts:
+          path: ~/repo/target/site/jacoco
+          destination: coverage

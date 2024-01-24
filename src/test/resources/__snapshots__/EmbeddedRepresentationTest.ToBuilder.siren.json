@@ -1,0 +1,38 @@
+{
+  "entities": [
+    {
+      "class": [
+        "class"
+      ],
+      "rel": [
+        "other"
+      ],
+      "properties": {
+        "key": "value"
+      },
+      "links": [
+        {
+          "rel": [
+            "rel"
+          ],
+          "href": "uri"
+        }
+      ],
+      "entities": [
+        {
+          "rel": [
+            "rel"
+          ],
+          "href": "uri"
+        }
+      ],
+      "actions": [
+        {
+          "name": "name",
+          "href": "uri"
+        }
+      ],
+      "title": "title"
+    }
+  ]
+}
