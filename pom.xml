@@ -21,6 +21,8 @@
   <inceptionYear>2019</inceptionYear>
 
   <properties>
+    <major-version>3</major-version>
+    <revision>${major-version}.local-SNAPSHOT</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Kotlin  -->
