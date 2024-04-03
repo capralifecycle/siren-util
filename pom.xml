@@ -40,7 +40,7 @@
     <junit.version>5.10.1</junit.version>
     <assertj-core.version>3.25.1</assertj-core.version>
     <liflig-snapshot-test.version>1.20240117.170732</liflig-snapshot-test.version>
-    <jacoco.version>0.8.11</jacoco.version>
+    <jacoco.version>0.8.12</jacoco.version>
   </properties>
 
   <licenses>
