@@ -40,7 +40,7 @@
     <!-- Testing  -->
     <junit.version>5.13.1</junit.version>
     <assertj-core.version>3.27.3</assertj-core.version>
-    <liflig-snapshot-test.version>1.20250610.205841 </liflig-snapshot-test.version>
+    <liflig-snapshot-test.version>1.20250624.184514 </liflig-snapshot-test.version>
     <jacoco.version>0.8.13</jacoco.version>
   </properties>
 
