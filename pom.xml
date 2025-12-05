@@ -38,7 +38,7 @@
 
     <gson.version>2.13.2</gson.version>
     <!-- Testing  -->
-    <junit.version>5.13.4</junit.version>
+    <junit.version>5.14.1</junit.version>
     <assertj-core.version>3.27.6</assertj-core.version>
     <liflig-snapshot-test.version>1.20250902.120604</liflig-snapshot-test.version>
     <jacoco.version>0.8.13</jacoco.version>
