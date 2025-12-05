@@ -56,7 +56,8 @@ abstract class Embedded : Serializable {
             rel = rel,
             href = URI.create(map[Siren.HREF].toString()),
             type = map[Siren.TYPE] as String?,
-            title = map[Siren.TITLE] as String?)
+            title = map[Siren.TITLE] as String?,
+        )
       } else {
         EmbeddedRepresentation(
             clazz = clazz,
@@ -65,7 +66,8 @@ abstract class Embedded : Serializable {
             properties = map[Siren.PROPERTIES]?.asMap() ?: emptyMap(),
             links = map[Siren.LINKS]?.asList()?.map { Link.fromRaw(it) } ?: emptyList(),
             entities = map[Siren.ENTITIES]?.asList()?.map { fromRaw(it) } ?: emptyList(),
-            actions = map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) } ?: emptyList())
+            actions = map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) } ?: emptyList(),
+        )
       }
     }
   }

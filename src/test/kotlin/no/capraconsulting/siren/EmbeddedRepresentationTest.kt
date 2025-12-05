@@ -24,7 +24,9 @@ class EmbeddedRepresentationTest {
             .build()
 
     verifyRoot(
-        "EmbeddedRepresentationTest.ToBuilder.siren.json", Root.newBuilder().entities(repr).build())
+        "EmbeddedRepresentationTest.ToBuilder.siren.json",
+        Root.newBuilder().entities(repr).build(),
+    )
   }
 
   @Test

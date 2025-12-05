@@ -14,7 +14,7 @@ internal class JsonInstantConverter : JsonSerializer<Instant> {
   override fun serialize(
       value: Instant,
       type: Type,
-      context: JsonSerializationContext
+      context: JsonSerializationContext,
   ): JsonElement {
     return JsonPrimitive(value.toZonedDateTime().toFormattedString())
   }

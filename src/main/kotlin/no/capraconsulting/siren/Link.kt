@@ -53,7 +53,7 @@ data class Link(
      *
      * @return the value of type attribute
      */
-    val type: String? = null
+    val type: String? = null,
 ) : Serializable {
 
   /**
@@ -173,7 +173,8 @@ data class Link(
             title = map[Siren.TITLE] as String?,
             rel = map.getValue(Siren.REL)!!.asNonNullStringList(),
             href = URI.create(map[Siren.HREF].toString()),
-            type = map[Siren.TYPE] as String?)
+            type = map[Siren.TYPE] as String?,
+        )
 
     /**
      * Create a new builder using the required attributes.

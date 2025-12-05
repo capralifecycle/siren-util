@@ -51,7 +51,7 @@ data class Field(
      *
      * @return the value of value attribute
      */
-    val value: Any? = null
+    val value: Any? = null,
 ) : Serializable {
 
   /** Create a new builder using the current data. */
@@ -164,7 +164,7 @@ data class Field(
     COLOR("color"),
     CHECKBOX("checkbox"),
     RADIO("radio"),
-    FILE("file")
+    FILE("file"),
   }
 
   /** @suppress */
@@ -179,7 +179,8 @@ data class Field(
             clazz = map[Siren.CLASS]?.asNonNullStringList() ?: emptyList(),
             type = map[Siren.TYPE] as String?,
             title = map[Siren.TITLE] as String?,
-            value = map[Siren.VALUE])
+            value = map[Siren.VALUE],
+        )
 
     /**
      * Create a new builder using the required attributes.

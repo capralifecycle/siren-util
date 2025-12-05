@@ -67,7 +67,7 @@ data class EmbeddedRepresentation(
      *
      * @return the value of actions attribute or an empty list if it is missing
      */
-    val actions: List<Action> = emptyList()
+    val actions: List<Action> = emptyList(),
 ) : Embedded(), Serializable {
 
   /** Entities which are of type [EmbeddedLink]. */
@@ -224,7 +224,8 @@ data class EmbeddedRepresentation(
             properties = properties,
             links = links,
             entities = entities,
-            actions = actions)
+            actions = actions,
+        )
   }
 
   /** @suppress */

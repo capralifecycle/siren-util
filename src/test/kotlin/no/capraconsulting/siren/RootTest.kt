@@ -20,7 +20,8 @@ class RootTest {
             Siren.CLASS to listOf("class"),
             Siren.ENTITIES to null,
             Siren.LINKS to null,
-            Siren.PROPERTIES to mapOf("prop1" to "val1", "prop2" to "val2"))
+            Siren.PROPERTIES to mapOf("prop1" to "val1", "prop2" to "val2"),
+        )
 
     val rootEntity = Root.fromRaw(rootMap)
 
@@ -36,7 +37,8 @@ class RootTest {
     val rootMap =
         mapOf(
             Siren.CLASS to listOf("class"),
-            Siren.PROPERTIES to mapOf("prop1" to "val1", "prop2" to "val2"))
+            Siren.PROPERTIES to mapOf("prop1" to "val1", "prop2" to "val2"),
+        )
 
     val root = Root.fromRaw(rootMap)
 
@@ -57,7 +59,8 @@ class RootTest {
             .entities(
                 EmbeddedRepresentation.newBuilder("parent")
                     .properties(mapOf("prop1" to "val1", "prop2" to "val2"))
-                    .build())
+                    .build()
+            )
             .build()
 
     assertThat(root.entities).isNotNull().hasSize(1)
@@ -106,7 +109,8 @@ class RootTest {
             .links(
                 Link.newBuilder("self", URI.create("http://localhost:80"))
                     .clazz("dummytype")
-                    .build())
+                    .build()
+            )
             .build()
 
     assertThat(root.links).isNotNull.hasSize(1)
@@ -144,7 +148,8 @@ class RootTest {
             .entities(
                 EmbeddedRepresentation.newBuilder("parent")
                     .properties(mapOf("prop1" to "val1", "prop2" to "val2"))
-                    .build())
+                    .build()
+            )
             .build()
 
     val raw = root.toRaw()
@@ -220,7 +225,8 @@ class RootTest {
             .entities(
                 EmbeddedLink.newBuilder(
                         "http://x.io/rels/order-items",
-                        URI.create("http://api.x.io/orders/42/items"))
+                        URI.create("http://api.x.io/orders/42/items"),
+                    )
                     .clazz("embeddedlinkclass")
                     .title("Embedded link")
                     .type("application/json")
@@ -232,21 +238,25 @@ class RootTest {
                     .entities(
                         EmbeddedLink.newBuilder(
                                 "http://x.io/rels/order-items",
-                                URI.create("http://api.x.io/orders/44/items"))
+                                URI.create("http://api.x.io/orders/44/items"),
+                            )
                             .clazz("embeddedlinkclass")
                             .title("Another embedded link")
                             .type("application/json")
-                            .build())
+                            .build()
+                    )
                     .links(
                         Link.newBuilder("self", URI.create("http://api.x.io/customers/pj123"))
                             .title("Customer pj123")
                             .clazz("info", "customer")
                             .type("application/json")
-                            .build())
+                            .build()
+                    )
                     .actions(
                         Action.newBuilder(
                                 "update-address",
-                                URI.create("http://api.x.io/customers/pj123/address"))
+                                URI.create("http://api.x.io/customers/pj123/address"),
+                            )
                             .method(Action.Method.PUT)
                             .title("Update Address")
                             .clazz("update", "address")
@@ -263,9 +273,12 @@ class RootTest {
                                     .type(Field.Type.TEXT)
                                     .title("Address")
                                     .value(null)
-                                    .build())
-                            .build())
-                    .build())
+                                    .build(),
+                            )
+                            .build()
+                    )
+                    .build(),
+            )
             .actions(
                 Action.newBuilder("add-item", URI.create("http://api.x.io/orders/42/items"))
                     .method(Action.Method.POST)
@@ -284,14 +297,17 @@ class RootTest {
                             .type(Field.Type.TEXT)
                             .title("Product Code")
                             .value(null)
-                            .build())
-                    .build())
+                            .build(),
+                    )
+                    .build()
+            )
             .links(
                 Link.newBuilder("self", URI.create("http://api.x.io/orders/42"))
                     .clazz("linkclass")
                     .title("A link")
                     .type("application/json")
-                    .build())
+                    .build()
+            )
             .build()
 
     verifyRoot("RootTest.CompleteData.siren.json", root)

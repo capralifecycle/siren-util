@@ -18,8 +18,10 @@ class ActionTest {
                     .method(Action.Method.POST)
                     .fields(
                         Field.newBuilder("date").type(Field.Type.DATETIME).build(),
-                        Field.newBuilder("url").type(Field.Type.URL).build())
-                    .build())
+                        Field.newBuilder("url").type(Field.Type.URL).build(),
+                    )
+                    .build()
+            )
             .build()
 
     verifyRoot("ActionTest1.siren.json", root)
@@ -30,7 +32,8 @@ class ActionTest {
     val json =
         Root.newBuilder()
             .actions(
-                Action.newBuilder("action-name", URI.create("http://example.com:8080/")).build())
+                Action.newBuilder("action-name", URI.create("http://example.com:8080/")).build()
+            )
             .build()
             .toJson()
             .replace("http://example.com:8080/", "::")

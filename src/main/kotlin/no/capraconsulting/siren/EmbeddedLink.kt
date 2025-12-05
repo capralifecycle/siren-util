@@ -51,7 +51,7 @@ data class EmbeddedLink(
      *
      * @return the value of title attribute
      */
-    val title: String? = null
+    val title: String? = null,
 ) : Embedded(), Serializable {
 
   /** Create a new builder using the current data. */

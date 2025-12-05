@@ -67,7 +67,7 @@ data class Action(
      *
      * @return the value of fields attribute or an empty list if it is missing
      */
-    val fields: List<Field> = emptyList()
+    val fields: List<Field> = emptyList(),
 ) : Serializable {
 
   /** Create a new builder using the current data. */
@@ -193,7 +193,8 @@ data class Action(
             href = href,
             title = title,
             type = type,
-            fields = fields)
+            fields = fields,
+        )
   }
 
   /**
@@ -206,7 +207,7 @@ data class Action(
     PUT,
     POST,
     OPTIONS,
-    DELETE
+    DELETE,
   }
 
   /** @suppress */
@@ -223,7 +224,8 @@ data class Action(
             title = map[Siren.TITLE] as String?,
             href = URI.create(map[Siren.HREF].toString()),
             type = map[Siren.TYPE] as String?,
-            fields = map[Siren.FIELDS]?.asList()?.map { Field.fromRaw(it) } ?: emptyList())
+            fields = map[Siren.FIELDS]?.asList()?.map { Field.fromRaw(it) } ?: emptyList(),
+        )
 
     /**
      * Create a new builder using the required attributes.

@@ -39,7 +39,10 @@ class JsonTest {
 
     val dateString2 =
         ZonedDateTime.of(
-                LocalDate.parse("2019-01-01"), LocalTime.of(2, 23, 59), ZoneId.of("Europe/Oslo"))
+                LocalDate.parse("2019-01-01"),
+                LocalTime.of(2, 23, 59),
+                ZoneId.of("Europe/Oslo"),
+            )
             .toFormattedString()
 
     assertThat(dateString2).isEqualTo("2019-01-01T01:23:59Z")
@@ -48,7 +51,8 @@ class JsonTest {
         ZonedDateTime.of(
                 LocalDate.parse("2019-01-01"),
                 LocalTime.of(2, 23, 59, 28290833),
-                ZoneId.of("Europe/Oslo"))
+                ZoneId.of("Europe/Oslo"),
+            )
             .toFormattedString()
 
     assertThat(dateString3).isEqualTo("2019-01-01T01:23:59.028290833Z")

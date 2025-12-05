@@ -65,7 +65,7 @@ data class Root(
      *
      * @return the value of actions attribute or an empty list if it is missing
      */
-    val actions: List<Action> = emptyList()
+    val actions: List<Action> = emptyList(),
 ) : Serializable {
 
   /**
@@ -231,7 +231,8 @@ data class Root(
             properties = properties,
             links = links,
             entities = entities,
-            actions = actions)
+            actions = actions,
+        )
   }
 
   /** @suppress */
@@ -259,7 +260,8 @@ data class Root(
             properties = map[Siren.PROPERTIES]?.asMap() ?: emptyMap(),
             links = map[Siren.LINKS]?.asList()?.map { Link.fromRaw(it) } ?: emptyList(),
             entities = map[Siren.ENTITIES]?.asList()?.map { Embedded.fromRaw(it) } ?: emptyList(),
-            actions = map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) } ?: emptyList())
+            actions = map[Siren.ACTIONS]?.asList()?.map { Action.fromRaw(it) } ?: emptyList(),
+        )
 
     /**
      * Create a Root by parsing a JSON value that follows the Siren specification.

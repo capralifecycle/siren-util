@@ -17,7 +17,7 @@ internal class JsonZonedDateTimeConverter :
   override fun deserialize(
       element: JsonElement,
       type: Type,
-      context: JsonDeserializationContext
+      context: JsonDeserializationContext,
   ): ZonedDateTime {
     return element.asString.toZonedDateTime()
   }
@@ -25,7 +25,7 @@ internal class JsonZonedDateTimeConverter :
   override fun serialize(
       value: ZonedDateTime,
       type: Type,
-      context: JsonSerializationContext
+      context: JsonSerializationContext,
   ): JsonElement {
     return JsonPrimitive(value.toFormattedString())
   }

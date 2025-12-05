@@ -23,6 +23,7 @@ class FieldTest {
         "FieldTest.ToBuilder.siren.json",
         Root.newBuilder()
             .actions(Action.newBuilder("name", URI.create("uri")).fields(field).build())
-            .build())
+            .build(),
+    )
   }
 }
