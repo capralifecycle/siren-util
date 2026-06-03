@@ -36,16 +36,11 @@
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.source>17</maven.compiler.source>
 
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <sonar.organization>capraconsulting</sonar.organization>
-    <sonar.projectKey>capraconsulting_siren-util</sonar.projectKey>
-
     <gson.version>2.13.2</gson.version>
     <!-- Testing  -->
     <junit.version>6.0.2</junit.version>
     <assertj-core.version>3.27.6</assertj-core.version>
     <liflig-snapshot-test.version>1.20260109.090621</liflig-snapshot-test.version>
-    <jacoco.version>0.8.14</jacoco.version>
   </properties>
 
   <licenses>
@@ -188,27 +183,6 @@
               </ktfmt>
             </kotlin>
           </configuration>
-        </plugin>
-
-        <!-- Coverage for SonarCloud -->
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>${jacoco.version}</version>
-          <executions>
-            <execution>
-              <id>jacoco-initialize</id>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>jacoco-site</id>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
