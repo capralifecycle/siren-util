@@ -32,7 +32,7 @@ jobs:
           java-version: "17.0.9"
           java-package: "jdk"
 
-      - uses: capralifecycle/actions-lib/check-runtime-dependencies@9cd5b1c981efadf9b2cbfb08719f7f3a4856ecf2 # v1.10.3
+      - uses: capralifecycle/actions-lib/check-runtime-dependencies@6dfc999f2b7c6a541ef43dfcc11e8551fa4f803f # v1.10.4
 
       - name: cache mvn
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
@@ -54,7 +54,7 @@ jobs:
           }
           echo "major-version=$major_version" >> "$GITHUB_OUTPUT"
 
-      - uses: capralifecycle/actions-lib/generate-tag@9cd5b1c981efadf9b2cbfb08719f7f3a4856ecf2 # v1.10.3
+      - uses: capralifecycle/actions-lib/generate-tag@6dfc999f2b7c6a541ef43dfcc11e8551fa4f803f # v1.10.4
         id: tag
         with:
           tag-prefix: "${{ steps.prep.outputs.major-version }}"
@@ -93,13 +93,13 @@ jobs:
             echo '---' >> $GITHUB_STEP_SUMMARY
           done < "${FAILS_FILE}"
 
-      - uses: capralifecycle/actions-lib/slack-notify@9cd5b1c981efadf9b2cbfb08719f7f3a4856ecf2 # v1.10.3
+      - uses: capralifecycle/actions-lib/slack-notify@6dfc999f2b7c6a541ef43dfcc11e8551fa4f803f # v1.10.4
         # NOTE: We only want to be notified about failures on the default branch
         if: ${{ failure() && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
         with:
           bot-token: ${{ secrets.SHARED_SLACK_BOT_TOKEN }}
           channel: ${{ env.BUILD_FAILURE_SLACK_CHANNEL }}
 
-      - uses: capralifecycle/actions-lib/configure-github-deployment@9cd5b1c981efadf9b2cbfb08719f7f3a4856ecf2 # v1.10.3
+      - uses: capralifecycle/actions-lib/configure-github-deployment@6dfc999f2b7c6a541ef43dfcc11e8551fa4f803f # v1.10.4
         # NOTE: Create GitHub deployment on default branch regardless of job status
         if: ${{ always() && github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
