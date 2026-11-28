@@ -8,7 +8,7 @@
   <parent>
     <groupId>no.liflig</groupId>
     <artifactId>kotlin-parent</artifactId>
-    <version>3.20261113.222436</version>
+    <version>3.20261124.090630</version>
   </parent>
 
 
@@ -26,7 +26,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Maven plugins -->
-    <spotless-maven-plugin.version>3.11.0</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>3.12.0</spotless-maven-plugin.version>
     <ktfmt.version>0.59</ktfmt.version>
 
     <!-- Kotlin  -->
